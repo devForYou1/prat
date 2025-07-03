@@ -87,7 +87,7 @@ body.modal-open {
 
 /* Increased font size for accordion titles */
 .accordion-header-button .gradient-text-bold {
-    font-size: 1.125rem; /* Equivalent to text-lg or fs-5 */
+    font-size: 1.25rem; /* Increased font size for accordion titles (text-xl) */
 }
 
 
@@ -339,9 +339,8 @@ body {
 }
 
 /* Gradient for bold text and all headers */
-.gradient-text-bold,
-h1, h2, h3, h4 {
-    background: linear-gradient(to right, #F29F05, #37A647, #1B62BF);
+h1, h2, h3, h4, .gradient-text-bold {
+    background: linear-gradient(to right, #50b8ee, #0a4a7a); /* Use gradient from taaz.txt SVG */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -366,4 +365,10 @@ h1, h2, h3, h4 {
 /* Specific styling for the main container's border to be lighter */
 .main-container-border {
     border-color: #B5D0E8;
+}
+
+/* Ensure content within accordion items is justified */
+.collapse-grid p,
+.collapse-grid li {
+    text-align: justify;
 }
