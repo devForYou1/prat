@@ -137,7 +137,7 @@ function AccordionItem(title, summary, childrenElements, sectionId, isDirectCont
         // For direct content, we want the image to appear first, then the text
         if (sectionId === "head-of-taatz-message") {
             contentWrapper.innerHTML = `
-                <img src="https://www.dropbox.com/scl/fi/qkhvwkm7x8to9yq0d92k1/2025-07-03-145742.png?rlkey=ptg5ybb6jj4t32hdiyiz6vs3u&raw=1" alt="ראש מרכז תעץ" class="mb-3 rounded-lg shadow-md mx-auto responsive-image max-w-xs">
+                <img src="https://www.dropbox.com/scl/fi/qkhvwkm7x8to9yq0d92k1/2025-07-03-145742.png?rlkey=ptg5ybb6jj4t32hdiyiz6vs3u&raw=1" alt="ראש מרכז תעץ" class="mb-3 rounded-lg shadow-md mx-auto responsive-image head-of-taatz-image">
                 ${contentHtml}
             `;
         } else {
@@ -306,7 +306,7 @@ function initializeApp(contentData) {
     contentData.introParagraphs.forEach(paragraphText => {
         const p = document.createElement('p');
         // Adjusted font size for mobile: `text-sm`
-        p.className = 'text-sm lh-base mb-1 text-primary-dark';
+        p.className = 'text-sm lh-base mb-1 text-primary-dark intro-paragraph'; // Added intro-paragraph class
         p.style.color = '#0A4A7A';
         p.textContent = paragraphText;
         introParagraphsContainer.appendChild(p);
@@ -325,7 +325,7 @@ function initializeApp(contentData) {
     searchInput.type = 'text';
     searchInput.placeholder = 'חיפוש...';
     // Updated classes for search input: white background, reduced height, smaller font
-    searchInput.className = 'form-control form-control-sm mb-3 text-end px-3 py-1 rounded-pill shadow-sm border focus-ring-0'; // py-1 for reduced height, form-control-sm for smaller font
+    searchInput.className = 'form-control form-control-sm mb-3 text-end px-3 py-1 rounded-pill shadow-sm border focus-ring-0 search-input'; // py-1 for reduced height, form-control-sm for smaller font
     searchInput.style.cssText = 'background-color: #FFFFFF; color: #0A4A7A; border-color: #B5D0E8;'; // White background
     mainContainer.appendChild(searchInput);
 
@@ -380,7 +380,7 @@ function initializeApp(contentData) {
         linkButton.rel = 'noopener noreferrer';
         // Adjusted size for mobile
         linkButton.className = 'flex-grow-1 flex-shrink-0 d-flex justify-content-center align-items-center text-center p-1 rounded-lg shadow-sm text-white fw-bold footer-link-square text-xs'; // text-xs for smaller font
-        linkButton.style.cssText = 'background: linear-gradient(135deg, #F29F05, #37A647, #1B62BF); width: 100px; height: 40px; text-decoration: none; color: white;'; // Fixed size and gradient background
+        linkButton.style.cssText = 'background: linear-gradient(135deg, #F29F05, #37A647, #1B62BF); width: 100px; height: 48px; text-decoration: none; color: white;'; // Fixed size and gradient background
         linkButton.textContent = linkInfo.title;
         footerLinksContainer.appendChild(linkButton);
     });
