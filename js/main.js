@@ -111,7 +111,7 @@ function AccordionItem(title, summary, childrenElements, sectionId, isDirectCont
 
     // Separate title text and arrow icon into distinct spans
     const titleSpan = document.createElement('span');
-    titleSpan.className = 'accordion-title-text gradient-text-bold'; // Apply gradient to title text
+    titleSpan.className = 'accordion-title-text'; // Apply solid color to title text via CSS
     titleSpan.textContent = title;
 
     const arrowSpan = document.createElement('span');
@@ -134,7 +134,7 @@ function AccordionItem(title, summary, childrenElements, sectionId, isDirectCont
         // For direct content, we want the image to appear first, then the text
         if (sectionId === "head-of-taatz-message") {
             contentWrapper.innerHTML = `
-                <img src="https://www.dropbox.com/scl/fi/qkhvwkm7x8to9yq0d92k1/2025-07-03-145742.png?rlkey=ptg5ybb6jj4t32hdiyiz6vs3u&raw=1" alt="ראש מרכז תעץ" class="mb-4 rounded-lg shadow-md mx-auto responsive-image">
+                <img src="https://www.dropbox.com/scl/fi/qkhvwkm7x8to9yq0d92k1/2025-07-03-145742.png?rlkey=ptg5ybb6jj4t32hdiyiz6vs3u&raw=1" alt="ראש מרכז תעץ" class="mb-4 rounded-lg shadow-md mx-auto responsive-image max-w-xs">
                 ${contentHtml}
             `;
         } else {
@@ -252,8 +252,6 @@ function initializeApp(contentData) {
     const mainContainer = document.createElement('div');
     mainContainer.className = 'position-relative w-100 max-w-2xl mx-auto p-4 bg-white rounded-4 shadow-lg border main-container-border animate-main-container';
     mainContainer.setAttribute('dir', 'rtl'); // Set direction for RTL
-    // Removed backdrop-filter from here, as it's handled by the body background now
-    // mainContainer.style.cssText = 'backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);';
 
     // Add a subtle background shimmer effect for visual appeal
     const shimmerDiv = document.createElement('div');
@@ -293,24 +291,25 @@ function initializeApp(contentData) {
 
     // Create main title
     const mainTitle = document.createElement('h1');
-    mainTitle.className = 'text-3xl md:text-4xl font-extrabold mb-2'; // CSS will handle gradient for h1
+    mainTitle.className = 'text-3xl md:text-4xl font-extrabold mb-2 text-center'; // Added text-center, CSS handles gradient
     mainTitle.textContent = contentData.mainTitle;
     mainContainer.appendChild(mainTitle);
 
-    // Create introductory paragraphs
+    // Create introductory paragraphs container and center its content
+    const introParagraphsContainer = document.createElement('div');
+    introParagraphsContainer.className = 'text-center'; // Center the paragraphs
     contentData.introParagraphs.forEach(paragraphText => {
         const p = document.createElement('p');
-        // Changed font size to fs-6 for smaller introductory text
         p.className = 'fs-6 lh-base mb-2 text-primary-dark';
         p.style.color = '#0A4A7A';
         p.textContent = paragraphText;
-        mainContainer.appendChild(p);
+        introParagraphsContainer.appendChild(p);
     });
+    mainContainer.appendChild(introParagraphsContainer); // Append the container
 
     // Create motto
     const motto = document.createElement('p');
-    // Changed font size to fs-6 for smaller motto text
-    motto.className = 'fs-6 fw-bold lh-base mt-4 mb-4 gradient-text-bold'; // CSS will handle gradient for motto
+    motto.className = 'fs-6 fw-bold lh-base mt-4 mb-4 text-center motto-text'; // Added text-center and motto-text class for gradient
     motto.textContent = contentData.motto;
     mainContainer.appendChild(motto);
 
