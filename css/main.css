@@ -138,9 +138,6 @@ body.modal-open {
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
 }
-.accordion-header-button:hover {
-    background-color: #E0F2F7; /* Slightly darker blue on hover */
-}
 
 /* Arrow icon rotation */
 .arrow-icon svg {
@@ -214,17 +211,29 @@ body.modal-open {
     border-radius: 0.5rem; /* Larger border-radius */
     margin-bottom: 0.5rem; /* Increased margin between sub-cards */
     color: #0A4A7A; /* Ensure text color is dark blue */
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Removed transform for hover */
     width: 100%; /* Ensure full width */
     text-align: right; /* Align text to the right */
     display: block; /* Ensure it's a block element */
     box-shadow: 0 2px 4px rgba(0,0,0,0.08); /* Subtle shadow for sub-cards */
 }
-.subcard-button:hover {
-    background-color: #E0F2F7; /* Slightly darker blue on hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow on hover */
-    transform: translateY(-2px); /* Slight lift on hover */
+
+/* Hover effects for devices that support hover */
+@media (hover: hover) {
+    .accordion-header-button:hover {
+        background-color: #E0F2F7; /* Slightly darker blue on hover */
+    }
+    .subcard-button:hover {
+        background-color: #E0F2F7; /* Slightly darker blue on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow on hover */
+        transform: translateY(-2px); /* Slight lift on hover */
+    }
+    .footer-link-square:hover {
+        transform: translateY(-3px); /* Slight lift on hover */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35); /* Enhanced shadow on hover */
+    }
 }
+
 .subcard-button:active {
     background-color: #0A4A7A; /* Dark blue on active/click */
     color: white; /* White text on active/click */
@@ -383,14 +392,6 @@ body.modal-open {
     height: 48px; /* Adjusted fixed height */
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     border: 1px solid #B5D0E8; /* Lighter border for footer links */
-}
-
-/* Removed hover effects for mobile optimization */
-@media (hover: hover) {
-    .footer-link-square:hover {
-        transform: translateY(-3px); /* Slight lift on hover */
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35); /* Enhanced shadow on hover */
-    }
 }
 
 /* Gradient for main H1 and motto */
