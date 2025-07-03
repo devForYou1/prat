@@ -234,6 +234,23 @@ body.modal-open {
     }
 }
 
+/* Disable hover effects on touch devices */
+@media (hover: none) {
+    .accordion-header-button:hover {
+        background-color: #F5FAFF; /* Reset to default background */
+    }
+    .subcard-button:hover {
+        background-color: #F5FAFF; /* Reset to default background */
+        box-shadow: 0 2px 4px rgba(0,0,0,0.08); /* Reset to default shadow */
+        transform: translateY(0); /* Remove lift */
+    }
+    .footer-link-square:hover {
+        transform: translateY(0); /* Remove lift */
+        box-shadow: none; /* Remove shadow */
+    }
+}
+
+
 .subcard-button:active {
     background-color: #0A4A7A; /* Dark blue on active/click */
     color: white; /* White text on active/click */
@@ -457,4 +474,55 @@ p, li {
 .tip-gold p {
     color: #0A4A7A; /* Dark blue text for tip content */
     margin-bottom: 0; /* Remove extra margin for paragraphs inside tip */
+}
+
+/* Footer styles */
+.app-footer {
+    width: 100%;
+    max-width: 640px; /* Match main container width */
+    margin: 2rem auto 0 auto; /* Top margin for spacing, auto for centering */
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid #B5D0E8;
+    background-color: #F5FAFF;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Align to the right */
+    gap: 1rem; /* Space between title and links */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.footer-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #0A4A7A;
+    margin-inline-end: auto; /* Pushes links to the right */
+}
+
+.footer-links-container {
+    display: flex;
+    gap: 0.75rem; /* Space between SVG boxes */
+    flex-wrap: wrap;
+    justify-content: flex-end; /* Align links to the right within their container */
+}
+
+.footer-link-square {
+    background-color: #FFFFFF; /* White background for SVG box */
+    border: 1px solid #B5D0E8;
+    border-radius: 0.75rem; /* 12px */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08); /* Subtle shadow */
+    width: 54px; /* Fixed size as requested (40px SVG + padding) */
+    height: 54px; /* Fixed size as requested */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none; /* Remove underline */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.footer-link-square svg {
+    width: 40px; /* Fixed SVG size */
+    height: 40px; /* Fixed SVG size */
+    display: block; /* Ensure no extra space */
 }
