@@ -1,0 +1,447 @@
+/* Custom CSS for animations and scrollbar */
+body {
+    font-family: 'Assistant', sans-serif;
+    /* Changed background gradient to a less vibrant blue */
+    background: linear-gradient(to bottom right, #C2E0F0, #FFFFFF);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    margin: 0;
+    transition: overflow 0.3s ease-in-out; /* Smooth transition for overflow change */
+}
+
+/* Feature 2: Disable main page scroll when modal is open */
+body.modal-open {
+    overflow: hidden; /* Prevents scrolling of the main body */
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animate-main-container {
+    animation: fadeInScale 0.7s ease-out forwards;
+}
+
+/* Custom Scrollbar Styles - using only blue/white/black palette, more subtle */
+.modal-content-scrollable::-webkit-scrollbar {
+    width: 6px; /* Made thinner */
+}
+
+.modal-content-scrollable::-webkit-scrollbar-track {
+    background: #B5D0E8; /* Light blue track - using new subtle blue */
+    border-radius: 10px;
+}
+
+.modal-content-scrollable::-webkit-scrollbar-thumb {
+    background-color: #0A4A7A; /* Dark blue */
+    border-radius: 10px;
+    /* Removed border for a cleaner look */
+}
+
+.modal-content-scrollable::-webkit-scrollbar-thumb:hover {
+    background-color: #073555; /* Even darker blue on hover */
+}
+
+/* Table border styles inside modal content to be consistent */
+.modal-content-scrollable table {
+    border-collapse: collapse;
+    width: 100%;
+}
+.modal-content-scrollable th, .modal-content-scrollable td {
+    border: 1px solid #B5D0E8; /* Using new subtle blue for table borders */
+    padding: 8px;
+    text-align: right;
+}
+.modal-content-scrollable th {
+    background-color: #B5D0E8; /* Using new subtle blue for table headers */
+    color: #0A4A7A; /* Dark blue */
+}
+
+/* Removed hover effects as they are not relevant for mobile */
+/* .hover-bg-opacity-90:hover { ... } */
+/* .hover-shadow-lg:hover { ... } */
+/* .hover-border-primary:hover { ... } */
+
+.focus-ring-0:focus {
+    box-shadow: none !important;
+    outline: none !important;
+}
+.text-primary-dark {
+    color: #0A4A7A;
+}
+.rounded-5 {
+    border-radius: 3rem !important; /* Custom large border-radius for modal */
+}
+/* Accordion collapse animation */
+.collapse-grid {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    opacity: 0;
+}
+.collapse-grid.show {
+    grid-template-rows: 1fr;
+    opacity: 1;
+}
+.collapse-grid > div {
+    overflow: hidden;
+}
+
+/* Specific styles for AccordionItem and SubCard to match React's motion effects */
+.accordion-item-container {
+    background-color: rgba(255, 255, 255, 0.8); /* Default opacity */
+    border-color: #B5D0E8; /* New subtle blue border */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05); /* Softer shadows */
+    transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s, opacity 0.3s, transform 0.3s; /* Added opacity and transform for search filter */
+}
+.accordion-item-container.open {
+    background-color: rgba(255, 255, 255, 0.95); /* Open opacity */
+    border-color: #8EB0D0; /* New subtle blue for open border */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1); /* Softer shadows */
+}
+.accordion-header-button svg {
+    transition: transform 0.3s;
+}
+.accordion-header-button.open svg {
+    transform: rotate(180deg);
+}
+
+.subcard-button {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-color: #B5D0E8; /* New subtle blue border */
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s, border-color 0.2s, opacity 0.3s; /* Added opacity for search filter */
+    position: relative;
+    overflow: hidden;
+}
+/* Removed hover effects for subcard-button */
+/* .subcard-button:hover { ... } */
+.subcard-button:active {
+    transform: scale(0.98);
+}
+.subcard-button .shimmer {
+    position: absolute;
+    inset: 0;
+    background-color: white;
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: 0.75rem; /* Match parent border-radius */
+}
+/* Removed shimmer hover effect */
+/* .subcard-button:hover .shimmer { ... } */
+
+/* Custom Modal Styles (replacing Bootstrap's) */
+.custom-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent dark background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050; /* High z-index to appear on top */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+    backdrop-filter: blur(5px); /* Reduced blur intensity */
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.custom-modal-backdrop.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.custom-modal-content {
+    background-color: #FFFFFF; /* Solid white background */
+    border-radius: 1.5rem; /* Rounded corners */
+    padding: 0; /* No padding here, handled by header/body */
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.3); /* Stronger shadow */
+    position: relative;
+    max-width: 90%; /* Responsive width */
+    max-height: 90vh; /* Responsive height */
+    text-align: right;
+    transform: scale(0.9);
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    border: 1px solid #B5D0E8; /* New subtle blue border */
+    display: flex; /* Use flexbox for stacking header and body */
+    flex-direction: column;
+}
+
+.custom-modal-backdrop.show .custom-modal-content {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.custom-modal-header {
+    position: sticky; /* Make header sticky */
+    top: 0;
+    background-color: #FFFFFF; /* Ensure header is opaque */
+    z-index: 10; /* Keep it above scrolling content */
+    padding: 1rem 1.5rem; /* Padding for the header content */
+    border-bottom: 1px solid #eee; /* Subtle separator */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 1.5rem; /* Match parent border-radius */
+    border-top-right-radius: 1.5rem; /* Match parent border-radius */
+}
+
+.custom-modal-title {
+    margin: 0; /* Remove default h2 margin */
+    color: #0A4A7A;
+    font-size: 1.5rem; /* Adjust as needed */
+    font-weight: bold;
+}
+
+.custom-modal-close-button {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #0A4A7A;
+    cursor: pointer;
+    line-height: 1; /* Adjust line height to prevent extra space */
+    padding: 0; /* Remove default button padding */
+}
+
+.custom-modal-scrollable-body {
+    flex-grow: 1; /* Allow it to take remaining space */
+    overflow-y: auto; /* Make this part scrollable */
+    padding: 1rem 1.5rem; /* Padding for the content */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    text-align: justify; /* Justify text within the modal body */
+}
+
+/* Mobile specific adjustments */
+@media (max-width: 640px) { /* Tailwind's sm breakpoint */
+    .logo-container svg {
+        width: 4rem; /* Smaller w-16 */
+        height: 4rem; /* Smaller h-16 */
+    }
+    .main-title {
+        font-size: 1.75rem; /* Smaller font for main title */
+    }
+    .intro-paragraphs {
+        font-size: 0.9rem; /* Smaller font for intro */
+    }
+    .motto {
+        font-size: 1.5rem; /* Smaller font for motto */
+    }
+    .accordion-header-button {
+        font-size: 1rem; /* Smaller font for accordion titles */
+        padding: 0.8rem 1rem; /* Adjust padding */
+    }
+    .subcard-button {
+        font-size: 0.9rem; /* Smaller font for sub-card buttons */
+        padding: 0.6rem 0.8rem; /* Adjust padding */
+    }
+    .custom-modal-title {
+        font-size: 1.25rem; /* Smaller font for modal title */
+    }
+    .custom-modal-content {
+        border-radius: 1rem; /* Slightly smaller border-radius for mobile */
+        min-height: 70vh; /* Added to ensure uniform height on mobile */
+    }
+}
+
+/* Search bar specific styles */
+.search-container {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.search-input {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.75rem 1.25rem;
+    border: 2px solid #B5D0E8; /* New subtle blue border */
+    border-radius: 2rem; /* Pill shape */
+    font-size: 1rem;
+    color: #0A4A7A;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    text-align: right; /* RTL text alignment */
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #8EB0D0; /* New subtle blue on focus */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+.search-icon {
+    color: #0A4A7A;
+    font-size: 1.5rem;
+}
+
+/* New UI Features */
+/* Feature 1: Smooth Scroll to Top Button */
+.scroll-to-top-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #0A4A7A; /* Dark blue */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; /* Removed transform for hover */
+    z-index: 1000;
+}
+
+.scroll-to-top-button.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Removed hover effect for scroll-to-top-button */
+/* .scroll-to-top-button:hover { ... } */
+
+/* Feature 2: Background Overlay for Modal */
+#background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom right, #C2E0F0, #FFFFFF);
+    z-index: -1; /* Behind other content */
+    transition: opacity 0.3s ease-out;
+    opacity: 1; /* Default opacity */
+}
+
+/* Feature 3: Dynamic Background Opacity on Modal Open */
+body.modal-open #background-overlay {
+    opacity: 0.5; /* Reduce opacity when modal is open */
+}
+
+/* Feature 4: Subtle Hover Effect on Accordion Items */
+/* Removed hover effect for accordion-item-container */
+/* .accordion-item-container:hover { ... } */
+
+/* Footer styles */
+.footer-card {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 0.75rem 1.5rem; /* Adjusted padding for reduced height */
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between; /* Space between title and links */
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    border: 1px solid #B5D0E8;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    min-height: 60px; /* Further reduced minimum height for the footer */
+}
+
+.footer-title {
+    color: #0A4A7A;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-inline-end: 1rem; /* Margin for RTL */
+}
+
+.footer-links-container {
+    display: flex;
+    gap: 1rem; /* Adjusted space between links */
+    flex-wrap: wrap;
+    justify-content: center; /* Center links if they wrap */
+    flex-grow: 1; /* Allow links container to grow */
+}
+
+.footer-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #0A4A7A;
+    font-weight: 600;
+    font-size: 0.8rem; /* Reduced font size for link text */
+    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.footer-link:hover {
+    transform: translateY(-3px);
+    color: #50B8EE; /* Lighter blue on hover */
+}
+
+.footer-link svg {
+    width: 3rem; /* Reduced size for consistency */
+    height: 3rem; /* Reduced size for consistency */
+    margin-bottom: 0.3rem; /* Reduced margin below icon */
+}
+
+/* Specific styles for the taaz SVG to ensure its gradient is visible */
+.taaz-svg .cls-1 {
+    fill: url(#New_Gradient_Swatch_3);
+}
+/* Specific styles for the צ360 SVG to ensure its fill is visible */
+.tsad360-svg rect {
+    fill: url(#paint0_linear_3797_24326);
+}
+.tsad360-svg path {
+    fill: white;
+}
+/* Specific styles for the idf SVG */
+.idf-svg rect {
+    fill: url(#paint0_linear_3797_24326); /* Use the same gradient as tsad360 as per user's provided SVG */
+}
+.idf-svg path {
+    fill: white; /* White fill for the shield path as per SVG */
+}
+
+/* Mobile adjustments for footer */
+@media (max-width: 640px) {
+    .footer-card {
+        flex-direction: column; /* Stack title and links vertically */
+        align-items: flex-end; /* Align title to the right */
+        gap: 0.5rem; /* Reduced gap on mobile */
+        padding: 0.75rem;
+    }
+    .footer-title {
+        width: 100%; /* Take full width */
+        text-align: right; /* Align title to the right */
+        margin-inline-end: 0;
+        margin-bottom: 0.5rem;
+    }
+    .footer-links-container {
+        width: 100%; /* Take full width */
+        justify-content: space-around; /* Distribute links evenly */
+        gap: 0.5rem;
+    }
+    .footer-link {
+        font-size: 0.7rem; /* Further reduced font size on mobile */
+    }
+    .footer-link svg {
+        width: 2.5rem; /* Slightly smaller on mobile */
+        height: 2.5rem; /* Slightly smaller on mobile */
+    }
+}
