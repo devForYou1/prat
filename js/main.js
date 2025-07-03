@@ -133,10 +133,14 @@ function AccordionItem(title, summary, subItemsData, sectionId, isDirectContent 
         const subCardContainer = document.createElement('div');
         subCardContainer.className = 'd-grid gap-1 sub-card-container';
         subItemsData.forEach(subItem => {
-            const subCard = SubCard(subItem.title, () => openModal(subItem.content), subItem.id);
+            // Log here to see what content is being passed to the closure
+            console.log('Creating SubCard for:', subItem.title, 'with content length:', subItem.content ? subItem.content.length : 'null');
+            const subCard = SubCard(subItem.title, () => {
+                console.log('Attempting to open modal for:', subItem.title, 'Content length:', subItem.content ? subItem.content.length : 'null');
+                openModal(subItem.content);
+            }, subItem.id);
             subCardContainer.appendChild(subCard);
         });
-        contentWrapper.appendChild(subCardContainer);
     }
 
     const contentDiv = document.createElement('div');
@@ -170,6 +174,7 @@ function SubCard(title, onClick, subItemId) {
     // Add event listener directly to prevent propagation issues
     button.addEventListener('click', (e) => {
         e.stopPropagation(); // Prevent the click from bubbling up to the accordion header
+        console.log('SubCard clicked:', title, 'subItemId:', subItemId); // Log click event
         onClick(); // Execute the modal opening function
     });
 
@@ -205,12 +210,23 @@ function initializeApp(contentData) {
      * @param {string} content - The HTML content to display in the modal.
      */
     const openModal = (content) => {
+        console.log('openModal called. Content length:', content ? content.length : 'null/undefined'); // Log when openModal is called
         if (currentModal) {
             currentModal.remove(); // Remove existing modal if any
+            currentModal = null; // Ensure it's nullified after removal
         }
         const modalElement = InfoModal(true, closeModal, content);
-        document.body.appendChild(modalElement);
-        currentModal = modalElement;
+        try {
+            document.body.appendChild(modalElement);
+            currentModal = modalElement;
+            // Add 'show' class for animation after a small delay
+            setTimeout(() => {
+                modalElement.classList.add('show'); // Use modalElement here
+                document.body.classList.add('modal-open');
+            }, 10);
+        } catch (error) {
+            console.error("Error appending modal to body:", error);
+        }
     };
 
     /**
@@ -397,6 +413,7 @@ function initializeApp(contentData) {
             const sectionData = contentData.sections.find(s => s.id === sectionId);
             const accordionButton = accordionDiv.querySelector('.accordion-header-button');
             const accordionContentDiv = accordionDiv.querySelector('.collapse-grid');
+            const subCardButtons = accordionDiv.querySelectorAll('.subcard-button'); // Get all sub-card buttons here
 
             let sectionMatches = false;
 
@@ -411,13 +428,19 @@ function initializeApp(contentData) {
                 if (sectionData.contentHtml.toLowerCase().includes(searchTerm)) {
                     sectionMatches = true;
                 }
+                // For direct content, sub-cards are not applicable, so ensure they are hidden if they somehow exist
+                subCardButtons.forEach(btn => {
+                    btn.style.display = 'none';
+                });
             } else {
                 // For non-direct content, check sub-items
-                const subCardButtons = accordionDiv.querySelectorAll('.subcard-button');
                 let anySubItemMatches = false;
 
-                subCardButtons.forEach((subCardButton, index) => {
-                    const subItemData = sectionData.subItems[index];
+                subCardButtons.forEach(subCardButton => { // Iterate over the actual DOM elements
+                    const subItemId = subCardButton.dataset.subItemId;
+                    const subItemData = sectionData.subItems.find(si => si.id === subItemId); // Find data by ID
+                    if (!subItemData) return; // Should not happen if data is well-formed
+
                     const subItemContent = subItemData.content.toLowerCase();
                     const subItemTitle = subItemData.title.toLowerCase();
 
@@ -429,16 +452,15 @@ function initializeApp(contentData) {
                         sectionMatches = true; // If a sub-item matches, the parent section must be shown
                     } else {
                         if (searchTerm !== '') {
-                            subCardButton.style.display = 'none'; // Hide completely
+                            subCardButton.style.display = 'none'; // Hide completely if no match and search is active
                         } else {
-                            subCardButton.style.display = 'block'; // Ensure it's visible
+                            subCardButton.style.display = 'block'; // Ensure it's visible when search is cleared
                             subCardButton.style.opacity = '1';
                             subCardButton.style.pointerEvents = 'auto';
                         }
                     }
                 });
             }
-
 
             // Control visibility and expansion of the main accordion item
             if (searchTerm === '') {
@@ -449,7 +471,7 @@ function initializeApp(contentData) {
                 accordionButton.classList.remove('open');
                 // Ensure all sub-cards are visible when search is cleared (only for non-direct content)
                 if (!sectionData.isDirectContent) {
-                    accordionDiv.querySelectorAll('.subcard-button').forEach(btn => {
+                    subCardButtons.forEach(btn => { // Use the already queried subCardButtons
                         btn.style.display = 'block';
                         btn.style.opacity = '1';
                         btn.style.pointerEvents = 'auto';
