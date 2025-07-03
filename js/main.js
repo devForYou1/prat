@@ -49,7 +49,6 @@ function InfoModal(isOpen, onClose, content) {
 
     // Create modal content container
     const modalContent = document.createElement('div');
-    // Ensure proper class is used for modal content sizing
     modalContent.className = 'custom-modal-content';
     modalContent.setAttribute('dir', 'rtl'); // Set direction for RTL
     modalContent.onclick = (e) => e.stopPropagation(); // Prevent closing when clicking inside modal
@@ -102,13 +101,11 @@ function InfoModal(isOpen, onClose, content) {
  */
 function AccordionItem(title, summary, childrenElements, sectionId, isDirectContent = false, contentHtml = '') {
     const accordionDiv = document.createElement('div');
-    // Adjusted classes for better mobile UI: `mb-2` for slightly less margin, `rounded-lg` for smaller rounded corners
-    accordionDiv.className = 'rounded-lg overflow-hidden border transition-all duration-300 mb-2 accordion-item-container';
+    accordionDiv.className = 'accordion-item-container'; // Using the simplified class
     accordionDiv.dataset.sectionId = sectionId; // Store section ID for filtering
 
     const button = document.createElement('button');
-    // Adjusted classes for button: `py-2 px-3` for reduced padding, `text-base` for slightly smaller font
-    button.className = 'btn w-100 py-2 px-3 text-base fw-semibold d-flex justify-content-between align-items-center bg-white transition-all duration-300 focus-ring-0 accordion-header-button';
+    button.className = 'accordion-header-button'; // Using the simplified class
     button.style.color = '#0A4A7A'; // Fallback color
 
     // Separate title text and arrow icon into distinct spans
@@ -129,15 +126,15 @@ function AccordionItem(title, summary, childrenElements, sectionId, isDirectCont
 
 
     const contentWrapper = document.createElement('div');
-    // Adjusted classes for contentWrapper: `px-3 pb-2 pt-1` for reduced padding
-    contentWrapper.className = 'overflow-hidden px-3 pb-2 pt-1 text-end bg-white'; // Set contentWrapper background to white
+    // Removed specific padding classes here as they are now handled by .collapse-grid.show > div
+    contentWrapper.className = 'text-end'; // Set contentWrapper background to white
 
     // Conditionally render content based on isDirectContent
     if (isDirectContent) {
         // For direct content, we want the image to appear first, then the text
         if (sectionId === "head-of-taatz-message") {
             contentWrapper.innerHTML = `
-                <img src="https://www.dropbox.com/scl/fi/qkhvwkm7x8to9yq0d92k1/2025-07-03-145742.png?rlkey=ptg5ybb6jj4t32hdiyiz6vs3u&raw=1" alt="ראש מרכז תעץ" class="mb-3 rounded-lg shadow-md mx-auto responsive-image head-of-taatz-image">
+                <img src="https://www.dropbox.com/scl/fi/qkhvwkm7x8to9yq0d92k1/2025-07-03-145742.png?rlkey=ptg5ybb6jj4t32hdiyiz6vs3u&raw=1" alt="ראש מרכז תעץ" class="head-of-taatz-image">
                 ${contentHtml}
             `;
         } else {
@@ -180,10 +177,7 @@ function AccordionItem(title, summary, childrenElements, sectionId, isDirectCont
  */
 function SubCard(title, onClick, subItemId) {
     const button = document.createElement('button');
-    // Changed to plain white background, reduced padding, smaller font, and `mb-1`
-    button.className = `btn w-100 py-1 px-2 bg-white rounded-2 shadow-sm border
-                        text-primary-dark text-sm fw-medium transition-all duration-200
-                        focus-ring-0 text-end position-relative overflow-hidden mb-1 subcard-button`;
+    button.className = `subcard-button`; // Using the simplified class
     button.style.color = '#0A4A7A';
     button.dataset.subItemId = subItemId; // Store sub-item ID for filtering
     button.innerHTML = `
@@ -254,8 +248,7 @@ function initializeApp(contentData) {
 
     // Create the main container for the application content
     const mainContainer = document.createElement('div');
-    // Adjusted padding for smaller screens, `max-w-xl` for better fit on tablets/smaller desktops
-    mainContainer.className = 'position-relative w-100 max-w-xl mx-auto p-3 bg-white rounded-4 shadow-lg border main-container-border animate-main-container';
+    mainContainer.className = 'main-container-border animate-main-container'; // Using the simplified class
     mainContainer.setAttribute('dir', 'rtl'); // Set direction for RTL
 
     // Add a subtle background shimmer effect for visual appeal
@@ -296,7 +289,6 @@ function initializeApp(contentData) {
 
     // Create main title
     const mainTitle = document.createElement('h1');
-    // Adjusted font size for mobile: `text-2xl md:text-3xl`
     mainTitle.className = 'text-2xl md:text-3xl font-extrabold mb-2 text-center'; // Added text-center, CSS handles gradient
     mainTitle.textContent = contentData.mainTitle;
     mainContainer.appendChild(mainTitle);
@@ -306,8 +298,7 @@ function initializeApp(contentData) {
     introParagraphsContainer.className = 'text-center'; // Center the paragraphs
     contentData.introParagraphs.forEach(paragraphText => {
         const p = document.createElement('p');
-        // Added intro-paragraph-text class for specific styling
-        p.className = 'intro-paragraph-text';
+        p.className = 'intro-paragraph-text'; // Added intro-paragraph-text class for specific styling
         p.textContent = paragraphText;
         introParagraphsContainer.appendChild(p);
     });
@@ -315,8 +306,7 @@ function initializeApp(contentData) {
 
     // Create motto
     const motto = document.createElement('p');
-    // Adjusted font size for mobile: `text-sm`, reduced margin
-    motto.className = 'text-sm fw-bold lh-base mt-2 mb-3 text-center motto-text'; // Added text-center and motto-text class for gradient
+    motto.className = 'motto-text'; // Using the simplified class
     motto.textContent = contentData.motto;
     mainContainer.appendChild(motto);
 
@@ -324,7 +314,6 @@ function initializeApp(contentData) {
     const searchInput = document.createElement('input');
     searchInput.type = 'text';
     searchInput.placeholder = 'חיפוש...';
-    // Updated classes for search input: white background, reduced height, smaller font
     searchInput.className = 'form-control form-control-sm mb-3 text-end px-3 py-1 rounded-pill shadow-sm border focus-ring-0 search-input'; // py-1 for reduced height, form-control-sm for smaller font
     searchInput.style.cssText = 'background-color: #FFFFFF; color: #0A4A7A; border-color: #B5D0E8;'; // White background
     mainContainer.appendChild(searchInput);
@@ -352,12 +341,10 @@ function initializeApp(contentData) {
 
     // Create footer card for external links
     const footerCard = document.createElement('div');
-    // Adjusted padding and margin for mobile
     footerCard.className = 'd-flex flex-column flex-sm-row justify-content-between align-items-center p-2 mt-3 rounded-4 shadow-md footer-card';
     footerCard.style.cssText = 'background-color: #E0F2F7; border: 1px solid #B5D0E8;';
 
     const footerTitle = document.createElement('p');
-    // Adjusted font size for mobile
     footerTitle.className = 'text-sm fw-semibold text-primary-dark mb-1 mb-sm-0 margin-inline-end-auto footer-title';
     footerTitle.style.color = '#0A4A7A';
     footerTitle.textContent = 'קישורים שימושיים:';
@@ -378,7 +365,6 @@ function initializeApp(contentData) {
         linkButton.href = linkInfo.href;
         linkButton.target = '_blank';
         linkButton.rel = 'noopener noreferrer';
-        // Adjusted size for mobile
         linkButton.className = 'flex-grow-1 flex-shrink-0 d-flex justify-content-center align-items-center text-center p-1 rounded-lg shadow-sm text-white fw-bold footer-link-square text-xs'; // text-xs for smaller font
         linkButton.style.cssText = 'background: linear-gradient(135deg, #F29F05, #37A647, #1B62BF); width: 100px; height: 48px; text-decoration: none; color: white;'; // Fixed size and gradient background
         linkButton.textContent = linkInfo.title;
@@ -387,7 +373,6 @@ function initializeApp(contentData) {
 
     footerCard.appendChild(footerLinksContainer);
     mainContainer.appendChild(footerCard);
-
 
     appRoot.appendChild(mainContainer);
 
