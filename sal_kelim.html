@@ -43,32 +43,28 @@
             signature: [], // Removed as per user request
             sections: [
                 {
-                    id: "head-of-taatz-message-accordion", // Changed ID to reflect it's an accordion now
+                    id: "head-of-taatz-message", // Changed ID to reflect it's a direct content accordion
                     title: "דבר ראש מרכז תע\"ץ",
                     summary: "מסר אישי מראש מרכז תע\"ץ על חשיבות שימור וניהול עובדי צה\"ל.",
-                    isDirectContent: false, // Changed to false, now it has sub-items
-                    subItems: [
-                        {
-                            id: "head-of-taatz-content", // Sub-item ID
-                            title: "דבר ראש מרכז תע\"ץ", // Sub-item title
-                            content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">דבר ראש מרכז תע"ץ</h2>
-                                <img src="https://www.dropbox.com/scl/fi/qkhvwkm7x8to9yq0d92k1/2025-07-03-145742.png?rlkey=ptg5ybb6jj4t32hdiyiz6vs3u&raw=1" alt="ראש מרכז תעץ" class="head-of-taatz-image">
-                                <p class="text-sm lh-base mb-3">החוברת שלפניכם נועדה לרכז את הכלים הקיימים לשימור, לניהול ולטיפול בעובדות ועובדי צה"ל. אנו מבינים כי אתם, המפקדות והמפקדים, נמצאים בהתמודדות יומיומית עם אתגרים מבצעיים, מקצועיים ואישיים, בטח בתקופה זו, המציבה בפנינו דרישות גבוהות ומשימות לא פשוטות.</p>
-                                <p class="text-sm lh-base mb-3">התקופה הנוכחית דורשת לא רק גיוס והכשרה מיידית של כוח אדם איכותי, אלא גם ניהול והשגת מחויבות גבוהה לעובדים שכבר נמצאים בשורותינו.</p>
-                                <p class="text-sm lh-base mb-3">האנשים שלנו – החיילים, המפקדים והעובדים – הם הלב הפועם של צה"ל. השימור שלהם, השקעה בטיפוחם ובהתפתחותם האישית והמקצועית, הם המפתח להצלחתנו.</p>
-                                <p class="text-sm lh-base mb-3">זכרו, העובדים שלנו לא רק מבצעים משימות, הם דוגלים בערכים, פועלים מתוך תחושת שליחות ומחויבות, וחשוב שנדע להעריך ולתמוך בהם גם בזמנים קשים אלה.</p>
-                                <p class="text-sm lh-base mb-3">השימור של כוח האדם האיכותי והמסור הוא לא רק עניין של "שימור עובדים", אלא מפתח להצלחת המשימות המבצעיות וההישגים הלאומיים של צה"ל.</p>
-                                <p class="text-sm lh-base mb-3">אני מאחל לכם הצלחה רבה ומאמין כי יחד, בשיתוף פעולה ובניהול נכון, נוכל להמשיך ולהוביל את צה"ל אל עבר עתיד טוב יותר, גם בתקופה זו.</p>
-                                <p class="text-sm lh-base mb-3 text-end fw-bold">אל"ם מישאל מרדכי , ראש מרכז תע"ץ</p>
-                            `,
-                        },
-                    ],
+                    isDirectContent: true, // Set to true for direct content
+                    contentHtml: `
+                        <h2 class="fs-4 fw-bold mb-3 text-center">דבר ראש מרכז תע"ץ</h2>
+                        <img src="https://www.dropbox.com/scl/fi/qkhvwkm7x8to9yq0d92k1/2025-07-03-145742.png?rlkey=ptg5ybb6jj4t32hdiyiz6vs3u&raw=1" alt="ראש מרכז תעץ" class="head-of-taatz-image">
+                        <p class="text-sm lh-base mb-3">החוברת שלפניכם נועדה לרכז את הכלים הקיימים לשימור, לניהול ולטיפול בעובדות ועובדי צה"ל. אנו מבינים כי אתם, המפקדות והמפקדים, נמצאים בהתמודדות יומיומית עם אתגרים מבצעיים, מקצועיים ואישיים, בטח בתקופה זו, המציבה בפנינו דרישות גבוהות ומשימות לא פשוטות.</p>
+                        <p class="text-sm lh-base mb-3">התקופה הנוכחית דורשת לא רק גיוס והכשרה מיידית של כוח אדם איכותי, אלא גם ניהול והשגת מחויבות גבוהה לעובדים שכבר נמצאים בשורותינו.</p>
+                        <p class="text-sm lh-base mb-3">האנשים שלנו – החיילים, המפקדים והעובדים – הם הלב הפועם של צה"ל. השימור שלהם, השקעה בטיפוחם ובהתפתחותם האישית והמקצועית, הם המפתח להצלחתנו.</p>
+                        <p class="text-sm lh-base mb-3">זכרו, העובדים שלנו לא רק מבצעים משימות, הם דוגלים בערכים, פועלים מתוך תחושת שליחות ומחויבות, וחשוב שנדע להעריך ולתמוך בהם גם בזמנים קשים אלה.</p>
+                        <p class="text-sm lh-base mb-3">השימור של כוח האדם האיכותי והמסור הוא לא רק עניין של "שימור עובדים", אלא מפתח להצלחת המשימות המבצעיות וההישגים הלאומיים של צה"ל.</p>
+                        <p class="text-sm lh-base mb-3">אני מאחל לכם הצלחה רבה ומאמין כי יחד, בשיתוף פעולה ובניהול נכון, נוכל להמשיך ולהוביל את צה"ל אל עבר עתיד טוב יותר, גם בתקופה זו.</p>
+                        <p class="text-sm lh-base mb-3 text-end fw-bold">אל"ם מישאל מרדכי , ראש מרכז תע"ץ</p>
+                    `,
+                    subItems: [] // No sub-items for direct content
                 },
                 {
                     id: "flexibility",
                     title: "גמישות בשעות העסקה",
                     summary: "מידע מפורט על גמישות בשעות העסקה, כולל שעון גמיש, שעות נוספות, חופשות שנתיות ועוד.",
+                    isDirectContent: false,
                     subItems: [
                         {
                             id: "flexible-clock",
@@ -198,6 +194,7 @@
                     id: "recognition",
                     title: "כלי הוקרה ותגמול",
                     summary: "כלי הוקרה ותגמול לעובדי צה\"ל, כולל תמריצים, קידום בדרגת שכר, הצטיינות ושכר עידוד.",
+                    isDirectContent: false,
                     subItems: [
                         {
                             id: "incentives",
@@ -276,6 +273,7 @@
                     id: "education",
                     title: "לימודים והשכלה",
                     summary: "מידע על לימודים והשכלה לעובדי צה\"ל, כולל לימודי תוכייש וימי השתלמות בשכר.",
+                    isDirectContent: false,
                     subItems: [
                         {
                             id: "tuition-studies",
@@ -315,6 +313,7 @@
                     id: "social-service",
                     title: "השירות הסוציאלי",
                     summary: "השירות הסוציאלי לעובדי צה\"ל, כולל טיפול וליווי מקצועי, מענה למצבי משבר ואנשי קשר.",
+                    isDirectContent: false,
                     subItems: [
                         {
                             id: "social-service-overview",
@@ -362,6 +361,7 @@
                     id: "additional-social-responses",
                     title: "מענים סוציאליים",
                     summary: "מענקי סיוע כלכלי, סיוע חירום, מענה למקרי חופש מחלה חריגים והטבות להורים לילדים עם מוגבלויות.",
+                    isDirectContent: false,
                     subItems: [
                         {
                             id: "exceptional-financial-grant",
