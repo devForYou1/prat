@@ -95,26 +95,22 @@ function InfoModal(isOpen, onClose, content) {
  * @param {string} summary - A brief summary displayed below the title.
  * @param {HTMLElement[]} childrenElements - Array of child elements (SubCards) to display when expanded.
  * @param {string} sectionId - Unique ID for the section, used for filtering.
- * @param {boolean} isDirectContent - If true, contentHtml is rendered directly, no sub-cards.
- * @param {string} contentHtml - HTML content to display directly if isDirectContent is true.
  * @returns {HTMLElement} The accordion item div element.
  */
-function AccordionItem(title, summary, childrenElements, sectionId, isDirectContent = false, contentHtml = '') {
+function AccordionItem(title, summary, childrenElements, sectionId) {
     const accordionDiv = document.createElement('div');
-    accordionDiv.className = 'accordion-item-container'; // Using the simplified class
-    accordionDiv.dataset.sectionId = sectionId; // Store section ID for filtering
+    accordionDiv.className = 'accordion-item-container';
+    accordionDiv.dataset.sectionId = sectionId;
 
     const button = document.createElement('button');
-    button.className = 'accordion-header-button'; // Using the simplified class
-    button.style.color = '#0A4A7A'; // Fallback color
+    button.className = 'accordion-header-button';
 
-    // Separate title text and arrow icon into distinct spans
     const titleSpan = document.createElement('span');
-    titleSpan.className = 'accordion-title-text'; // Apply solid color to title text via CSS
+    titleSpan.className = 'accordion-title-text';
     titleSpan.textContent = title;
 
     const arrowSpan = document.createElement('span');
-    arrowSpan.className = 'arrow-icon'; // Class for arrow rotation
+    arrowSpan.className = 'arrow-icon';
     arrowSpan.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" style="width: 1.25rem; height: 1.25rem; color: #0A4A7A;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -124,41 +120,26 @@ function AccordionItem(title, summary, childrenElements, sectionId, isDirectCont
     button.appendChild(titleSpan);
     button.appendChild(arrowSpan);
 
-
     const contentWrapper = document.createElement('div');
-    contentWrapper.className = 'text-end'; // Set contentWrapper background to white
+    contentWrapper.className = 'text-end';
 
-    // Conditionally render content based on isDirectContent
-    if (isDirectContent) {
-        // For direct content, we want the image to appear first, then the text
-        if (sectionId === "head-of-taatz-message") { // This condition might not be hit after the change in sal_kelim.html
-            contentWrapper.innerHTML = `
-                <img src="https://www.dropbox.com/scl/fi/qkhvwkm7x8to9yq0d92k1/2025-07-03-145742.png?rlkey=ptg5ybb6jj4t32hdiyiz6vs3u&raw=1" alt="ראש מרכז תעץ" class="head-of-taatz-image">
-                ${contentHtml}
-            `;
-        } else {
-            contentWrapper.innerHTML = contentHtml; // Directly embed content
-        }
-    } else {
-        // For regular sections, map subItems to SubCard components
-        contentWrapper.innerHTML = `
-            <div class="d-grid gap-1 sub-card-container"></div> <!-- Container for sub-cards -->
-        `;
-        const subCardContainer = contentWrapper.querySelector('.sub-card-container');
-        childrenElements.forEach(child => {
-            subCardContainer.appendChild(child);
-        });
-    }
+    // Container for sub-cards
+    const subCardContainer = document.createElement('div');
+    subCardContainer.className = 'd-grid gap-1 sub-card-container';
+    childrenElements.forEach(child => {
+        subCardContainer.appendChild(child);
+    });
+    contentWrapper.appendChild(subCardContainer);
+
 
     const contentDiv = document.createElement('div');
-    contentDiv.className = 'collapse-grid'; // Class for grid-based collapse animation
+    contentDiv.className = 'collapse-grid';
     contentDiv.appendChild(contentWrapper);
 
     // Event listener for button click to toggle accordion
     button.addEventListener('click', () => {
         const isOpen = accordionDiv.classList.toggle('open');
         contentDiv.classList.toggle('show', isOpen);
-        // The arrow rotation is now handled by CSS based on the 'open' class on accordionDiv
     });
 
     accordionDiv.appendChild(button);
@@ -175,14 +156,16 @@ function AccordionItem(title, summary, childrenElements, sectionId, isDirectCont
  */
 function SubCard(title, onClick, subItemId) {
     const button = document.createElement('button');
-    button.className = `subcard-button`; // Using the simplified class
-    button.style.color = '#0A4A7A';
-    button.dataset.subItemId = subItemId; // Store sub-item ID for filtering
-    button.innerHTML = `
-        <span class="position-absolute inset-0 bg-white opacity-0 transition-opacity duration-300 shimmer" style="border-radius: 0.5rem;"></span>
-        ${title}
-    `;
-    button.onclick = onClick;
+    button.className = `subcard-button`;
+    button.dataset.subItemId = subItemId;
+    button.textContent = title; // Use textContent for plain text title
+
+    // Add event listener directly to prevent propagation issues
+    button.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent the click from bubbling up to the accordion header
+        onClick(); // Execute the modal opening function
+    });
+
     return button;
 }
 
@@ -246,8 +229,8 @@ function initializeApp(contentData) {
 
     // Create the main container for the application content
     const mainContainer = document.createElement('div');
-    mainContainer.className = 'main-container-border animate-main-container'; // Using the simplified class
-    mainContainer.setAttribute('dir', 'rtl'); // Set direction for RTL
+    mainContainer.className = 'main-container-border animate-main-container';
+    mainContainer.setAttribute('dir', 'rtl');
 
     // Add a subtle background shimmer effect for visual appeal
     const shimmerDiv = document.createElement('div');
@@ -257,7 +240,7 @@ function initializeApp(contentData) {
 
     // Create logo container at the top - now only one SVG in the middle
     const logoContainer = document.createElement('div');
-    logoContainer.className = 'd-flex justify-content-center align-items-center mb-3 w-100 logo-container'; // Centered, reduced mb
+    logoContainer.className = 'd-flex justify-content-center align-items-center mb-3 w-100 logo-container';
     logoContainer.style.cssText = 'transform: translateY(-30px); opacity: 0; animation: fadeInFromTop 0.5s ease-out 0.2s forwards;';
 
     // Single Taaz SVG in the middle
@@ -267,7 +250,7 @@ function initializeApp(contentData) {
         xmlns: "http://www.w3.org/2000/svg",
         'xmlns:xlink': "http://www.w3.org/1999/xlink",
         viewBox: "0 0 568.89 544.35",
-        class: "w-20 h-20 object-contain taaz-main-logo" // Smaller size: w-20 h-20
+        class: "w-20 h-20 object-contain taaz-main-logo"
     });
     taazSvg.innerHTML = `
         <defs>
@@ -287,24 +270,24 @@ function initializeApp(contentData) {
 
     // Create main title
     const mainTitle = document.createElement('h1');
-    mainTitle.className = 'text-2xl md:text-3xl font-extrabold mb-2 text-center'; // Added text-center, CSS handles gradient
+    mainTitle.className = 'text-2xl md:text-3xl font-extrabold mb-2 text-center';
     mainTitle.textContent = contentData.mainTitle;
     mainContainer.appendChild(mainTitle);
 
     // Create introductory paragraphs container and center its content
     const introParagraphsContainer = document.createElement('div');
-    introParagraphsContainer.className = 'text-center'; // Center the paragraphs
+    introParagraphsContainer.className = 'text-center';
     contentData.introParagraphs.forEach(paragraphText => {
         const p = document.createElement('p');
-        p.className = 'intro-paragraph-text'; // Added intro-paragraph-text class for specific styling
+        p.className = 'intro-paragraph-text';
         p.textContent = paragraphText;
         introParagraphsContainer.appendChild(p);
     });
-    mainContainer.appendChild(introParagraphsContainer); // Append the container
+    mainContainer.appendChild(introParagraphsContainer);
 
     // Create motto
     const motto = document.createElement('p');
-    motto.className = 'motto-text'; // Using the simplified class
+    motto.className = 'motto-text';
     motto.textContent = contentData.motto;
     mainContainer.appendChild(motto);
 
@@ -312,17 +295,16 @@ function initializeApp(contentData) {
     const searchInput = document.createElement('input');
     searchInput.type = 'text';
     searchInput.placeholder = 'חיפוש...';
-    searchInput.className = 'search-input'; // Using the simplified class
+    searchInput.className = 'search-input';
     mainContainer.appendChild(searchInput);
 
     // Create accordion container
     const accordionContainer = document.createElement('div');
-    accordionContainer.className = 'accordion-container mb-3'; // Reduced margin
+    accordionContainer.className = 'accordion-container mb-3';
     mainContainer.appendChild(accordionContainer);
 
     // Render accordion sections
     contentData.sections.forEach(section => {
-        // For regular sections, map subItems to SubCard components
         const subCardElements = section.subItems.map(subItem =>
             SubCard(subItem.title, () => openModal(subItem.content), subItem.id)
         );
@@ -342,11 +324,10 @@ function initializeApp(contentData) {
     footerCard.appendChild(footerTitle);
 
     const footerLinksContainer = document.createElement('div');
-    footerLinksContainer.className = 'd-flex gap-2 footer-links-container'; // Reduced gap
+    footerLinksContainer.className = 'd-flex gap-2 footer-links-container';
 
-    // Updated Footer Links to be simple squares with text
     const links = [
-        { title: "אתר מרכז תע\"ץ", href: "https://www.ovdayzahal.org.il/" }, // Corrected URL for Taaz
+        { title: "אתר מרכז תע\"ץ", href: "https://www.ovdayzahal.org.il/" },
         { title: "אתר צה\"ל", href: "https://www.idf.il/" },
         { title: "צ-360", href: "https://www.home.idf.il/" }
     ];
@@ -356,8 +337,8 @@ function initializeApp(contentData) {
         linkButton.href = linkInfo.href;
         linkButton.target = '_blank';
         linkButton.rel = 'noopener noreferrer';
-        linkButton.className = 'flex-grow-1 flex-shrink-0 d-flex justify-content-center align-items-center text-center p-1 rounded-lg shadow-sm text-white fw-bold footer-link-square text-xs'; // text-xs for smaller font
-        linkButton.style.cssText = 'background: linear-gradient(135deg, #F29F05, #37A647, #1B62BF); width: 100px; height: 48px; text-decoration: none; color: white;'; // Fixed size and gradient background
+        linkButton.className = 'flex-grow-1 flex-shrink-0 d-flex justify-content-center align-items-center text-center p-1 rounded-lg shadow-sm text-white fw-bold footer-link-square text-xs';
+        linkButton.style.cssText = 'background: linear-gradient(135deg, #F29F05, #37A647, #1B62BF); width: 100px; height: 48px; text-decoration: none; color: white;';
         linkButton.textContent = linkInfo.title;
         footerLinksContainer.appendChild(linkButton);
     });
@@ -367,19 +348,16 @@ function initializeApp(contentData) {
 
     appRoot.appendChild(mainContainer);
 
-    // Manual animation for logo container to ensure it plays after content is appended
     setTimeout(() => {
         logoContainer.style.transform = 'translateY(0)';
         logoContainer.style.opacity = '1';
     }, 200);
 
-    // Debounced version of filterAccordions
-    const debouncedFilterAccordions = debounce(filterAccordions, 300); // 300ms delay
+    const debouncedFilterAccordions = debounce(filterAccordions, 300);
 
-    // Search functionality: filters accordion items and sub-items based on search term
     searchInput.addEventListener('input', (event) => {
         const searchTerm = event.target.value.toLowerCase().trim();
-        debouncedFilterAccordions(searchTerm); // Use the debounced function
+        debouncedFilterAccordions(searchTerm);
     });
 
     /**
@@ -416,17 +394,18 @@ function initializeApp(contentData) {
                 if (subItemTitle.includes(searchTerm) || subItemContent.includes(searchTerm)) {
                     subCardButton.style.opacity = '1'; // Full opacity if matches
                     subCardButton.style.pointerEvents = 'auto'; // Enable clicks
+                    subCardButton.style.display = 'block'; // Ensure it's visible
                     anySubItemMatches = true;
                     sectionMatches = true; // If a sub-item matches, the parent section must be shown
                 } else {
-                    // Dim non-matching sub-items and disable clicks if a search term is active
+                    // Hide non-matching sub-items if a search term is active
                     if (searchTerm !== '') {
-                        subCardButton.style.opacity = '0.3';
-                        subCardButton.style.pointerEvents = 'none';
+                        subCardButton.style.display = 'none'; // Hide completely
                     } else {
                         // If search term is empty, reset sub-item styles
                         subCardButton.style.opacity = '1';
                         subCardButton.style.pointerEvents = 'auto';
+                        subCardButton.style.display = 'block'; // Ensure it's visible
                     }
                 }
             });
@@ -442,6 +421,7 @@ function initializeApp(contentData) {
                 subCardButtons.forEach(btn => { // Ensure all sub-cards are visible when search is cleared
                     btn.style.opacity = '1';
                     btn.style.pointerEvents = 'auto';
+                    btn.style.display = 'block';
                 });
             } else if (sectionMatches) {
                 // If the section or any of its sub-items match, show the section
@@ -466,7 +446,7 @@ function initializeApp(contentData) {
 
     // Scroll-to-top button functionality: shows/hides based on scroll position
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) { // Show button after scrolling 300px down
+        if (window.scrollY > 300) {
             scrollToTopBtn.classList.add('show');
         } else {
             scrollToTopBtn.classList.remove('show');
@@ -487,25 +467,25 @@ function initializeApp(contentData) {
 
     /** Updates the list of focusable elements (accordion buttons and sub-card buttons). */
     function updateFocusableElements() {
-        focusableElements = Array.from(document.querySelectorAll('.accordion-header-button, .subcard-button'));
+        // Only include visible sub-cards in focusable elements
+        focusableElements = Array.from(document.querySelectorAll('.accordion-header-button, .subcard-button[style*="display: block"]'));
     }
 
     document.addEventListener('keydown', (e) => {
         updateFocusableElements(); // Re-scan focusable elements on each keydown for dynamic content
-        if (focusableElements.length === 0) return; // No focusable elements to navigate
+        if (focusableElements.length === 0) return;
 
         if (e.key === 'ArrowDown') {
-            e.preventDefault(); // Prevent default scroll behavior
+            e.preventDefault();
             currentFocus = (currentFocus + 1) % focusableElements.length;
             focusableElements[currentFocus].focus();
         } else if (e.key === 'ArrowUp') {
-            e.preventDefault(); // Prevent default scroll behavior
+            e.preventDefault();
             currentFocus = (currentFocus - 1 + focusableElements.length) % focusableElements.length;
             focusableElements[currentFocus].focus();
         } else if (e.key === 'Enter' || e.key === ' ') {
-            // Trigger click event on focused element when Enter or Space is pressed
             if (currentFocus !== -1) {
-                e.preventDefault(); // Prevent default spacebar scroll
+                e.preventDefault();
                 focusableElements[currentFocus].click();
             }
         }
@@ -513,61 +493,51 @@ function initializeApp(contentData) {
 
     // Feature: Copy to Clipboard on Modal Content Click (for paragraphs and list items)
     document.addEventListener('click', (event) => {
-        // Check if the clicked element is a paragraph or list item within the modal's scrollable body
-        // Or if it's a paragraph or list item directly within an open accordion's contentWrapper
         const target = event.target;
         let textToCopy = '';
 
         if (target.closest('.custom-modal-scrollable-body p, .custom-modal-scrollable-body li')) {
             textToCopy = target.textContent;
         } else if (target.closest('.accordion-item-container.open .collapse-grid p, .accordion-item-container.open .collapse-grid li')) {
-            // Ensure it's within a direct content accordion and not a sub-card button itself
             const directContentAccordion = target.closest('.accordion-item-container.open');
-            // Removed the specific check for 'head-of-taatz-message' as it's no longer direct content
-            if (directContentAccordion) {
+            if (directContentAccordion) { // Check if it's any open accordion's content
                 textToCopy = target.textContent;
             }
         }
 
         if (textToCopy) {
             try {
-                // Use a temporary textarea for copying text to clipboard, as navigator.clipboard.writeText()
-                // might have restrictions in iframes or older browsers.
                 const textarea = document.createElement('textarea');
                 textarea.value = textToCopy;
                 document.body.appendChild(textarea);
                 textarea.select();
-                document.execCommand('copy'); // Deprecated but widely supported for this use case
+                document.execCommand('copy');
                 document.body.removeChild(textarea);
 
-                // Provide temporary visual feedback to the user
                 const feedbackDiv = document.createElement('div');
                 feedbackDiv.textContent = 'הועתק!';
                 feedbackDiv.style.cssText = `
                     position: fixed;
                     bottom: 80px;
                     right: 20px;
-                    background-color: #28a745; /* Green color for success */
+                    background-color: #28a745;
                     color: white;
                     padding: 10px 15px;
                     border-radius: 8px;
-                    z-index: 1060; /* Ensure it's above other elements */
+                    z-index: 1060;
                     opacity: 0;
                     transition: opacity 0.3s ease-out;
                 `;
                 document.body.appendChild(feedbackDiv);
-                // Animate fade-in
                 setTimeout(() => {
                     feedbackDiv.style.opacity = '1';
                 }, 10);
-                // Animate fade-out and remove element after a delay
                 setTimeout(() => {
                     feedbackDiv.style.opacity = '0';
                     feedbackDiv.addEventListener('transitionend', () => feedbackDiv.remove());
                 }, 1500);
             } catch (err) {
                 console.error('Failed to copy text: ', err);
-                // Optionally, show an error message to the user
             }
         }
     });
