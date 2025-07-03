@@ -2,12 +2,12 @@
 body {
     font-family: 'Assistant', sans-serif;
     /* Changed background gradient to a less vibrant blue */
-    background: linear-gradient(to bottom right, #B5D0E8, #FFFFFF); /* Slightly more vibrant blue */
+    background: linear-gradient(to bottom right, #E0F2F7, #FFFFFF); /* Lighter blue to white gradient */
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem;
+    padding: 0.5rem; /* Reduced padding for better mobile fit */
     margin: 0;
     transition: overflow 0.3s ease-in-out; /* Smooth transition for overflow change */
     overflow-x: hidden; /* Prevent horizontal scrolling */
@@ -86,9 +86,14 @@ body.modal-open {
     border: none; /* Remove border from button itself */
 }
 
-/* Increased font size for accordion titles */
+/* Dark blue for accordion titles (not gradient) */
 .accordion-header-button .accordion-title-text {
     font-size: 1.25rem; /* Increased font size for accordion titles (text-xl) */
+    color: #0A4A7A; /* Solid dark blue from the palette */
+    background: none; /* Ensure no gradient */
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset;
+    background-clip: unset;
 }
 
 
@@ -204,7 +209,7 @@ body.modal-open {
 .custom-modal-title {
     font-size: 1.5rem; /* Larger title font size */
     font-weight: bold;
-    /* Color is now handled by gradient-text-bold OR dark blue */
+    color: #0A4A7A; /* Solid dark blue for modal titles */
     margin: 0;
 }
 
@@ -303,7 +308,7 @@ body.modal-open {
 
 /* Make colors more vibrant */
 body {
-    background: linear-gradient(to bottom right, #B5D0E8, #FFFFFF); /* Slightly more vibrant blue */
+    background: linear-gradient(to bottom right, #E0F2F7, #FFFFFF); /* Lighter blue to white gradient */
 }
 
 .text-primary-dark {
@@ -326,8 +331,6 @@ body {
     border-bottom: 1px solid #B5D0E8; /* More vibrant modal header border */
 }
 
-/* Custom modal title color is now handled by gradient-text-bold */
-
 .custom-modal-close-button:hover {
     color: #1B62BF; /* More vibrant close button on hover */
 }
@@ -339,8 +342,8 @@ body {
     color: #0A4A7A; /* Ensure text color is dark blue */
 }
 
-/* Gradient for main H1 and specific gradient-text-bold elements */
-h1, .gradient-text-bold {
+/* Gradient for main H1 and motto */
+h1, .motto-text {
     background: linear-gradient(to right, #50b8ee, #0a4a7a); /* Use gradient from taaz.txt SVG */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -348,7 +351,7 @@ h1, .gradient-text-bold {
     color: transparent; /* Fallback for non-webkit browsers */
 }
 
-/* Dark blue for all other headers (h2, h3, h4) */
+/* Dark blue for all other headers (h2, h3, h4) and modal titles */
 h2, h3, h4, .custom-modal-title {
     color: #0A4A7A; /* Dark blue from the palette */
 }
