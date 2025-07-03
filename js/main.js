@@ -60,7 +60,7 @@ function InfoModal(isOpen, onClose, content) {
     modalHeader.setAttribute('dir', 'rtl'); // Ensure RTL for header
 
     const headerTitle = document.createElement('h2');
-    headerTitle.className = 'custom-modal-title gradient-text-bold'; // Apply gradient to modal title
+    headerTitle.className = 'custom-modal-title'; // CSS will handle gradient for h2
     headerTitle.textContent = modalTitleText;
 
     const closeButton = document.createElement('button');
@@ -244,7 +244,7 @@ function initializeApp(contentData) {
 
     // Create the main container for the application content
     const mainContainer = document.createElement('div');
-    mainContainer.className = 'position-relative w-100 max-w-2xl mx-auto p-4 bg-white rounded-4 shadow-lg border text-center animate-main-container';
+    mainContainer.className = 'position-relative w-100 max-w-2xl mx-auto p-4 bg-white rounded-4 shadow-lg border main-container-border animate-main-container';
     mainContainer.setAttribute('dir', 'rtl'); // Set direction for RTL
     mainContainer.style.cssText = 'backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);'; // Keep backdrop filter for main container
 
@@ -286,8 +286,7 @@ function initializeApp(contentData) {
 
     // Create main title
     const mainTitle = document.createElement('h1');
-    mainTitle.className = 'text-3xl md:text-4xl font-extrabold mb-2 text-primary-dark';
-    mainTitle.style.cssText = 'background: linear-gradient(to right, #F29F05, #37A647, #1B62BF); -webkit-background-clip: text; -webkit-text-fill-color: transparent;'; // Apply gradient to main title
+    mainTitle.className = 'text-3xl md:text-4xl font-extrabold mb-2'; // CSS will handle gradient for h1
     mainTitle.textContent = contentData.mainTitle;
     mainContainer.appendChild(mainTitle);
 
@@ -304,8 +303,7 @@ function initializeApp(contentData) {
     // Create motto
     const motto = document.createElement('p');
     // Changed font size to fs-6 for smaller motto text
-    motto.className = 'fs-6 fw-bold lh-base mt-4 mb-4 text-primary-dark';
-    motto.style.cssText = 'background: linear-gradient(to right, #F29F05, #37A647, #1B62BF); -webkit-background-clip: text; -webkit-text-fill-color: transparent;';
+    motto.className = 'fs-6 fw-bold lh-base mt-4 mb-4'; // CSS will handle gradient for motto
     motto.textContent = contentData.motto;
     mainContainer.appendChild(motto);
 
@@ -338,16 +336,6 @@ function initializeApp(contentData) {
             accordionContainer.appendChild(accordionItem);
         }
     });
-
-    // Create signature section - Removed as per user request for sal_kelim.html
-    // contentData.signature.forEach(line => {
-    //     const p = document.createElement('p');
-    //     p.className = 'fs-6 lh-base text-primary-dark';
-    //     p.style.color = '#0A4A7A';
-    //     p.textContent = line;
-    //     signatureDiv.appendChild(p);
-    // });
-    // mainContainer.appendChild(signatureDiv);
 
     // Create footer card for external links
     const footerCard = document.createElement('div');
