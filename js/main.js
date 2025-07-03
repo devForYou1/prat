@@ -246,7 +246,8 @@ function initializeApp(contentData) {
     const mainContainer = document.createElement('div');
     mainContainer.className = 'position-relative w-100 max-w-2xl mx-auto p-4 bg-white rounded-4 shadow-lg border main-container-border animate-main-container';
     mainContainer.setAttribute('dir', 'rtl'); // Set direction for RTL
-    mainContainer.style.cssText = 'backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);'; // Keep backdrop filter for main container
+    // Removed backdrop-filter from here, as it's handled by the body background now
+    // mainContainer.style.cssText = 'backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);';
 
     // Add a subtle background shimmer effect for visual appeal
     const shimmerDiv = document.createElement('div');
