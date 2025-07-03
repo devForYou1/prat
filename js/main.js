@@ -96,9 +96,11 @@ function InfoModal(isOpen, onClose, content) {
  * @param {string} summary - A brief summary displayed below the title.
  * @param {HTMLElement[]} childrenElements - Array of child elements (SubCards) to display when expanded.
  * @param {string} sectionId - Unique ID for the section, used for filtering.
+ * @param {boolean} isDirectContent - If true, contentHtml is rendered directly, no sub-cards.
+ * @param {string} contentHtml - HTML content to display directly if isDirectContent is true.
  * @returns {HTMLElement} The accordion item div element.
  */
-function AccordionItem(title, summary, childrenElements, sectionId) {
+function AccordionItem(title, summary, childrenElements, sectionId, isDirectContent = false, contentHtml = '') {
     const accordionDiv = document.createElement('div');
     accordionDiv.className = 'rounded-4 overflow-hidden border transition-all duration-300 mb-3 accordion-item-container';
     accordionDiv.style.cssText = 'backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);';
@@ -119,15 +121,19 @@ function AccordionItem(title, summary, childrenElements, sectionId) {
 
     const contentWrapper = document.createElement('div');
     contentWrapper.className = 'overflow-hidden px-4 pb-2 pt-1 text-end';
-    contentWrapper.innerHTML = `
-        <p class="mb-3 fs-6" style="color: #0A4A7A;">${summary}</p>
-        <div class="d-grid gap-2 sub-card-container"></div> <!-- Container for sub-cards -->
-    `;
 
-    const subCardContainer = contentWrapper.querySelector('.sub-card-container');
-    childrenElements.forEach(child => { // Append actual sub-card elements
-        subCardContainer.appendChild(child);
-    });
+    if (isDirectContent) {
+        contentWrapper.innerHTML = contentHtml; // Directly embed content
+    } else {
+        contentWrapper.innerHTML = `
+            <p class="mb-3 fs-6" style="color: #0A4A7A;">${summary}</p>
+            <div class="d-grid gap-2 sub-card-container"></div> <!-- Container for sub-cards -->
+        `;
+        const subCardContainer = contentWrapper.querySelector('.sub-card-container');
+        childrenElements.forEach(child => {
+            subCardContainer.appendChild(child);
+        });
+    }
 
     const contentDiv = document.createElement('div');
     contentDiv.className = 'collapse-grid'; // Class for grid-based collapse animation
@@ -183,95 +189,47 @@ const debounce = (func, delay) => {
 };
 
 /**
- * Filters accordion items and their sub-items based on a search term.
- * Accordions expand if a match is found within them or their sub-items.
- * Non-matching sub-items are dimmed and disabled.
- * @param {string} searchTerm - The text to search for (case-insensitive).
- * @param {object} contentData - The content data object for the current page.
- */
-function filterAccordions(searchTerm, contentData) {
-    const allAccordionItems = document.querySelectorAll('.accordion-item-container');
-
-    allAccordionItems.forEach(accordionDiv => {
-        const sectionId = accordionDiv.dataset.sectionId;
-        const sectionData = contentData.sections.find(s => s.id === sectionId);
-        const accordionButton = accordionDiv.querySelector('.accordion-header-button');
-        const accordionContentDiv = accordionDiv.querySelector('.collapse-grid');
-        const subCardButtons = accordionDiv.querySelectorAll('.subcard-button');
-
-        let sectionMatches = false;
-        let anySubItemMatches = false;
-
-        // Check if the main accordion title or summary matches the search term
-        if (sectionData.title.toLowerCase().includes(searchTerm) ||
-            sectionData.summary.toLowerCase().includes(searchTerm)) {
-            sectionMatches = true;
-        }
-
-        // Check sub-items for matches and adjust their visibility/interactivity
-        subCardButtons.forEach((subCardButton, index) => {
-            const subItemData = sectionData.subItems[index];
-            const subItemContent = subItemData.content.toLowerCase();
-            const subItemTitle = subItemData.title.toLowerCase();
-
-            if (subItemTitle.includes(searchTerm) || subItemContent.includes(searchTerm)) {
-                subCardButton.style.opacity = '1'; // Full opacity if matches
-                subCardButton.style.pointerEvents = 'auto'; // Enable clicks
-                anySubItemMatches = true;
-                sectionMatches = true; // If a sub-item matches, the parent section must be shown
-            } else {
-                // Dim non-matching sub-items and disable clicks if a search term is active
-                if (searchTerm !== '') {
-                    subCardButton.style.opacity = '0.3';
-                    subCardButton.style.pointerEvents = 'none';
-                } else {
-                    // If search term is empty, reset sub-item styles
-                    subCardButton.style.opacity = '1';
-                    subCardButton.style.pointerEvents = 'auto';
-                }
-            }
-        });
-
-        // Control visibility and expansion of the main accordion item
-        if (searchTerm === '') {
-            // If search is empty, show all accordions and collapse them
-            accordionDiv.style.display = '';
-            accordionDiv.classList.remove('open');
-            accordionContentDiv.classList.remove('show');
-            accordionButton.classList.remove('open');
-            subCardButtons.forEach(btn => { // Ensure all sub-cards are visible when search is cleared
-                btn.style.opacity = '1';
-                btn.style.pointerEvents = 'auto';
-            });
-        } else if (sectionMatches) {
-            // If the section or any of its sub-items match, show the section
-            accordionDiv.style.display = '';
-            // Open the accordion if a sub-item matched or the main accordion itself matched
-            if (anySubItemMatches || sectionData.title.toLowerCase().includes(searchTerm) || sectionData.summary.toLowerCase().includes(searchTerm)) {
-                accordionDiv.classList.add('open');
-                accordionContentDiv.classList.add('show');
-                accordionButton.classList.add('open');
-            } else {
-                // If only the main accordion title/summary matched, but no sub-items, keep it collapsed
-                accordionDiv.classList.remove('open');
-                accordionContentDiv.classList.remove('show');
-                accordionButton.classList.remove('open');
-            }
-        } else {
-            // Hide the accordion if no match is found
-            accordionDiv.style.display = 'none';
-        }
-    });
-}
-
-/**
  * Initializes the application by rendering the main content and setting up event listeners.
- * It expects contentData to be passed as an argument.
- * @param {object} contentData - The content data object for the current page.
+ * @param {object} contentData - The data object containing titles, paragraphs, sections, etc.
  */
-function initializeApp(contentData, openModalFunc, closeModalFunc) {
+function initializeApp(contentData) {
     const appRoot = document.getElementById('app-root');
+    let currentModal = null;
     const scrollToTopBtn = document.getElementById('scroll-to-top-btn');
+
+    /**
+     * Opens the custom modal with the given content.
+     * @param {string} content - The HTML content to display in the modal.
+     */
+    const openModal = (content) => {
+        if (currentModal) {
+            currentModal.remove(); // Remove existing modal if any
+        }
+        const modalElement = InfoModal(true, closeModal, content);
+        document.body.appendChild(modalElement);
+        currentModal = modalElement;
+    };
+
+    /**
+     * Closes the currently open modal.
+     */
+    const closeModal = () => {
+        if (currentModal) {
+            // Start hide animation by removing 'show' class
+            currentModal.classList.remove('show');
+            document.body.classList.remove('modal-open'); // Remove class from body to restore background opacity and enable scroll
+            // Wait for animation to finish before removing the element
+            setTimeout(() => {
+                if (currentModal) {
+                    currentModal.remove();
+                    currentModal = null;
+                }
+            }, 300); // Match CSS transition duration for smooth closing
+        }
+    };
+
+    // Clear existing content in app-root to prevent duplicates on re-initialization
+    appRoot.innerHTML = '';
 
     // Create the main container for the application content
     const mainContainer = document.createElement('div');
@@ -342,7 +300,8 @@ function initializeApp(contentData, openModalFunc, closeModalFunc) {
     // Create introductory paragraphs
     contentData.introParagraphs.forEach(paragraphText => {
         const p = document.createElement('p');
-        p.className = 'fs-6 lh-base mb-2 text-primary-dark'; // Changed from fs-5 to fs-6
+        // Changed font size to fs-6 for smaller introductory text
+        p.className = 'fs-6 lh-base mb-2 text-primary-dark';
         p.style.color = '#0A4A7A';
         p.textContent = paragraphText;
         mainContainer.appendChild(p);
@@ -350,7 +309,8 @@ function initializeApp(contentData, openModalFunc, closeModalFunc) {
 
     // Create motto
     const motto = document.createElement('p');
-    motto.className = 'fs-6 fw-bold lh-base mt-4 mb-4 text-primary-dark'; // Changed from fs-5 to fs-6
+    // Changed font size to fs-6 for smaller motto text
+    motto.className = 'fs-6 fw-bold lh-base mt-4 mb-4 text-primary-dark';
     motto.style.color = '#0A4A7A';
     motto.textContent = contentData.motto;
     mainContainer.appendChild(motto);
@@ -360,7 +320,8 @@ function initializeApp(contentData, openModalFunc, closeModalFunc) {
     searchInput.type = 'text';
     searchInput.placeholder = 'חיפוש...';
     searchInput.className = 'form-control form-control-lg mb-4 text-end px-4 py-2 rounded-pill shadow-sm border border-info focus-ring-0';
-    searchInput.style.cssText = 'background-color: #F5E5D0; color: #0A4A7A; border-color: #B5D0E8;'; // Changed background color to burnt color
+    // Changed background color to a "burnt"/earthy tone
+    searchInput.style.cssText = 'background-color: #F5E5D0; color: #0A4A7A; border-color: #B5D0E8;';
     mainContainer.appendChild(searchInput);
 
     // Create accordion container
@@ -370,12 +331,18 @@ function initializeApp(contentData, openModalFunc, closeModalFunc) {
 
     // Render accordion sections
     contentData.sections.forEach(section => {
-        const subCardElements = section.subItems.map(subItem =>
-            // Pass the openModalFunc from the specific HTML file
-            SubCard(subItem.title, () => openModalFunc(subItem.content), subItem.id)
-        );
-        const accordionItem = AccordionItem(section.title, section.summary, subCardElements, section.id);
-        accordionContainer.appendChild(accordionItem);
+        if (section.isDirectContent) {
+            // For direct content sections, pass the contentHtml directly
+            const accordionItem = AccordionItem(section.title, '', [], section.id, true, section.contentHtml);
+            accordionContainer.appendChild(accordionItem);
+        } else {
+            // For regular sections, map subItems to SubCard components
+            const subCardElements = section.subItems.map(subItem =>
+                SubCard(subItem.title, () => openModal(subItem.content), subItem.id)
+            );
+            const accordionItem = AccordionItem(section.title, section.summary, subCardElements, section.id);
+            accordionContainer.appendChild(accordionItem);
+        }
     });
 
     // Create signature section
@@ -404,17 +371,18 @@ function initializeApp(contentData, openModalFunc, closeModalFunc) {
     const footerLinksContainer = document.createElement('div');
     footerLinksContainer.className = 'd-flex gap-3 footer-links-container';
 
-    // Taaz link (SVG definition is now in the HTML files)
+    // Taaz link
     const taazLink = document.createElement('a');
     taazLink.href = 'https://www.taaz.org.il/';
     taazLink.target = '_blank'; // Open in new tab
     taazLink.rel = 'noopener noreferrer'; // Security best practice
     taazLink.className = 'footer-link';
-    taazLink.innerHTML = `<svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg" class="taaz-svg">
-            <rect width="54" height="54" rx="12" fill="url(#paint0_linear_3797_24326_taaz)"/>
+    taazLink.innerHTML = `
+        <svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg" class="taaz-svg">
+            <rect width="54" height="54" rx="12" fill="url(#paint0_linear_3797_24326)"/>
             <path fill-rule="evenodd" clip-rule="evenodd" d="M19.9072 13.6335L29.7484 18.9149L33.1826 14.6222L33.2298 14.5745C34.2858 13.5087 35.4994 12.9409 36.7206 12.8732C37.9355 12.8059 39.0562 13.241 39.8951 13.9947C41.6039 15.5299 42.0566 18.2616 40.3619 20.7257L36.9124 25.7397L34.8267 24.3048L38.2759 19.2911C39.3018 17.7995 38.8995 16.5034 38.2032 15.8779C37.8396 15.5512 37.3703 15.3727 36.8607 15.401C36.3686 15.4282 35.7405 15.6555 35.0731 16.3116L30.4085 22.1423L18.6666 15.8409L18.6447 15.828C17.8043 15.3327 17.121 15.2689 16.6311 15.3678C16.1334 15.4683 15.7353 15.7548 15.4802 16.1383C15.0049 16.8527 14.9691 18.0174 16.2099 18.9435L38.6271 31.6451C40.655 32.5742 41.4795 34.688 41.2739 36.5127C41.0599 38.412 39.691 40.2655 37.2047 40.3999L37.1705 40.4018H17.3023L17.2476 40.397C15.7023 40.2627 14.4748 39.6642 13.6533 38.7236C12.8399 37.7923 12.5107 36.6224 12.581 35.5044C12.721 33.2774 14.4779 31.0981 17.3573 31.0981H23.3698V33.6298H17.3573C15.9645 33.6298 15.1735 34.615 15.1076 35.6633C15.075 36.1829 15.2283 36.6784 15.5601 37.0583C15.8783 37.4226 16.4444 37.7754 17.4153 37.8702H37.0986C38.1055 37.803 38.6568 37.1294 38.7582 36.2292C38.867 35.264 38.413 34.3169 37.5435 33.9335L37.4853 33.9079L14.8376 21.0757L14.7816 21.0354C12.4052 19.323 12.1219 16.6156 13.3724 14.736C13.9834 13.8176 14.9479 13.1249 16.1302 12.8862C17.3134 12.6474 18.6191 12.8807 19.9072 13.6335Z" fill="white"/>
             <defs>
-                <linearGradient id="paint0_linear_3797_24326_taaz" x1="15.6094" y1="8.4375" x2="60.75" y2="36.7031" gradientUnits="userSpaceOnUse">
+                <linearGradient id="paint0_linear_3797_24326" x1="15.6094" y1="8.4375" x2="60.75" y2="36.7031" gradientUnits="userSpaceOnUse">
                     <stop stop-color="#F29F05"/>
                     <stop offset="0.484653" stop-color="#37A647"/>
                     <stop offset="1" stop-color="#1B62BF"/>
@@ -424,17 +392,18 @@ function initializeApp(contentData, openModalFunc, closeModalFunc) {
     `;
     footerLinksContainer.appendChild(taazLink);
 
-    // Tsad360 link (SVG definition is now in the HTML files)
+    // Tsad360 link
     const tsad360Link = document.createElement('a');
     tsad360Link.href = 'https://www.home.idf.il/';
     tsad360Link.target = '_blank'; // Open in new tab
     tsad360Link.rel = 'noopener noreferrer'; // Security best practice
     tsad360Link.className = 'footer-link';
-    tsad360Link.innerHTML = `<svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg" class="tsad360-svg">
-            <rect width="54" height="54" rx="12" fill="url(#paint0_linear_3797_24326_tsad360)"/>
+    tsad360Link.innerHTML = `
+        <svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg" class="tsad360-svg">
+            <rect width="54" height="54" rx="12" fill="url(#paint0_linear_3797_24326)"/>
             <path fill-rule="evenodd" clip-rule="evenodd" d="M19.9072 13.6335L29.7484 18.9149L33.1826 14.6222L33.2298 14.5745C34.2858 13.5087 35.4994 12.9409 36.7206 12.8732C37.9355 12.8059 39.0562 13.241 39.8951 13.9947C41.6039 15.5299 42.0566 18.2616 40.3619 20.7257L36.9124 25.7397L34.8267 24.3048L38.2759 19.2911C39.3018 17.7995 38.8995 16.5034 38.2032 15.8779C37.8396 15.5512 37.3703 15.3727 36.8607 15.401C36.3686 15.4282 35.7405 15.6555 35.0731 16.3116L30.4085 22.1423L18.6666 15.8409L18.6447 15.828C17.8043 15.3327 17.121 15.2689 16.6311 15.3678C16.1334 15.4683 15.7353 15.7548 15.4802 16.1383C15.0049 16.8527 14.9691 18.0174 16.2099 18.9435L38.6271 31.6451C40.655 32.5742 41.4795 34.688 41.2739 36.5127C41.0599 38.412 39.691 40.2655 37.2047 40.3999L37.1705 40.4018H17.3023L17.2476 40.397C15.7023 40.2627 14.4748 39.6642 13.6533 38.7236C12.8399 37.7923 12.5107 36.6224 12.581 35.5044C12.721 33.2774 14.4779 31.0981 17.3573 31.0981H23.3698V33.6298H17.3573C15.9645 33.6298 15.1735 34.615 15.1076 35.6633C15.075 36.1829 15.2283 36.6784 15.5601 37.0583C15.8783 37.4226 16.4444 37.7754 17.4153 37.8702H37.0986C38.1055 37.803 38.6568 37.1294 38.7582 36.2292C38.867 35.264 38.413 34.3169 37.5435 33.9335L37.4853 33.9079L14.8376 21.0757L14.7816 21.0354C12.4052 19.323 12.1219 16.6156 13.3724 14.736C13.9834 13.8176 14.9479 13.1249 16.1302 12.8862C17.3134 12.6474 18.6191 12.8807 19.9072 13.6335Z" fill="white"/>
             <defs>
-                <linearGradient id="paint0_linear_3797_24326_tsad360" x1="15.6094" y1="8.4375" x2="60.75" y2="36.7031" gradientUnits="userSpaceOnUse">
+                <linearGradient id="paint0_linear_3797_24326" x1="15.6094" y1="8.4375" x2="60.75" y2="36.7031" gradientUnits="userSpaceOnUse">
                     <stop stop-color="#F29F05"/>
                     <stop offset="0.484653" stop-color="#37A647"/>
                     <stop offset="1" stop-color="#1B62BF"/>
@@ -444,17 +413,18 @@ function initializeApp(contentData, openModalFunc, closeModalFunc) {
     `;
     footerLinksContainer.appendChild(tsad360Link);
 
-    // New IDF link (SVG definition is now in the HTML files)
+    // New IDF link with provided SVG
     const idfLink = document.createElement('a');
     idfLink.href = 'https://www.idf.il/';
     idfLink.target = '_blank'; // Open in new tab
     idfLink.rel = 'noopener noreferrer'; // Security best practice
     idfLink.className = 'footer-link';
-    idfLink.innerHTML = `<svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg" class="idf-svg">
-            <rect width="54" height="54" rx="12" fill="url(#paint0_linear_3797_24326_idf)"/>
+    idfLink.innerHTML = `
+        <svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg" class="idf-svg">
+            <rect width="54" height="54" rx="12" fill="url(#paint0_linear_3797_24326)"/>
             <path fill-rule="evenodd" clip-rule="evenodd" d="M19.9072 13.6335L29.7484 18.9149L33.1826 14.6222L33.2298 14.5745C34.2858 13.5087 35.4994 12.9409 36.7206 12.8732C37.9355 12.8059 39.0562 13.241 39.8951 13.9947C41.6039 15.5299 42.0566 18.2616 40.3619 20.7257L36.9124 25.7397L34.8267 24.3048L38.2759 19.2911C39.3018 17.7995 38.8995 16.5034 38.2032 15.8779C37.8396 15.5512 37.3703 15.3727 36.8607 15.401C36.3686 15.4282 35.7405 15.6555 35.0731 16.3116L30.4085 22.1423L18.6666 15.8409L18.6447 15.828C17.8043 15.3327 17.121 15.2689 16.6311 15.3678C16.1334 15.4683 15.7353 15.7548 15.4802 16.1383C15.0049 16.8527 14.9691 18.0174 16.2099 18.9435L38.6271 31.6451C40.655 32.5742 41.4795 34.688 41.2739 36.5127C41.0599 38.412 39.691 40.2655 37.2047 40.3999L37.1705 40.4018H17.3023L17.2476 40.397C15.7023 40.2627 14.4748 39.6642 13.6533 38.7236C12.8399 37.7923 12.5107 36.6224 12.581 35.5044C12.721 33.2774 14.4779 31.0981 17.3573 31.0981H23.3698V33.6298H17.3573C15.9645 33.6298 15.1735 34.615 15.1076 35.6633C15.075 36.1829 15.2283 36.6784 15.5601 37.0583C15.8783 37.4226 16.4444 37.7754 17.4153 37.8702H37.0986C38.1055 37.803 38.6568 37.1294 38.7582 36.2292C38.867 35.264 38.413 34.3169 37.5435 33.9335L37.4853 33.9079L14.8376 21.0757L14.7816 21.0354C12.4052 19.323 12.1219 16.6156 13.3724 14.736C13.9834 13.8176 14.9479 13.1249 16.1302 12.8862C17.3134 12.6474 18.6191 12.8807 19.9072 13.6335Z" fill="white"/>
             <defs>
-                <linearGradient id="paint0_linear_3797_24326_idf" x1="15.6094" y1="8.4375" x2="60.75" y2="36.7031" gradientUnits="userSpaceOnUse">
+                <linearGradient id="paint0_linear_3797_24326" x1="15.6094" y1="8.4375" x2="60.75" y2="36.7031" gradientUnits="userSpaceOnUse">
                     <stop stop-color="#F29F05"/>
                     <stop offset="0.484653" stop-color="#37A647"/>
                     <stop offset="1" stop-color="#1B62BF"/>
@@ -477,13 +447,105 @@ function initializeApp(contentData, openModalFunc, closeModalFunc) {
     }, 200);
 
     // Debounced version of filterAccordions
-    const debouncedFilterAccordions = debounce((searchTerm) => filterAccordions(searchTerm, contentData), 300); // 300ms delay
+    const debouncedFilterAccordions = debounce(filterAccordions, 300); // 300ms delay
 
     // Search functionality: filters accordion items and sub-items based on search term
     searchInput.addEventListener('input', (event) => {
         const searchTerm = event.target.value.toLowerCase().trim();
         debouncedFilterAccordions(searchTerm); // Use the debounced function
     });
+
+    /**
+     * Filters accordion items and their sub-items based on a search term.
+     * Accordions expand if a match is found within them or their sub-items.
+     * Non-matching sub-items are dimmed and disabled.
+     * @param {string} searchTerm - The text to search for (case-insensitive).
+     */
+    function filterAccordions(searchTerm) {
+        const allAccordionItems = document.querySelectorAll('.accordion-item-container');
+
+        allAccordionItems.forEach(accordionDiv => {
+            const sectionId = accordionDiv.dataset.sectionId;
+            const sectionData = contentData.sections.find(s => s.id === sectionId);
+            const accordionButton = accordionDiv.querySelector('.accordion-header-button');
+            const accordionContentDiv = accordionDiv.querySelector('.collapse-grid');
+            const subCardButtons = accordionDiv.querySelectorAll('.subcard-button');
+
+            let sectionMatches = false;
+            let anySubItemMatches = false;
+
+            // Check if the main accordion title or summary matches the search term
+            if (sectionData.title.toLowerCase().includes(searchTerm) ||
+                (sectionData.summary && sectionData.summary.toLowerCase().includes(searchTerm))) {
+                sectionMatches = true;
+            }
+
+            // Check sub-items for matches and adjust their visibility/interactivity
+            // Only iterate sub-items if it's not a direct content section
+            if (!sectionData.isDirectContent) {
+                subCardButtons.forEach((subCardButton, index) => {
+                    const subItemData = sectionData.subItems[index];
+                    const subItemContent = subItemData.content.toLowerCase();
+                    const subItemTitle = subItemData.title.toLowerCase();
+
+                    if (subItemTitle.includes(searchTerm) || subItemContent.includes(searchTerm)) {
+                        subCardButton.style.opacity = '1'; // Full opacity if matches
+                        subCardButton.style.pointerEvents = 'auto'; // Enable clicks
+                        anySubItemMatches = true;
+                        sectionMatches = true; // If a sub-item matches, the parent section must be shown
+                    } else {
+                        // Dim non-matching sub-items and disable clicks if a search term is active
+                        if (searchTerm !== '') {
+                            subCardButton.style.opacity = '0.3';
+                            subCardButton.style.pointerEvents = 'none';
+                        } else {
+                            // If search term is empty, reset sub-item styles
+                            subCardButton.style.opacity = '1';
+                            subCardButton.style.pointerEvents = 'auto';
+                        }
+                    }
+                });
+            } else {
+                // For direct content section, check its contentHtml
+                if (sectionData.contentHtml.toLowerCase().includes(searchTerm)) {
+                    sectionMatches = true;
+                }
+            }
+
+
+            // Control visibility and expansion of the main accordion item
+            if (searchTerm === '') {
+                // If search is empty, show all accordions and collapse them
+                accordionDiv.style.display = '';
+                accordionDiv.classList.remove('open');
+                accordionContentDiv.classList.remove('show');
+                accordionButton.classList.remove('open');
+                if (!sectionData.isDirectContent) { // Only reset sub-card styles for non-direct content
+                    subCardButtons.forEach(btn => { // Ensure all sub-cards are visible when search is cleared
+                        btn.style.opacity = '1';
+                        btn.style.pointerEvents = 'auto';
+                    });
+                }
+            } else if (sectionMatches) {
+                // If the section or any of its sub-items match, show the section
+                accordionDiv.style.display = '';
+                // Open the accordion if a sub-item matched or the main accordion itself matched
+                if (anySubItemMatches || sectionData.title.toLowerCase().includes(searchTerm) || (sectionData.summary && sectionData.summary.toLowerCase().includes(searchTerm)) || (sectionData.isDirectContent && sectionData.contentHtml.toLowerCase().includes(searchTerm))) {
+                    accordionDiv.classList.add('open');
+                    accordionContentDiv.classList.add('show');
+                    accordionButton.classList.add('open');
+                } else {
+                    // If only the main accordion title/summary matched, but no sub-items, keep it collapsed
+                    accordionDiv.classList.remove('open');
+                    accordionContentDiv.classList.remove('show');
+                    accordionButton.classList.remove('open');
+                }
+            } else {
+                // Hide the accordion if no match is found
+                accordionDiv.style.display = 'none';
+            }
+        });
+    }
 
     // Scroll-to-top button functionality: shows/hides based on scroll position
     window.addEventListener('scroll', () => {
@@ -535,8 +597,21 @@ function initializeApp(contentData, openModalFunc, closeModalFunc) {
     // Feature: Copy to Clipboard on Modal Content Click (for paragraphs and list items)
     document.addEventListener('click', (event) => {
         // Check if the clicked element is a paragraph or list item within the modal's scrollable body
-        if (event.target.closest('.custom-modal-scrollable-body p, .custom-modal-scrollable-body li')) {
-            const textToCopy = event.target.textContent;
+        // Or if it's a paragraph or list item directly within an open accordion's contentWrapper
+        const target = event.target;
+        let textToCopy = '';
+
+        if (target.closest('.custom-modal-scrollable-body p, .custom-modal-scrollable-body li')) {
+            textToCopy = target.textContent;
+        } else if (target.closest('.accordion-item-container.open .collapse-grid p, .accordion-item-container.open .collapse-grid li')) {
+            // Ensure it's within a direct content accordion and not a sub-card button itself
+            const directContentAccordion = target.closest('.accordion-item-container.open');
+            if (directContentAccordion && directContentAccordion.dataset.sectionId === 'head-of-taatz-message') { // Check if it's the direct content accordion
+                textToCopy = target.textContent;
+            }
+        }
+
+        if (textToCopy) {
             try {
                 // Use a temporary textarea for copying text to clipboard, as navigator.clipboard.writeText()
                 // might have restrictions in iframes or older browsers.
@@ -579,12 +654,3 @@ function initializeApp(contentData, openModalFunc, closeModalFunc) {
         }
     });
 }
-
-// All global functions are now available via the window object
-window.createSvgElement = createSvgElement;
-window.InfoModal = InfoModal;
-window.AccordionItem = AccordionItem;
-window.SubCard = SubCard;
-window.debounce = debounce;
-window.filterAccordions = filterAccordions;
-window.initializeApp = initializeApp; // Make initializeApp globally available
