@@ -245,3 +245,10 @@ body.modal-open {
 .accordion-item-container[data-section-id="head-of-taatz-message"] .collapse-grid li {
     color: #0A4A7A; /* Ensure text color for paragraphs and list items inside this specific accordion */
 }
+
+/* New styles for search input to make it less tall */
+.form-control-lg {
+    padding-top: 0.5rem; /* Reduced padding */
+    padding-bottom: 0.5rem; /* Reduced padding */
+    height: auto; /* Allow height to adjust based on padding */
+}
