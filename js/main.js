@@ -60,7 +60,7 @@ function InfoModal(isOpen, onClose, content) {
     modalHeader.setAttribute('dir', 'rtl'); // Ensure RTL for header
 
     const headerTitle = document.createElement('h2');
-    headerTitle.className = 'custom-modal-title';
+    headerTitle.className = 'custom-modal-title gradient-text-bold'; // Apply gradient to modal title
     headerTitle.textContent = modalTitleText;
 
     const closeButton = document.createElement('button');
@@ -103,15 +103,16 @@ function InfoModal(isOpen, onClose, content) {
 function AccordionItem(title, summary, childrenElements, sectionId, isDirectContent = false, contentHtml = '') {
     const accordionDiv = document.createElement('div');
     accordionDiv.className = 'rounded-4 overflow-hidden border transition-all duration-300 mb-3 accordion-item-container';
-    accordionDiv.style.cssText = 'backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);';
+    // Removed backdrop-filter to ensure plain white background
     accordionDiv.dataset.sectionId = sectionId; // Store section ID for filtering
 
     const button = document.createElement('button');
     // Adjusted font size for accordion titles (fs-6 for smaller text) and padding
-    button.className = 'btn w-100 py-2 px-3 text-primary-dark fs-6 fw-semibold d-flex justify-content-between align-items-center bg-white bg-opacity-80 transition-all duration-300 focus-ring-0 accordion-header-button'; // Removed hover classes
-    button.style.color = '#0A4A7A';
+    // Changed to plain white background and applied gradient-text-bold to the title span
+    button.className = 'btn w-100 py-3 px-4 text-primary-dark fs-6 fw-semibold d-flex justify-content-between align-items-center bg-white transition-all duration-300 focus-ring-0 accordion-header-button';
+    button.style.color = '#0A4A7A'; // Fallback color
     button.innerHTML = `
-        ${title}
+        <span class="gradient-text-bold">${title}</span>
         <span class="transform">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" style="width: 1.25rem; height: 1.25rem; color: #0A4A7A;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -120,14 +121,14 @@ function AccordionItem(title, summary, childrenElements, sectionId, isDirectCont
     `;
 
     const contentWrapper = document.createElement('div');
-    contentWrapper.className = 'overflow-hidden px-4 pb-2 pt-1 text-end';
+    contentWrapper.className = 'overflow-hidden px-4 pb-3 pt-2 text-end bg-white'; // Set contentWrapper background to white
 
     // Conditionally render content based on isDirectContent
     if (isDirectContent) {
         // For direct content, we want the image to appear first, then the text
         if (sectionId === "head-of-taatz-message") {
             contentWrapper.innerHTML = `
-                <img src="https://www.dropbox.com/scl/fi/qkhvwkm7x8to9yq0d92k1/2025-07-03-145742.png?rlkey=ptg5ybb6jj4t32hdiyiz6vs3u&st=km48u84e&dl=0" alt="ראש מרכז תעץ" class="mb-4 rounded-lg shadow-md mx-auto" style="max-width: 100%; height: auto;">
+                <img src="https://www.dropbox.com/scl/fi/qkhvwkm7x8to9yq0d92k1/2025-07-03-145742.png?rlkey=ptg5ybb6jj4t32hdiyiz6vs3u&st=km48u84e&dl=0" alt="ראש מרכז תעץ" class="mb-4 rounded-lg shadow-md mx-auto responsive-image">
                 ${contentHtml}
             `;
         } else {
@@ -169,9 +170,10 @@ function AccordionItem(title, summary, childrenElements, sectionId, isDirectCont
  */
 function SubCard(title, onClick, subItemId) {
     const button = document.createElement('button');
-    button.className = `btn w-100 py-2 px-3 bg-white bg-opacity-70 rounded-3 shadow-sm border border-info
+    // Changed to plain white background
+    button.className = `btn w-100 py-2 px-3 bg-white rounded-3 shadow-sm border
                         text-primary-dark fs-6 fw-medium transition-all duration-200
-                        focus-ring-0 text-end position-relative overflow-hidden mb-2 subcard-button`; // Removed hover classes
+                        focus-ring-0 text-end position-relative overflow-hidden mb-2 subcard-button`;
     button.style.color = '#0A4A7A';
     button.dataset.subItemId = subItemId; // Store sub-item ID for filtering
     button.innerHTML = `
@@ -242,9 +244,9 @@ function initializeApp(contentData) {
 
     // Create the main container for the application content
     const mainContainer = document.createElement('div');
-    mainContainer.className = 'position-relative w-100 max-w-2xl mx-auto p-4 bg-white bg-opacity-95 rounded-4 shadow-lg border border-info text-center animate-main-container';
+    mainContainer.className = 'position-relative w-100 max-w-2xl mx-auto p-4 bg-white rounded-4 shadow-lg border text-center animate-main-container';
     mainContainer.setAttribute('dir', 'rtl'); // Set direction for RTL
-    mainContainer.style.cssText = 'backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);';
+    mainContainer.style.cssText = 'backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);'; // Keep backdrop filter for main container
 
     // Add a subtle background shimmer effect for visual appeal
     const shimmerDiv = document.createElement('div');
@@ -285,7 +287,7 @@ function initializeApp(contentData) {
     // Create main title
     const mainTitle = document.createElement('h1');
     mainTitle.className = 'text-3xl md:text-4xl font-extrabold mb-2 text-primary-dark';
-    mainTitle.style.color = '#0A4A7A';
+    mainTitle.style.cssText = 'background: linear-gradient(to right, #F29F05, #37A647, #1B62BF); -webkit-background-clip: text; -webkit-text-fill-color: transparent;'; // Apply gradient to main title
     mainTitle.textContent = contentData.mainTitle;
     mainContainer.appendChild(mainTitle);
 
@@ -303,7 +305,7 @@ function initializeApp(contentData) {
     const motto = document.createElement('p');
     // Changed font size to fs-6 for smaller motto text
     motto.className = 'fs-6 fw-bold lh-base mt-4 mb-4 text-primary-dark';
-    motto.style.cssText = 'color: #0A4A7A; background: linear-gradient(to right, #F29F05, #37A647, #1B62BF); -webkit-background-clip: text; -webkit-text-fill-color: transparent;';
+    motto.style.cssText = 'background: linear-gradient(to right, #F29F05, #37A647, #1B62BF); -webkit-background-clip: text; -webkit-text-fill-color: transparent;';
     motto.textContent = contentData.motto;
     mainContainer.appendChild(motto);
 
@@ -312,7 +314,7 @@ function initializeApp(contentData) {
     searchInput.type = 'text';
     searchInput.placeholder = 'חיפוש...';
     // Updated classes for search input: white background, reduced height
-    searchInput.className = 'form-control form-control-lg mb-4 text-end px-4 py-1 rounded-pill shadow-sm border border-info focus-ring-0'; // py-1 for reduced height
+    searchInput.className = 'form-control form-control-lg mb-4 text-end px-4 py-1 rounded-pill shadow-sm border focus-ring-0'; // py-1 for reduced height
     searchInput.style.cssText = 'background-color: #FFFFFF; color: #0A4A7A; border-color: #B5D0E8;'; // White background
     mainContainer.appendChild(searchInput);
 
@@ -363,7 +365,7 @@ function initializeApp(contentData) {
 
     // Updated Footer Links to be simple squares with text
     const links = [
-        { title: "אתר מרכז תע\"ץ", href: "https://www.taaz.org.il/" },
+        { title: "אתר מרכז תע\"ץ", href: "https://www.ovdayzahal.org.il/" }, // Corrected URL for Taaz
         { title: "אתר צה\"ל", href: "https://www.idf.il/" },
         { title: "צ-360", href: "https://www.home.idf.il/" }
     ];
