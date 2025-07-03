@@ -93,11 +93,13 @@ function InfoModal(isOpen, onClose, content) {
  * AccordionItem component: Renders a collapsible accordion item.
  * @param {string} title - The title of the accordion item.
  * @param {string} summary - A brief summary displayed below the title.
- * @param {HTMLElement[]} childrenElements - Array of child elements (SubCards) to display when expanded.
+ * @param {Array<object>} subItemsData - Array of sub-item data (title, content, id).
  * @param {string} sectionId - Unique ID for the section, used for filtering.
+ * @param {boolean} isDirectContent - If true, contentHtml is rendered directly, no sub-cards.
+ * @param {string} contentHtml - HTML content to display directly if isDirectContent is true.
  * @returns {HTMLElement} The accordion item div element.
  */
-function AccordionItem(title, summary, childrenElements, sectionId) {
+function AccordionItem(title, summary, subItemsData, sectionId, isDirectContent = false, contentHtml = '') {
     const accordionDiv = document.createElement('div');
     accordionDiv.className = 'accordion-item-container';
     accordionDiv.dataset.sectionId = sectionId;
@@ -123,14 +125,19 @@ function AccordionItem(title, summary, childrenElements, sectionId) {
     const contentWrapper = document.createElement('div');
     contentWrapper.className = 'text-end';
 
-    // Container for sub-cards
-    const subCardContainer = document.createElement('div');
-    subCardContainer.className = 'd-grid gap-1 sub-card-container';
-    childrenElements.forEach(child => {
-        subCardContainer.appendChild(child);
-    });
-    contentWrapper.appendChild(subCardContainer);
-
+    if (isDirectContent) {
+        // For direct content, embed HTML directly
+        contentWrapper.innerHTML = contentHtml;
+    } else {
+        // For regular sections, create sub-card container and append sub-cards
+        const subCardContainer = document.createElement('div');
+        subCardContainer.className = 'd-grid gap-1 sub-card-container';
+        subItemsData.forEach(subItem => {
+            const subCard = SubCard(subItem.title, () => openModal(subItem.content), subItem.id);
+            subCardContainer.appendChild(subCard);
+        });
+        contentWrapper.appendChild(subCardContainer);
+    }
 
     const contentDiv = document.createElement('div');
     contentDiv.className = 'collapse-grid';
@@ -305,10 +312,15 @@ function initializeApp(contentData) {
 
     // Render accordion sections
     contentData.sections.forEach(section => {
-        const subCardElements = section.subItems.map(subItem =>
-            SubCard(subItem.title, () => openModal(subItem.content), subItem.id)
+        // Pass subItemsData directly to AccordionItem, it will decide whether to render them
+        const accordionItem = AccordionItem(
+            section.title,
+            section.summary,
+            section.subItems, // Pass the array of sub-items
+            section.id,
+            section.isDirectContent, // Pass isDirectContent flag
+            section.contentHtml // Pass contentHtml for direct content sections
         );
-        const accordionItem = AccordionItem(section.title, section.summary, subCardElements, section.id);
         accordionContainer.appendChild(accordionItem);
     });
 
@@ -374,10 +386,8 @@ function initializeApp(contentData) {
             const sectionData = contentData.sections.find(s => s.id === sectionId);
             const accordionButton = accordionDiv.querySelector('.accordion-header-button');
             const accordionContentDiv = accordionDiv.querySelector('.collapse-grid');
-            const subCardButtons = accordionDiv.querySelectorAll('.subcard-button');
 
             let sectionMatches = false;
-            let anySubItemMatches = false;
 
             // Check if the main accordion title or summary matches the search term
             if (sectionData.title.toLowerCase().includes(searchTerm) ||
@@ -385,30 +395,38 @@ function initializeApp(contentData) {
                 sectionMatches = true;
             }
 
-            // Check sub-items for matches and adjust their visibility/interactivity
-            subCardButtons.forEach((subCardButton, index) => {
-                const subItemData = sectionData.subItems[index];
-                const subItemContent = subItemData.content.toLowerCase();
-                const subItemTitle = subItemData.title.toLowerCase();
-
-                if (subItemTitle.includes(searchTerm) || subItemContent.includes(searchTerm)) {
-                    subCardButton.style.opacity = '1'; // Full opacity if matches
-                    subCardButton.style.pointerEvents = 'auto'; // Enable clicks
-                    subCardButton.style.display = 'block'; // Ensure it's visible
-                    anySubItemMatches = true;
-                    sectionMatches = true; // If a sub-item matches, the parent section must be shown
-                } else {
-                    // Hide non-matching sub-items if a search term is active
-                    if (searchTerm !== '') {
-                        subCardButton.style.display = 'none'; // Hide completely
-                    } else {
-                        // If search term is empty, reset sub-item styles
-                        subCardButton.style.opacity = '1';
-                        subCardButton.style.pointerEvents = 'auto';
-                        subCardButton.style.display = 'block'; // Ensure it's visible
-                    }
+            // If it's direct content, only check the main section's contentHtml
+            if (sectionData.isDirectContent) {
+                if (sectionData.contentHtml.toLowerCase().includes(searchTerm)) {
+                    sectionMatches = true;
                 }
-            });
+            } else {
+                // For non-direct content, check sub-items
+                const subCardButtons = accordionDiv.querySelectorAll('.subcard-button');
+                let anySubItemMatches = false;
+
+                subCardButtons.forEach((subCardButton, index) => {
+                    const subItemData = sectionData.subItems[index];
+                    const subItemContent = subItemData.content.toLowerCase();
+                    const subItemTitle = subItemData.title.toLowerCase();
+
+                    if (subItemTitle.includes(searchTerm) || subItemContent.includes(searchTerm)) {
+                        subCardButton.style.display = 'block'; // Ensure it's visible
+                        subCardButton.style.opacity = '1'; // Full opacity if matches
+                        subCardButton.style.pointerEvents = 'auto'; // Enable clicks
+                        anySubItemMatches = true;
+                        sectionMatches = true; // If a sub-item matches, the parent section must be shown
+                    } else {
+                        if (searchTerm !== '') {
+                            subCardButton.style.display = 'none'; // Hide completely
+                        } else {
+                            subCardButton.style.display = 'block'; // Ensure it's visible
+                            subCardButton.style.opacity = '1';
+                            subCardButton.style.pointerEvents = 'auto';
+                        }
+                    }
+                });
+            }
 
 
             // Control visibility and expansion of the main accordion item
@@ -418,25 +436,21 @@ function initializeApp(contentData) {
                 accordionDiv.classList.remove('open');
                 accordionContentDiv.classList.remove('show');
                 accordionButton.classList.remove('open');
-                subCardButtons.forEach(btn => { // Ensure all sub-cards are visible when search is cleared
-                    btn.style.opacity = '1';
-                    btn.style.pointerEvents = 'auto';
-                    btn.style.display = 'block';
-                });
+                // Ensure all sub-cards are visible when search is cleared (only for non-direct content)
+                if (!sectionData.isDirectContent) {
+                    accordionDiv.querySelectorAll('.subcard-button').forEach(btn => {
+                        btn.style.display = 'block';
+                        btn.style.opacity = '1';
+                        btn.style.pointerEvents = 'auto';
+                    });
+                }
             } else if (sectionMatches) {
                 // If the section or any of its sub-items match, show the section
                 accordionDiv.style.display = '';
-                // Open the accordion if a sub-item matched or the main accordion itself matched
-                if (anySubItemMatches || sectionData.title.toLowerCase().includes(searchTerm) || (sectionData.summary && sectionData.summary.toLowerCase().includes(searchTerm))) {
-                    accordionDiv.classList.add('open');
-                    accordionContentDiv.classList.add('show');
-                    accordionButton.classList.add('open');
-                } else {
-                    // If only the main accordion title/summary matched, but no sub-items, keep it collapsed
-                    accordionDiv.classList.remove('open');
-                    accordionContentDiv.classList.remove('show');
-                    accordionButton.classList.remove('open');
-                }
+                // Open the accordion if a match is found within it (either direct content or a sub-item)
+                accordionDiv.classList.add('open');
+                accordionContentDiv.classList.add('show');
+                accordionButton.classList.add('open');
             } else {
                 // Hide the accordion if no match is found
                 accordionDiv.style.display = 'none';
@@ -496,12 +510,18 @@ function initializeApp(contentData) {
         const target = event.target;
         let textToCopy = '';
 
+        // Check if the clicked element is a paragraph or list item within the modal's scrollable body
         if (target.closest('.custom-modal-scrollable-body p, .custom-modal-scrollable-body li')) {
             textToCopy = target.textContent;
-        } else if (target.closest('.accordion-item-container.open .collapse-grid p, .accordion-item-container.open .collapse-grid li')) {
-            const directContentAccordion = target.closest('.accordion-item-container.open');
-            if (directContentAccordion) { // Check if it's any open accordion's content
-                textToCopy = target.textContent;
+        } else {
+            // Check if it's a paragraph or list item directly within an open accordion's contentWrapper
+            // This applies to direct content accordions like "דבר ראש מרכז תע"ץ"
+            const directContentElement = target.closest('.accordion-item-container.open .collapse-grid p, .accordion-item-container.open .collapse-grid li');
+            if (directContentElement) {
+                // Ensure it's not a sub-card button itself
+                if (!target.closest('.subcard-button')) {
+                    textToCopy = target.textContent;
+                }
             }
         }
 
