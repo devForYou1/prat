@@ -72,7 +72,12 @@ body.modal-open {
     border: 1px solid #B5D0E8; /* Lighter border color for the container */
 }
 
-.accordion-item-container.open .accordion-header-button span {
+/* Only the arrow should rotate, not the text */
+.accordion-item-container .accordion-header-button .arrow-icon {
+    transition: transform 0.3s ease-out;
+}
+
+.accordion-item-container.open .accordion-header-button .arrow-icon {
     transform: rotate(180deg);
 }
 
@@ -81,12 +86,8 @@ body.modal-open {
     border: none; /* Remove border from button itself */
 }
 
-.accordion-header-button span {
-    transition: transform 0.3s ease-out;
-}
-
 /* Increased font size for accordion titles */
-.accordion-header-button .gradient-text-bold {
+.accordion-header-button .accordion-title-text {
     font-size: 1.25rem; /* Increased font size for accordion titles (text-xl) */
 }
 
@@ -203,7 +204,7 @@ body.modal-open {
 .custom-modal-title {
     font-size: 1.5rem; /* Larger title font size */
     font-weight: bold;
-    /* Color is now handled by gradient-text-bold */
+    /* Color is now handled by gradient-text-bold OR dark blue */
     margin: 0;
 }
 
@@ -338,14 +339,20 @@ body {
     color: #0A4A7A; /* Ensure text color is dark blue */
 }
 
-/* Gradient for bold text and all headers */
-h1, h2, h3, h4, .gradient-text-bold {
+/* Gradient for main H1 and specific gradient-text-bold elements */
+h1, .gradient-text-bold {
     background: linear-gradient(to right, #50b8ee, #0a4a7a); /* Use gradient from taaz.txt SVG */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     color: transparent; /* Fallback for non-webkit browsers */
 }
+
+/* Dark blue for all other headers (h2, h3, h4) */
+h2, h3, h4, .custom-modal-title {
+    color: #0A4A7A; /* Dark blue from the palette */
+}
+
 
 /* Ensure images are responsive */
 .responsive-image {
@@ -371,4 +378,15 @@ h1, h2, h3, h4, .gradient-text-bold {
 .collapse-grid p,
 .collapse-grid li {
     text-align: justify;
+}
+
+/* Adjust main container for full responsiveness on small screens */
+@media (max-width: 768px) {
+    .main-container-border {
+        max-width: 100%; /* Ensure it takes full width on smaller screens */
+        padding: 0.75rem; /* Reduce padding on smaller screens */
+    }
+    body {
+        padding: 0.5rem; /* Reduce body padding on smaller screens */
+    }
 }
