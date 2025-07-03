@@ -118,7 +118,7 @@ body.modal-open {
     background-color: #F5FAFF; /* Very light blue for internal background */
     border-radius: 0.75rem; /* Slightly larger border-radius for modern look */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Enhanced shadow for more depth */
-    margin-bottom: 1rem; /* Increased margin between accordion items */
+    margin-bottom: 1.25rem; /* Increased margin between accordion items as requested */
     overflow: hidden; /* Ensure content doesn't spill out */
 }
 
@@ -208,7 +208,7 @@ body.modal-open {
 /* Sub-card button styling */
 .subcard-button {
     background-color: #F5FAFF; /* Very light blue subcard background */
-    border-color: #B5D0E8; /* Lighter border color */
+    border: 1px solid #B5D0E8; /* Lighter border color */
     font-size: 1rem; /* Standard font size for sub-cards */
     padding: 0.75rem 1rem; /* Increased padding */
     border-radius: 0.5rem; /* Larger border-radius */
@@ -225,6 +225,13 @@ body.modal-open {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow on hover */
     transform: translateY(-2px); /* Slight lift on hover */
 }
+.subcard-button:active {
+    background-color: #0A4A7A; /* Dark blue on active/click */
+    color: white; /* White text on active/click */
+    transform: translateY(0); /* Remove lift on active */
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); /* Inset shadow for pressed effect */
+}
+
 
 /* Custom Modal Styles */
 .custom-modal-backdrop {
@@ -281,7 +288,7 @@ body.modal-open {
     background: none;
     border: none;
     font-size: 2rem; /* Larger 'x' for close button */
-    color: #888; /* Grey color for close button */
+    color: #0A4A7A; /* Changed to Taaz blue */
     cursor: pointer;
     padding: 0;
     line-height: 1;
@@ -299,11 +306,17 @@ body.modal-open {
     line-height: 1.8; /* Increased line height for better readability */
 }
 .custom-modal-scrollable-body p,
-.custom-modal-scrollable-body li {
-    color: #0A4A7A; /* Ensure text color for paragraphs and list items */
+.custom-modal-scrollable-body li,
+.custom-modal-scrollable-body h3,
+.custom-modal-scrollable-body h4 {
+    color: #0A4A7A; /* Ensure text color for paragraphs, list items, and headers */
     text-align: justify; /* Justify text */
     margin-bottom: 1rem; /* Increased margin for paragraphs/list items */
 }
+.custom-modal-scrollable-body strong {
+    color: #0A4A7A; /* Ensure strong text is also in Taaz blue */
+}
+
 
 /* Specific styles for the taaz SVG to ensure its gradient is visible */
 .taaz-svg .cls-1 {
@@ -333,14 +346,6 @@ body.modal-open {
         height: auto; /* Allow height to adjust */
         padding: 1rem; /* Add some padding */
     }
-}
-
-/* Styles for the direct content accordion */
-.accordion-item-container[data-section-id="head-of-taatz-message"] .collapse-grid p,
-.accordion-item-container[data-section-id="head-of-taatz-message"] .collapse-grid li {
-    color: #0A4A7A; /* Ensure text color for paragraphs and list items inside this specific accordion */
-    text-align: justify; /* Justify text */
-    line-height: 1.8; /* Increased line height for better readability */
 }
 
 /* New styles for search input to make it less tall */
@@ -424,4 +429,30 @@ h2, h3, h4, .custom-modal-title {
 p, li {
     line-height: 1.8; /* Ensure consistent line height */
     margin-bottom: 1rem; /* Ensure consistent paragraph spacing */
+}
+
+/* Tip gold styling */
+.tip-gold {
+    background-color: #FFFBEB; /* Light yellow background */
+    border: 1px solid #F29F05; /* Orange border */
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.tip-gold .gradient-text-bold {
+    background: linear-gradient(to right, #F29F05, #B87A00); /* Orange gradient for "טיפ זהב!" */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent; /* Fallback */
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.tip-gold p {
+    color: #0A4A7A; /* Dark blue text for tip content */
+    margin-bottom: 0; /* Remove extra margin for paragraphs inside tip */
 }
