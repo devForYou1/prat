@@ -60,7 +60,7 @@ function InfoModal(isOpen, onClose, content) {
     modalHeader.setAttribute('dir', 'rtl'); // Ensure RTL for header
 
     const headerTitle = document.createElement('h2');
-    headerTitle.className = 'custom-modal-title'; // CSS will handle gradient for h2
+    headerTitle.className = 'custom-modal-title'; // CSS will handle color for h2
     headerTitle.textContent = modalTitleText;
 
     const closeButton = document.createElement('button');
@@ -103,22 +103,28 @@ function InfoModal(isOpen, onClose, content) {
 function AccordionItem(title, summary, childrenElements, sectionId, isDirectContent = false, contentHtml = '') {
     const accordionDiv = document.createElement('div');
     accordionDiv.className = 'rounded-4 overflow-hidden border transition-all duration-300 mb-3 accordion-item-container';
-    // Removed backdrop-filter to ensure plain white background
     accordionDiv.dataset.sectionId = sectionId; // Store section ID for filtering
 
     const button = document.createElement('button');
-    // Adjusted font size for accordion titles (fs-6 for smaller text) and padding
-    // Changed to plain white background and applied gradient-text-bold to the title span
-    button.className = 'btn w-100 py-3 px-4 text-primary-dark fs-6 fw-semibold d-flex justify-content-between align-items-center bg-white transition-all duration-300 focus-ring-0 accordion-header-button';
+    button.className = 'btn w-100 py-3 px-4 fs-6 fw-semibold d-flex justify-content-between align-items-center bg-white transition-all duration-300 focus-ring-0 accordion-header-button';
     button.style.color = '#0A4A7A'; // Fallback color
-    button.innerHTML = `
-        <span class="gradient-text-bold">${title}</span>
-        <span class="transform">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" style="width: 1.25rem; height: 1.25rem; color: #0A4A7A;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-        </span>
+
+    // Separate title text and arrow icon into distinct spans
+    const titleSpan = document.createElement('span');
+    titleSpan.className = 'accordion-title-text gradient-text-bold'; // Apply gradient to title text
+    titleSpan.textContent = title;
+
+    const arrowSpan = document.createElement('span');
+    arrowSpan.className = 'arrow-icon'; // Class for arrow rotation
+    arrowSpan.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" style="width: 1.25rem; height: 1.25rem; color: #0A4A7A;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
     `;
+
+    button.appendChild(titleSpan);
+    button.appendChild(arrowSpan);
+
 
     const contentWrapper = document.createElement('div');
     contentWrapper.className = 'overflow-hidden px-4 pb-3 pt-2 text-end bg-white'; // Set contentWrapper background to white
@@ -128,7 +134,7 @@ function AccordionItem(title, summary, childrenElements, sectionId, isDirectCont
         // For direct content, we want the image to appear first, then the text
         if (sectionId === "head-of-taatz-message") {
             contentWrapper.innerHTML = `
-                <img src="https://www.dropbox.com/scl/fi/qkhvwkm7x8to9yq0d92k1/2025-07-03-145742.png?rlkey=ptg5ybb6jj4t32hdiyiz6vs3u&st=km48u84e&dl=0" alt="ראש מרכז תעץ" class="mb-4 rounded-lg shadow-md mx-auto responsive-image">
+                <img src="https://www.dropbox.com/scl/fi/qkhvwkm7x8to9yq0d92k1/2025-07-03-145742.png?rlkey=ptg5ybb6jj4t32hdiyiz6vs3u&raw=1" alt="ראש מרכז תעץ" class="mb-4 rounded-lg shadow-md mx-auto responsive-image">
                 ${contentHtml}
             `;
         } else {
@@ -153,7 +159,7 @@ function AccordionItem(title, summary, childrenElements, sectionId, isDirectCont
     button.addEventListener('click', () => {
         const isOpen = accordionDiv.classList.toggle('open');
         contentDiv.classList.toggle('show', isOpen);
-        button.classList.toggle('open', isOpen);
+        // The arrow rotation is now handled by CSS based on the 'open' class on accordionDiv
     });
 
     accordionDiv.appendChild(button);
@@ -304,7 +310,7 @@ function initializeApp(contentData) {
     // Create motto
     const motto = document.createElement('p');
     // Changed font size to fs-6 for smaller motto text
-    motto.className = 'fs-6 fw-bold lh-base mt-4 mb-4'; // CSS will handle gradient for motto
+    motto.className = 'fs-6 fw-bold lh-base mt-4 mb-4 gradient-text-bold'; // CSS will handle gradient for motto
     motto.textContent = contentData.motto;
     mainContainer.appendChild(motto);
 
