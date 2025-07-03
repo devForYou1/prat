@@ -123,7 +123,7 @@
                                     <li>12 שבועות נוספים - במידה וזכאית לתשלום דמי לידה בעד 8 שבועות.</li>
                                 </ul>
                                 <p class="fs-6 lh-base mb-3">יודגש, כי על מנת להאריך את חופשת הלידה כאמור לעיל, על העובדת למלא את טופס התביעה המתאים ולשלוח אותו לביטוח הלאומי מוקדם ככל האפשר. לטופס יש לצרף את אישור בית החולים על האשפוז, בו יירשמו פרטי היולדת, הנולד, תקופת האשפוז ואישור המעסיק על פיצול או הארכת חל"ד.<br>
-                                <strong class="fw-semibold">חופשה ללא תשלום (חל"ת):</strong><br />עובדת תהיה זכאית להאריך את חופשת הלידה שלה מעבר ל15/26 שבועות באמצעות חופשה ללא תשלום (חל"ת) ובתנאי שלא תעסוק בעבודה אחרת. החל"ת תהיה ברציפות לחופשת הלידה ולא מעבר ל10 חודשים (לא כולל את חופשת הלידה של 15/26 השבועות אותם מימשה העובדת). על מנת לממש את הזכאות לחל"ת, על העובדת להעביר לסגלי המשא"ן ביחידה הצהרה חתומה עם פירוט התאריכים בהם היא מבקשת לצאת לחל"ת.</p>
+                                <strong class="fw-semibold">חופשה ללא תשלום (חל"ת):</strong><br />עובדת תהיה זכאית להאריך את חופשת הלידה שלה מעבר ל15/26 שבועות באמצעות חופשה ללא תשלום (חל"ת) ובתנאי שלא תעסוק בעבודה אחרת. החal"ת תהיה ברציפות לחופשת הלידה ולא מעבר ל10 חודשים (לא כולל את חופשת הלידה של 15/26 השבועות אותם מימשה העובדת). על מנת לממש את הזכאות לחל"ת, על העובדת להעביר לסגלי המשא"ן ביחידה הצהרה חתומה עם פירוט התאריכים בהם היא מבקשת לצאת לחל"ת.</p>
                             `,
                         },
                         {
@@ -216,43 +216,10 @@
             ],
         };
 
-        let currentModalInstance = null; // State to manage the currently open modal
-
-        /**
-         * Opens a modal with the given content.
-         * @param {string} content - The HTML content to display in the modal.
-         */
-        function openModal(content) {
-            console.log('openModal called'); // Debugging
-            if (currentModalInstance) {
-                closeModal(); // Ensure previous modal is closed cleanly
-            }
-            // window.InfoModal is a global function from main.js
-            currentModalInstance = window.InfoModal(true, closeModal, content);
-            document.body.appendChild(currentModalInstance);
-            console.log('Modal opened with content:', content.substring(0, 50) + '...'); // Debugging
-        }
-
-        /**
-         * Closes the currently open modal.
-         */
-        function closeModal() {
-            console.log('closeModal called'); // Debugging
-            if (currentModalInstance) {
-                currentModalInstance.classList.remove('show');
-                currentModalInstance.addEventListener('transitionend', () => {
-                    currentModalInstance.remove();
-                    currentModalInstance = null; // Reset the instance
-                    document.body.classList.remove('modal-open');
-                    console.log('Modal closed.'); // Debugging
-                }, { once: true });
-            }
-        }
-
         // Initialize the app with the specific content data for this page
         document.addEventListener('DOMContentLoaded', () => {
             console.log('DOMContentLoaded - Initializing app for herayon.html'); // Debugging
-            initializeApp(herayonContentData, openModal, closeModal);
+            initializeApp(herayonContentData);
         });
     </script>
 </body>
