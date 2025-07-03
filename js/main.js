@@ -122,8 +122,17 @@ function AccordionItem(title, summary, childrenElements, sectionId, isDirectCont
     const contentWrapper = document.createElement('div');
     contentWrapper.className = 'overflow-hidden px-4 pb-2 pt-1 text-end';
 
+    // Conditionally render content based on isDirectContent
     if (isDirectContent) {
-        contentWrapper.innerHTML = contentHtml; // Directly embed content
+        // For direct content, we want the image to appear first, then the text
+        if (sectionId === "head-of-taatz-message") {
+            contentWrapper.innerHTML = `
+                <img src="https://www.dropbox.com/scl/fi/qkhvwkm7x8to9yq0d92k1/2025-07-03-145742.png?rlkey=ptg5ybb6jj4t32hdiyiz6vs3u&st=km48u84e&dl=0" alt="ראש מרכז תעץ" class="mb-4 rounded-lg shadow-md mx-auto" style="max-width: 100%; height: auto;">
+                ${contentHtml}
+            `;
+        } else {
+            contentWrapper.innerHTML = contentHtml; // Directly embed content
+        }
     } else {
         contentWrapper.innerHTML = `
             <p class="mb-3 fs-6" style="color: #0A4A7A;">${summary}</p>
@@ -319,9 +328,9 @@ function initializeApp(contentData) {
     const searchInput = document.createElement('input');
     searchInput.type = 'text';
     searchInput.placeholder = 'חיפוש...';
-    searchInput.className = 'form-control form-control-lg mb-4 text-end px-4 py-2 rounded-pill shadow-sm border border-info focus-ring-0';
-    // Changed background color to a "burnt"/earthy tone
-    searchInput.style.cssText = 'background-color: #F5E5D0; color: #0A4A7A; border-color: #B5D0E8;';
+    // Updated classes for search input: white background, reduced height
+    searchInput.className = 'form-control form-control-lg mb-4 text-end px-4 py-1 rounded-pill shadow-sm border border-info focus-ring-0'; // py-1 for reduced height
+    searchInput.style.cssText = 'background-color: #FFFFFF; color: #0A4A7A; border-color: #B5D0E8;'; // White background
     mainContainer.appendChild(searchInput);
 
     // Create accordion container
@@ -422,7 +431,8 @@ function initializeApp(contentData) {
     idfLink.innerHTML = `
         <svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg" class="idf-svg">
             <rect width="54" height="54" rx="12" fill="url(#paint0_linear_3797_24326)"/>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M19.9072 13.6335L29.7484 18.9149L33.1826 14.6222L33.2298 14.5745C34.2858 13.5087 35.4994 12.9409 36.7206 12.8732C37.9355 12.8059 39.0562 13.241 39.8951 13.9947C41.6039 15.5299 42.0566 18.2616 40.3619 20.7257L36.9124 25.7397L34.8267 24.3048L38.2759 19.2911C39.3018 17.7995 38.8995 16.5034 38.2032 15.8779C37.8396 15.5512 37.3703 15.3727 36.8607 15.401C36.3686 15.4282 35.7405 15.6555 35.0731 16.3116L30.4085 22.1423L18.6666 15.8409L18.6447 15.828C17.8043 15.3327 17.121 15.2689 16.6311 15.3678C16.1334 15.4683 15.7353 15.7548 15.4802 16.1383C15.0049 16.8527 14.9691 18.0174 16.2099 18.9435L38.6271 31.6451C40.655 32.5742 41.4795 34.688 41.2739 36.5127C41.0599 38.412 39.691 40.2655 37.2047 40.3999L37.1705 40.4018H17.3023L17.2476 40.397C15.7023 40.2627 14.4748 39.6642 13.6533 38.7236C12.8399 37.7923 12.5107 36.6224 12.581 35.5044C12.721 33.2774 14.4779 31.0981 17.3573 31.0981H23.3698V33.6298H17.3573C15.9645 33.6298 15.1735 34.615 15.1076 35.6633C15.075 36.1829 15.2283 36.6784 15.5601 37.0583C15.8783 37.4226 16.4444 37.7754 17.4153 37.8702H37.0986C38.1055 37.803 38.6568 37.1294 38.7582 36.2292C38.867 35.264 38.413 34.3169 37.5435 33.9335L37.4853 33.9079L14.8376 21.0757L14.7816 21.0354C12.4052 19.323 12.1219 16.6156 13.3724 14.736C13.9834 13.8176 14.9479 13.1249 16.1302 12.8862C17.3134 12.6474 18.6191 12.8807 19.9072 13.6335Z" fill="white"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M27.0001 12.0001L12.0001 27.0001L27.0001 42.0001L42.0001 27.0001L27.0001 12.0001ZM27.0001 17.157L36.8432 27.0001L27.0001 36.8432L17.157 27.0001L27.0001 17.157Z" fill="white"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M27.0001 20.0001L20.0001 27.0001L27.0001 34.0001L34.0001 27.0001L27.0001 20.0001Z" fill="#F29F05"/>
             <defs>
                 <linearGradient id="paint0_linear_3797_24326" x1="15.6094" y1="8.4375" x2="60.75" y2="36.7031" gradientUnits="userSpaceOnUse">
                     <stop stop-color="#F29F05"/>
