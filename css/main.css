@@ -69,7 +69,7 @@ body.modal-open {
 .accordion-item-container {
     background-color: #FFFFFF; /* Plain white background */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for shiny effect */
-    border-color: #B5D0E8; /* Lighter border color */
+    border: 1px solid #B5D0E8; /* Lighter border color for the container */
 }
 
 .accordion-item-container.open .accordion-header-button span {
@@ -78,12 +78,18 @@ body.modal-open {
 
 .accordion-header-button {
     background-color: #FFFFFF; /* Plain white background */
-    border-color: #B5D0E8; /* Lighter border color */
+    border: none; /* Remove border from button itself */
 }
 
 .accordion-header-button span {
     transition: transform 0.3s ease-out;
 }
+
+/* Increased font size for accordion titles */
+.accordion-header-button .gradient-text-bold {
+    font-size: 1.125rem; /* Equivalent to text-lg or fs-5 */
+}
+
 
 .collapse-grid {
     display: grid;
@@ -197,7 +203,7 @@ body.modal-open {
 .custom-modal-title {
     font-size: 1.5rem; /* Larger title font size */
     font-weight: bold;
-    color: #0A4A7A; /* Primary dark blue color */
+    /* Color is now handled by gradient-text-bold */
     margin: 0;
 }
 
@@ -225,6 +231,7 @@ body.modal-open {
 .custom-modal-scrollable-body p,
 .custom-modal-scrollable-body li {
     color: #0A4A7A; /* Ensure text color for paragraphs and list items */
+    text-align: justify; /* Justify text */
 }
 
 
@@ -262,6 +269,7 @@ body.modal-open {
 .accordion-item-container[data-section-id="head-of-taatz-message"] .collapse-grid p,
 .accordion-item-container[data-section-id="head-of-taatz-message"] .collapse-grid li {
     color: #0A4A7A; /* Ensure text color for paragraphs and list items inside this specific accordion */
+    text-align: justify; /* Justify text */
 }
 
 /* New styles for search input to make it less tall */
@@ -317,9 +325,7 @@ body {
     border-bottom: 1px solid #B5D0E8; /* More vibrant modal header border */
 }
 
-.custom-modal-title {
-    /* Color is now handled by gradient-text-bold */
-}
+/* Custom modal title color is now handled by gradient-text-bold */
 
 .custom-modal-close-button:hover {
     color: #1B62BF; /* More vibrant close button on hover */
@@ -332,8 +338,9 @@ body {
     color: #0A4A7A; /* Ensure text color is dark blue */
 }
 
-/* Gradient for bold text */
-.gradient-text-bold {
+/* Gradient for bold text and all headers */
+.gradient-text-bold,
+h1, h2, h3, h4 {
     background: linear-gradient(to right, #F29F05, #37A647, #1B62BF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
