@@ -21,193 +21,96 @@
 
     <!-- Scroll-to-Top Button -->
     <button id="scroll-to-top-btn" class="scroll-to-top-button" aria-label="חזור למעלה">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
         </svg>
     </button>
 
-    <!-- Main JavaScript file -->
+    <!-- Bootstrap JS CDN (bundle includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    <!-- Main JS - Contains shared logic and components -->
     <script src="./js/main.js"></script>
 
+    <!-- Page-specific content data and initialization -->
     <script>
-        // Define contentData for 'זכויות הוריות'
         const herayonContentData = {
-            mainTitle: "עובדות ועובדים יקרים!",
+            mainTitle: "זכויות הוריות",
             introParagraphs: [
-                "הורות היא מסע מרגש, עמוק ומורכב.",
-                "כחלק מהמחויבות שלנו לרווחתכם האישית והמשפחתית, ריכזנו עבורכם את כל המידע שחשוב שתכירו בנוגע לזכויותיכם במהלך ההיריון, הלידה ואחריה.",
-                "חוברת זו נועדה להנגיש עבורכם את הכלים, התמיכה והזכויות המגיעות לכם בנושאים אלו.",
+                "חוברת זו מרכזת את כלל הזכויות וההטבות להורים עובדי צה\"ל.",
+                "החוברת נועדה לסייע לכם, הורים עובדי צה\"ל, לממש את זכויותיכם המלאות ולקבל את כל המידע הנדרש בנוגע להטבות השונות הניתנות לכם. אנו מאמינים כי תמיכה בהורות ומתן כלים מתאימים יאפשרו לכם לשלב בהצלחה בין חיי משפחה לקריירה משמעותית בצה\"ל.",
+                "אנו תקווה כי מידע זה יהיה לכם לעזר ויסייע לכם למצות את כלל הזכויות המגיעות לכם. נשמח לעמוד לשירותכם בכל שאלה או צורך."
             ],
-            motto: "המשפחה שלכם היא גם המשפחה שלנו!",
-            signature: ["איתכם ובשבילכם,", 'מדור פרט ורווחה מרכז תע"ץ'], // Signature remains for herayon.html
+            motto: "הורות וקריירה בצה\"ל - השילוב המנצח!",
+            signature: [], // Removed as per user request
             sections: [
                 {
-                    id: "pregnancy-rights",
-                    title: "זכויות במהלך ההיריון",
-                    summary:
-                        "מידע מפורט על זכויותייך במהלך תקופת ההיריון, כולל שעות היעדרות, בדיקות ועוד.",
+                    id: "pregnancy-and-childbirth",
+                    title: "היריון ולידה",
+                    summary: "זכויות והטבות לעובדות בהיריון ולאחר לידה, כולל שמירת היריון, חופשת לידה, שעת הנקה ועוד.",
+                    isDirectContent: false,
                     subItems: [
                         {
-                            id: "fertility-treatments",
-                            title: "טיפולי פוריות",
+                            id: "pregnancy-preservation",
+                            title: "שמירת היריון",
                             content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">טיפולי פוריות</h2>
-                                <h3 class="fs-5 fw-semibold mt-4">שעות היעדרות לצורך טיפולים.</h3>
-                                <p class="fs-6 lh-base mb-3">טיפולי פוריות הם סדרת טיפולים רפואיים הנועדו לסייע לאנשים ולזוגות המתמודדים עם קושי להרות באופן טבעי. טיפולים אלו כוללים בין היתר הפריה חוץ גופית.<br>
-                                עובדת אשר נדרשת לעבור סדרת טיפולי פוריות, רשאית להיעדר מעבודתה לצורך 4 סדרות טיפוליות בשנה. היעדרות זו תהיה על חשבון ימי המחלה הצבורים של העובדת, כדלקמן:<br>
-                                <ul class="list-disc ps-4 text-sm lh-base mb-3">
-                                    <li>ביחידה בה נהוג שבוע עבודה של 5 ימים, זכאית העובדת להיעדר במשך 18 ימי עבודה בשנה בעבור כל סדרת טיפולים, כלומר עד 72 ימים בשנה (עבור 4 סדרות טיפול סה"כ).<br></li>
-                                    <li>ביחידה בה נהוג שבוע עבודה של 6 ימים, זכאית העובדת להיעדר במשך 22 ימי עבודה בשנה בעבור כל סדרת טיפולים, כלומר עד 88 ימים בשנה.</li>
-                                </ul>
-                                <p class="fs-6 lh-base mb-3">עובד רשאי להיעדר בגין טיפולי פוריות עד 12 ימים בשנה, על חשבון ימי המחלה הצבורים שלו.<br>
-                                במקרים בהם לא נותרה לעובדים יתרת ימי מחלה מספקת, יהיו רשאים להיעדר מהעבודה על חשבון ימי חופשה שנתית או לצאת לחופשה ללא תשלום.</p>
+                                <h2 class="fs-4 fw-bold mb-3 text-center">שמירת היריון</h2>
+                                <h3 class="fs-5 fw-semibold mt-4">הגדרת שמירת היריון</h3>
+                                <p class="text-sm lh-base mb-3">שמירת היריון מוגדרת כהיעדרות של עובדת מעבודתה בתקופת ההיריון, עקב מצב רפואי הנובע מההיריון, אשר מסכן את האישה או את העובר, או עקב סוג העבודה, מקום העבודה או אופן ביצוע העבודה, המסכנים את האישה או את העובר, והעובדת אינה יכולה לבצע עבודה חלופית מתאימה.</p>
+                                <h3 class="fs-5 fw-semibold mt-4">תנאי זכאות</h3>
+                                <p class="text-sm lh-base mb-3">הזכאות לשמירת היריון ניתנת על ידי המוסד לביטוח לאומי, בכפוף להצגת אישור רפואי מתאים. עובדת בשמירת היריון זכאית לדמי שמירת היריון מהמוסד לביטוח לאומי, וכן לשמירה על זכויותיה הסוציאליות במקום העבודה.</p>
                             `,
                         },
                         {
-                            id: "surrogacy-process",
-                            title: "הליך פונדקאות",
+                            id: "maternity-leave",
+                            title: "חופשת לידה",
                             content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">הליך פונדקאות</h2>
-                                <p class="fs-6 lh-base mb-3">הליך פונדקאות מתקיים כאשר אישה נושאת היריון עבור זוג אחר או אדם יחיד, שמסיבות רפואיות או אחרות אינם יכולים לשאת היריון בעצמם.<br>
-                                לעובדים ועובדות הנמצאים בתהליך פונדקאות מגיעות זכויות שונות, לרבות חופשות, ימי היעדרות ותמיכה נוספת.</p>
-                                <p class="fs-6 lh-base mb-3"><strong class="fw-semibold">עיקרי הזכויות הניתנות לעובדים ועובדות במהלך הפונדקאות ולאחריה:</strong></p>
-                                <div class="d-flex justify-content-center mb-3 overflow-x-auto"> <!-- Added overflow-x-auto here -->
-                                    <table class="table table-bordered w-100 max-w-md bg-white bg-opacity-90 rounded-3 shadow-sm overflow-hidden" style="border-color: #B5D0E8;">
-                                        <thead>
+                                <h2 class="fs-4 fw-bold mb-3 text-center">חופשת לידה</h2>
+                                <h3 class="fs-5 fw-semibold mt-4">משך חופשת לידה</h3>
+                                <p class="text-sm lh-base mb-3">עובדת זכאית לחופשת לידה בת 26 שבועות. מתוכם, 15 שבועות בתשלום מלא (דמי לידה מהביטוח הלאומי) והיתרה ללא תשלום.</p>
+                                <h3 class="fs-5 fw-semibold mt-4">תנאי זכאות לדמי לידה</h3>
+                                <p class="text-sm lh-base mb-3">זכאות לדמי לידה מהמוסד לביטוח לאומי מותנית בתקופת אכשרה של תשלום דמי ביטוח לאומי. עובדת ששילמה דמי ביטוח עבור 10 חודשים מתוך 14 החודשים שקדמו ליום הקובע, או 15 חודשים מתוך 22 החודשים שקדמו ליום הקובע, זכאית לדמי לידה מלאים. עובדת שלא עמדה בתנאים אלו, אך שילמה דמי ביטוח עבור 6 חודשים מתוך 14 החודשים שקדמו ליום הקובע, זכאית לדמי לידה חלקיים.</p>
+                            `,
+                        },
+                        {
+                            id: "nursing-hour",
+                            title: "שעת הנקה",
+                            content: `
+                                <h2 class="fs-4 fw-bold mb-3 text-center">שעת הנקה</h2>
+                                <h3 class="fs-5 fw-semibold mt-4">הגדרת שעת הנקה</h3>
+                                <p class="text-sm lh-base mb-3">עובדת שחזרה מחופשת לידה זכאית להיעדר שעה אחת ביום מעבודתה, ללא ניכוי משכר, למשך 4 חודשים מתום חופשת הלידה. זכות זו ניתנת גם לעובדת המועסקת במשרה מלאה או חלקית, ובלבד שיום עבודתה הוא 6 שעות לפחות.</p>
+                                <h3 class="fs-5 fw-semibold mt-4">תנאי זכאות</h3>
+                                <p class="text-sm lh-base mb-3">הזכאות לשעת הנקה ניתנת באופן אוטומטי, ואין צורך בהגשת בקשה מיוחדת. הזכות ניתנת גם לאב, בהתקיים תנאים מסוימים.</p>
+                            `,
+                        },
+                        {
+                            id: "paternity-leave",
+                            title: "חופשת לידה לאב",
+                            content: `
+                                <h2 class="fs-4 fw-bold mb-3 text-center">חופשת לידה לאב</h2>
+                                <h3 class="fs-5 fw-semibold mt-4">זכאות לחופשת לידה לאב</h3>
+                                <p class="text-sm lh-base mb-3">אב זכאי לחופשת לידה של 7 ימים מיום הלידה, מתוכם 3 ימים על חשבון ימי מחלה ו-4 ימים על חשבון ימי חופשה. בנוסף, אב יכול לנצל יתרת חופשת לידה של בת זוגו, בתנאי שבת הזוג חזרה לעבודה וויתרה על יתרת חופשת הלידה שלה.</p>
+                                <h3 class="fs-5 fw-semibold mt-4">תנאי זכאות לפיצול חל"ד</h3>
+                                <p class="text-sm lh-base mb-3">טבלה: פיצול חל"ד בין בני הזוג</p>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered text-end">
+                                        <thead class="bg-info-subtle">
                                             <tr>
-                                                <th class="py-2 px-3 border-bottom border-info text-end text-sm fw-semibold text-uppercase">זכאויות</th>
-                                                <th class="py-2 px-3 border-bottom border-info text-end text-sm fw-semibold text-uppercase">ניצול מקסימלי</th>
-                                                <th class="py-2 px-3 border-bottom border-info text-end text-sm fw-semibold text-uppercase">הערות</th>
+                                                <th class="py-2 px-3 text-sm">ותק עבודה של בת הזוג</th>
+                                                <th class="py-2 px-3 text-sm">התחלת פיצול חל"ד</th>
+                                                <th class="py-2 px-3 text-sm">סה"כ שבועות חל"ד שניתן לפצל</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="py-2 px-3 border-bottom border-info text-sm">חופשת מחלה בגין טיפולי פוריות</td>
-                                                <td class="py-2 px-3 border-bottom border-info text-sm">גבר- 12 ימים בשנה מהמחלה הצבורה,<br />אישה- 72/88 ימים בשנה מהמחלה הצבורה</td>
-                                                <td class="py-2 px-3 border-bottom border-info text-sm">כולל שישי שבת</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="py-2 px-3 border-bottom border-info text-sm">חופשת מחלה בגין היריון ולידה</td>
-                                                <td class="py-2 px-3 border-bottom border-info text-sm">גבר- 7 ימים מהמחלה הצבורה,<br />אישה- 40 שעות על חשבון המערכת (לא כולל ימי מחלה רגילה)</td>
-                                                <td class="py-2 px-3 border-bottom border-info text-sm">כולל שישי שבת</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="py-2 px-3 border-bottom border-info text-sm">חופשת לידה</td>
-                                                <td class="py-2 px-3 border-bottom border-info text-sm">גבר-חל"ד משותפת עד 7 ימים או לחילופין פיצול חל"ד עם בן/בת הזוג<br />אישה/בן הזוג (במקרים של בני זוג מאותו מין)- חל"ד מלאה של 15 שבועות בתשלום + 11 שבועות ללא תשלום (11 שבועות רלוונטיים במידה והתינוק/ת נולד/ה כאשר העובדת/בן הזוג בותק של 10 חודשים לפחות). ניתן לבקש לקצר את החal"ד לאחר 3 שבועות לפחות ממועד הלידה.</td>
-                                                <td class="py-2 px-3 border-bottom border-info text-sm">חל"ד משותפת ניתנת במידה ובן/בת הזוג מוותרים על דמי הלידה מהשבוע האחרון של חופשת הלידה. פיצול חל"ד יתקיים כאשר בן/בת הזוג מצהירים כי חזרו לעבודה. (חל"ד משותפת ופיצול חל"ד יפורטו בהמשך החוברת)</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="py-2 px-3 text-sm">ימי תמורה</td>
-                                                <td class="py-2 px-3 text-sm">עד 10 ימים</td>
-                                                <td class="py-2 px-3 text-sm">רק לאחר מימוש ימי חופשה צבורה (כל הימים שמעל 24/27- החופשה השנתית הניתנת בשוטף כל שנה)+ <strong class="fw-semibold">ניצול החלק היחסי של החופשה השנתית השוטפת</strong>- קיים הסבר בתחתית העמוד</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <p class="fs-6 lh-base"><strong class="fw-semibold">ניצול חלק יחסי של חופשה שנתית</strong> – החלק היחסי מתייחס לכמות ימי החופשה היחסיים אותם נדרש לנצל במהלך השנה עצמה. לדוגמא- עובד אשר מכסת ימי החופשה השנתית שלו הינה 24, ייאלץ לנצל את החלק היחסי של ימי החופשה השנתית על מנת לקבל ימי תמורה. אם העובד מבקש את ימי התמורה בחודש יוני (אמצע השנה), נדרש יהיה לנצל מחצית מכמות החופשה שלו, כלומר 12.</p>
-                            `,
-                        },
-                        {
-                            id: "shorten-extend-leave",
-                            title: "קיצור/הארכת חופשת לידה",
-                            content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">קיצור/הארכת חופשת לידה</h2>
-                                <p class="fs-6 lh-base mb-3">
-                                    <strong class="fw-semibold">קיצור חופשת הלידה:</strong><br />
-                                    עובדת רשאית לוותר על 11 השבועות הנוספים (ללא תשלום) או חלקם ולקצר את חופשת הלידה בהודעה מראש. במידה והודיעה העובדת על רצונה בקיצור החל"ד לא יוכל לדחות המעסיק את חזרתה לעבודה למשך יותר מ-4 שבועות מיום הודעתה.
-                                </p>
-                                <p class="fs-6 lh-base mb-3">
-                                    <strong class="fw-semibold">הארכת חופשת הלידה:</strong>
-                                </p>
-                                <p class="fs-6 lh-base mb-3">
-                                    <strong class="fw-semibold">לידה מרובת עוברים:</strong> עובדת שילדה בלידה אחת יותר מילד אחד, תהיה זכאית להאריך את החל"ד בתשלום בשלושה שבועות נוספים לכל ילד נוסף שילדה באותה הלידה, החל מהילד השני.<br>
-                                    <strong class="fw-semibold">אשפוז של היולדת:</strong> יולדת הנדרשת להישאר בבית החולים או לחזור לאשפוז במהלך החל"ד ל-15 ימים לפחות (לא חובה ברצף), זכאית להאריך את חופשת הלידה לתקופת האשפוז, בתנאי שלא תעלה על ארבעה שבועות.<br>
-                                    <strong class="fw-semibold">אשפוז של הנולד:</strong><br>
-                                    <ul class="list-disc ps-4 mt-2 space-y-3 text-sm mb-3">
-                                        <li>תלוי בתקופת האכשרה של ביטוח לאומי.</li>
-                                        <li>שבועות נוספים - במידה וזכאית לתשלום דמי לידה בעד 15 שבועות.</li>
-                                        <li>12 שבועות נוספים - במידה וזכאית לתשלום דמי לידה בעד 8 שבועות.</li>
-                                    </ul>
-                                </p>
-                                <p class="fs-6 lh-base mb-3">יודגש, כי על מנת להאריך את חופשת הלידה כאמור לעיל, על העובדת למלא את טופס התביעה המתאים ולשלוח אותו לביטוח הלאומי מוקדם ככל האפשר. לטופס יש לצרף את אישור בית החולים על האשפוז, בו יירשמו פרטי היולדת, הנולד, תקופת האשפוז ואישור המעסיק על פיצול או הארכת חל"ד.<br>
-                                <strong class="fw-semibold">חופשה ללא תשלום (חל"ת):</strong><br />עובדת תהיה זכאית להאריך את חופשת הלידה שלה מעבר ל15/26 שבועות באמצעות חופשה ללא תשלום (חל"ת) ובתנאי שלא תעסוק בעבודה אחרת. החל"ת תהיה ברציפות לחופשת הלידה ולא מעבר ל10 חודשים (לא כולל את חופשת הלידה של 15/26 השבועות אותם מימשה העובדת). על מנת לממש את הזכאות לחל"ת, על העובדת להעביר לסגלי המשא"ן ביחידה הצהרה חתומה עם פירוט התאריכים בהם היא מבקשת לצאת לחל"ת.</p>
-                            `,
-                        },
-                        {
-                            id: "preserve-rights-leave",
-                            title: "שמירת זכויות במהלך חופשת הלידה",
-                            content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">שמירת זכויות במהלך חופשת הלידה</h2>
-                                <p class="fs-6 lh-base mb-3">לאורך כל תקופת החל"ד (15/26 שבועות) נשמרות זכויות הקשורות בותק כגון: ותק להבראה, ימי חופשה וימי מחלה.<br>
-                                עובדת הנמצאת בחל"ד אינה זכאית להחזרים החודשיים בגין אחזקת רכב/רכב שירות למשך כל תקופה זו.<br>
-                                החל משנת 2025, במהלך חופשת הלידה (15 שבועות בלבד) ושמירת היריון לא יבוצעו ניכויים בגין החזרי הביטוחים ואגרות הרישוי, והזכאות נמשכת גם במהלך תקופה זו.</p>
-                                <p class="fs-6 lh-base mb-3"><strong class="fw-semibold">שמירת הזכויות לקופות השונות בתקופת חל"ד (15 השבועות הראשונים בלבד) הינה בגין:</strong><br>
-                                <ul class="list-disc ps-4 mt-2 space-y-3 text-sm mb-3">
-                                    <li>פנסיה</li>
-                                    <li>קרן השתלמות</li>
-                                    <li>ביטוח חיים</li>
-                                    <li>ביטוח חיים בן זוג</li>
-                                    <li>ביטוח שיניים</li>
-                                </ul>
-                                <p class="fs-6 lh-base mb-3">כמו כן, המעסיק ממשיך להפריש כספים לקרן הפנסיה וההשתלמות ומשלם בתקופה זו גם את חלקה של העובדת. ביטוחים שמנוכים בהתחייבויות יזומות ממשיכים להיות מנוכים, כגון: ביטוח בריאות מגדל, ביטוח רכב.<br>
-                                בהמשך לעניין שמירת זכויות אלו, מנוכה מתלוש השכר סכום לטובת שמירת הזכויות אשר נצבר לחוב בתלוש וניתן להסדירו עוד במהלך חופשת הלידה מול מוקד מופת, או לחילופין שהחוב ינוכה אוטומטית מהשכר לאחר החזרה המחופשת הלידה.<br>
-                                חופשה ללא תשלום לאחר חופשת הלידה (15/26 שבועות) אינה מזכה כלל בזכויות הקשורות לותק ובזכויות מול הקופות (במידה והעובדת מעוניינת לשמור על הזכויות מול הקופות עליה לפנות אליהן באופן עצמאית כמו בחל"ד ללא תשלום).</p>
-                            `,
-                        },
-                        {
-                            id: "fathers-rights",
-                            title: "זכויות הגבר במועד הלידה ואחריה",
-                            content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">זכויות הגבר במועד הלידה ואחריה</h2>
-                                <p class="fs-6 lh-base mb-3">
-                                    <strong class="fw-semibold">יום הלידה:</strong> עובד רשאי להיעדר מעבודתו עקב לידת בת הזוג בגין אחת מהאופציות הבאות:
-                                </p>
-                                <ul class="list-disc ps-4 mt-2 space-y-3 text-sm mb-3">
-                                    <li>העובד יכול לממש את זכאותו ליום מחלת בת זוג בשל יום הלידה, מתוך 7 ימי המחלה הצבורה שלו בגין בדיקות וטיפולים הקשורים להיריון.</li>
-                                    <li>העובד זכאי להיעדרות בגין "יום משפחה" ביום הלידה או ביום הברית/ה של הנולד, לבחירתו (יום על חשבון המערכת).</li>
-                                </ul>
-                                <p class="fs-6 lh-base">
-                                <strong class="fw-semibold">לאחר יום הלידה:</strong> עובד רשאי להיעדר מעבודתו עד חמישה ימים מהיום שלאחר הלידה, באופן הבא:<br>
-                                <ul class="list-disc ps-4 mt-2 space-y-3 text-sm mb-3">
-                                    <li>שלושת הימים הראשונים יהיו על חשבון חופשה שנתית. במידה ואין לזכותו חופשה שנתית, ההיעדרות תהא על חשבון חופשה ללא תשלום (חל"ת).</li>
-                                    <li>שני הימים הנותרים יהיו על חשבון ימי מחלת בת הזוג מתוך 7 ימי המחלה הצבורה שלו.</li>
-                                </ul>
-                            `,
-                        },
-                        {
-                            id: "shared-leave",
-                            title: "חופשת לידה משותפת",
-                            content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">חופשת לידה משותפת</h2>
-                                <p class="fs-6 lh-base mb-3">עובד זכאי לצאת לחופשת לידה בת 7 ימים במהלך חופשת הלידה של אישתו (חל"ד משותפת), אם בת הזוג הסכימה בכתב לוותר על דמי הלידה שהיא זכאית להם בעד השבוע האחרון של דמי הלידה - מול ביטוח לאומי.<br>
-                                יודגש, כי הויתור של בת הזוג על דמי הלידה בשבוע האחרון של חופשת הלידה לא מחייב את העובד לצאת לחופשת לידה משותפת בשבוע האחרון, אלא מועד היציאה לחל"ד המשותפת הוא לבחירתו.</p>
-                            `,
-                        },
-                        {
-                            id: "split-leave",
-                            title: "פיצול חופשת לידה בין בני הזוג",
-                            content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">פיצול חופשת לידה בין בני הזוג</h2>
-                                <p class="fs-6 lh-base mb-3">ניתן לפצל את חופשת הלידה כך ש-6 השבועות הראשונים לפחות יבוצעו על ידי האישה ויתרת החופשה תבוצע על ידי העובד, באופן הבא:</p>
-                                <div class="d-flex justify-content-center mb-3 overflow-x-auto"> <!-- Added overflow-x-auto here -->
-                                    <table class="table table-bordered w-100 max-w-md bg-white bg-opacity-90 rounded-3 shadow-sm overflow-hidden" style="border-color: #B5D0E8;">
-                                        <thead>
-                                            <tr>
-                                                <th class="py-2 px-3 border-bottom border-info text-end text-sm fw-semibold text-uppercase">זכאויות</th>
-                                                <th class="py-2 px-3 border-bottom border-info text-end text-sm fw-semibold text-uppercase">ניצול מקסימלי</th>
-                                                <th class="py-2 px-3 border-bottom border-info text-end text-sm fw-semibold text-uppercase">הערות</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="py-2 px-3 border-bottom border-info text-sm">26 שבועות</td>
-                                                <td class="py-2 px-3 border-bottom border-info text-sm">שנה ומעלה</td>
-                                                <td class="py-2 px-3 border-bottom border-info text-sm">20 שבועות מתוך 26 סה"כ</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="py-2 px-3 border-bottom border-info text-sm">26 שבועות</td>
-                                                <td class="py-2 px-3 border-bottom border-info text-sm">מתחת לשנה</td>
+                                                <td class="py-2 px-3 border-bottom border-info text-sm">מעל שנה</td>
+                                                <td class="py-2 px-3 border-bottom border-info text-sm">6 שבועות מיום הלידה</td>
                                                 <td class="py-2 px-3 border-bottom border-info text-sm">15 שבועות מתוך 26 סה"כ</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-3 border-bottom border-info text-sm">מתחת לשנה</td>
+                                                <td class="py-2 px-3 border-bottom border-info text-sm">6 שבועות מיום הלידה</td>
+                                                <td class="py-2 px-3 border-bottom border-info text-sm">9 שבועות מתוך 15 סה"כ</td>
                                             </tr>
                                             <tr>
                                                 <td class="py-2 px-3 text-sm">15 שבועות</td>
@@ -218,6 +121,132 @@
                                     </table>
                                 </div>
                                 <p class="fs-6 lh-base">לצורך מימוש הזכאות לפיצול החל"ד יש להעביר לסגלי המשא"ן הצהרה חתומה של בת הזוג הזכאית לחל"ד, בה היא מסכימה לוותר על יתרת החל"ד. כמו כן, עליה לשוב לעבודתה ולצרף על כך אישור מעסיק/ביטוח לאומי.</p>
+                            `,
+                        },
+                    ],
+                },
+                {
+                    id: "parental-rights",
+                    title: "זכויות הוריות נוספות",
+                    summary: "זכויות נוספות להורים עובדי צה\"ל, כולל ימי היעדרות, עבודה מהבית, הטבות לילדים עם צרכים מיוחדים ועוד.",
+                    isDirectContent: false,
+                    subItems: [
+                        {
+                            id: "absence-days-child-illness",
+                            title: "ימי היעדרות עקב מחלת ילד",
+                            content: `
+                                <h2 class="fs-4 fw-bold mb-3 text-center">ימי היעדרות עקב מחלת ילד</h2>
+                                <h3 class="fs-5 fw-semibold mt-4">זכאות לימי מחלה לילד</h3>
+                                <p class="text-sm lh-base mb-3">עובד/ת זכאי/ת ל-8 ימי היעדרות בשנה לצורך טיפול בילד חולה (עד גיל 16). ימים אלו ינוכו מימי המחלה הצבורים של העובד/ת.</p>
+                                <h3 class="fs-5 fw-semibold mt-4">תנאים מיוחדים</h3>
+                                <p class="text-sm lh-base mb-3">במקרים של ילד עם מוגבלות, הזכאות עשויה לגדול ל-18 ימים בשנה. במקרים של מחלה ממארת של ילד, הזכאות עשויה לגדול ל-110 ימים בשנה.</p>
+                            `,
+                        },
+                        {
+                            id: "absence-days-parent-illness",
+                            title: "ימי היעדרות עקב מחלת הורה",
+                            content: `
+                                <h2 class="fs-4 fw-bold mb-3 text-center">ימי היעדרות עקב מחלת הורה</h2>
+                                <h3 class="fs-5 fw-semibold mt-4">זכאות לימי מחלה להורה</h3>
+                                <p class="text-sm lh-base mb-3">עובד/ת זכאי/ת ל-6 ימי היעדרות בשנה לצורך טיפול בהורה חולה (מעל גיל 65). ימים אלו ינוכו מימי המחלה הצבורים של העובד/ת.</p>
+                            `,
+                        },
+                        {
+                            id: "absence-days-spouse-illness",
+                            title: "ימי היעדרות עקב מחלת בן/בת זוג",
+                            content: `
+                                <h2 class="fs-4 fw-bold mb-3 text-center">ימי היעדרות עקב מחלת בן/בת זוג</h2>
+                                <h3 class="fs-5 fw-semibold mt-4">זכאות לימי מחלה לבן/בת זוג</h3>
+                                <p class="text-sm lh-base mb-3">עובד/ת זכאי/ת ל-6 ימי היעדרות בשנה לצורך טיפול בבן/בת זוג חולה. ימים אלו ינוכו מימי המחלה הצבורים של העובד/ת.</p>
+                            `,
+                        },
+                        {
+                            id: "work-from-home-parents",
+                            title: "עבודה מהבית להורים",
+                            content: `
+                                <h2 class="fs-4 fw-bold mb-3 text-center">עבודה מהבית להורים</h2>
+                                <h3 class="fs-5 fw-semibold mt-4">הגדרת עבודה מהבית להורים</h3>
+                                <p class="text-sm lh-base mb-3">עובד/ת הורה זכאי/ת לבצע עבודה מהבית עד 4 ימים בחודש, בכפוף לאישור מפקד/ת היחידה והסמכות. הטבה זו ניתנת במטרה לאפשר גמישות ואיזון בין חיי העבודה לחיי המשפחה.</p>
+                                <h3 class="fs-5 fw-semibold mt-4">תנאי זכאות</h3>
+                                <ul class="list-disc ps-4 text-sm lh-base mb-3">
+                                    <li>העובד/ת מסכים/ה וחתם/ה על טופס ייעודי.</li>
+                                    <li>למעובד/ת תוספת חילית 10% בלבד.</li>
+                                    <li>עיקר תפקידו/ה אינו כרוך במתן שירות פרונטלי.</li>
+                                    <li>הוגדרו משימות בהן יעסוק/תעסוק לטובת בקרה.</li>
+                                    <li>קיימת תשתית טכנולוגית מאפשרת.</li>
+                                    <li>יש אישור בטחון מידע.</li>
+                                </ul>
+                            `,
+                        },
+                        {
+                            id: "special-needs-children-benefits",
+                            title: "הטבות להורים לילדים עם צרכים מיוחדים",
+                            content: `
+                                <h2 class="fs-4 fw-bold mb-3 text-center">הטבות להורים לילדים עם צרכים מיוחדים</h2>
+                                <h3 class="fs-5 fw-semibold mt-4">זכאות להטבות</h3>
+                                <p class="text-sm lh-base mb-3">הורים לילדים עם צרכים מיוחדים זכאים למגוון הטבות, כולל: זכאות ל-52 שעות היעדרות על חשבון המערכת, עובד/ת במשרה חלקית/אחראי/ת לילדים בעלי מוגבלויות. הזכאות מתחדשת בכל שנה קלנדרית. ההטבה ניתנת במסגרת שעות עבודה מהבית במקרים של מצוקה חריגה.</p>
+                                <h3 class="fs-5 fw-semibold mt-4">סיוע נוסף</h3>
+                                <p class="text-sm lh-base mb-3">בנוסף, קיימים ערוצי סיוע נוספים דרך השירות הסוציאלי בצה\"ל, הכוללים ייעוץ, ליווי ותמיכה בהתמודדות עם האתגרים הייחודיים הכרוכים בגידול ילד עם צרכים מיוחדים.</p>
+                            `,
+                        },
+                    ],
+                },
+                {
+                    id: "adoption-and-foster-care",
+                    title: "אימוץ ומשפחות אומנה",
+                    summary: "זכויות והטבות להורים מאמצים ומשפחות אומנה, כולל חופשת אימוץ, דמי אימוץ ועוד.",
+                    isDirectContent: false,
+                    subItems: [
+                        {
+                            id: "adoption-leave",
+                            title: "חופשת אימוץ",
+                            content: `
+                                <h2 class="fs-4 fw-bold mb-3 text-center">חופשת אימוץ</h2>
+                                <h3 class="fs-5 fw-semibold mt-4">זכאות לחופשת אימוץ</h3>
+                                <p class="text-sm lh-base mb-3">הורה מאמץ זכאי לחופשת אימוץ באורך זהה לחופשת לידה (26 שבועות), מתוכם 15 שבועות בתשלום (דמי אימוץ מהביטוח הלאומי) והיתרה ללא תשלום. הזכאות ניתנת להורה אחד בלבד.</p>
+                                <h3 class="fs-5 fw-semibold mt-4">תנאי זכאות לדמי אימוץ</h3>
+                                <p class="text-sm lh-base mb-3">תנאי הזכאות לדמי אימוץ זהים לתנאי הזכאות לדמי לידה מהמוסד לביטוח לאומי.</p>
+                            `,
+                        },
+                        {
+                            id: "foster-care-rights",
+                            title: "זכויות משפחות אומנה",
+                            content: `
+                                <h2 class="fs-4 fw-bold mb-3 text-center">זכויות משפחות אומנה</h2>
+                                <h3 class="fs-5 fw-semibold mt-4">הטבות למשפחות אומנה</h3>
+                                <p class="text-sm lh-base mb-3">משפחות אומנה זכאיות למגוון הטבות, כולל: דמי אומנה חודשיים, סיוע במימון טיפולים רפואיים ופסיכולוגיים, והשתתפות בהוצאות חינוך ופנאי. בנוסף, משפחות אומנה זכאיות לליווי ותמיכה מקצועית מהגורמים המטפלים.</p>
+                                <h3 class="fs-5 fw-semibold mt-4">זכויות סוציאליות</h3>
+                                <p class="text-sm lh-base mb-3">עובדי צה\"ל המשמשים כמשפחות אומנה זכאים לשמירה על זכויותיהם הסוציאליות במקום העבודה, כולל ימי חופשה ומחלה, וכן להקלות בשעות העבודה במידת הצורך, בכפוף לאישור מפקד/ת.</p>
+                            `,
+                        },
+                    ],
+                },
+                {
+                    id: "bereavement-and-loss",
+                    title: "אבל ואובדן",
+                    summary: "זכויות והטבות במקרים של אבל ואובדן, כולל חופשת אבל, סיוע פסיכולוגי ועוד.",
+                    isDirectContent: false,
+                    subItems: [
+                        {
+                            id: "bereavement-leave",
+                            title: "חופשת אבל",
+                            content: `
+                                <h2 class="fs-4 fw-bold mb-3 text-center">חופשת אבל</h2>
+                                <h3 class="fs-5 fw-semibold mt-4">זכאות לחופשת אבל</h3>
+                                <p class="text-sm lh-base mb-3">עובד/ת זכאי/ת לחופשת אבל בת 7 ימים במקרה של פטירת קרוב משפחה מדרגה ראשונה (הורה, בן/בת זוג, ילד, אח/אחות). החופשה ניתנת בתשלום מלא.</p>
+                                <h3 class="fs-5 fw-semibold mt-4">מקרים מיוחדים</h3>
+                                <p class="text-sm lh-base mb-3">במקרים מיוחדים, כגון פטירה של קרוב משפחה שאינו מדרגה ראשונה, ניתן לאשר ימי היעדרות נוספים על חשבון ימי חופשה או מחלה, בכפוף לאישור מפקד/ת.</p>
+                            `,
+                        },
+                        {
+                            id: "psychological-support",
+                            title: "סיוע פסיכולוגי",
+                            content: `
+                                <h2 class="fs-4 fw-bold mb-3 text-center">סיוע פסיכולוגי</h2>
+                                <h3 class="fs-5 fw-semibold mt-4">הגדרת סיוע פסיכולוגי</h3>
+                                <p class="text-sm lh-base mb-3">עובד/ת שחווה אבל ואובדן זכאי/ת לסיוע פסיכולוגי דרך השירות הסוציאלי בצה\"ל. הסיוע כולל טיפול פרטני או קבוצתי, וכן הפניה לגורמים מטפלים נוספים בקהילה במידת הצורך.</p>
+                                <h3 class="fs-5 fw-semibold mt-4">חשיבות הסיוע</h3>
+                                <p class="text-sm lh-base mb-3">סיוע פסיכולוגי חיוני להתמודדות עם תהליכי אבל ואובדן, ומאפשר לעובד/ת לחזור לתפקוד מלא בחייו/ה האישיים והמקצועיים.</p>
                             `,
                         },
                     ],
