@@ -446,43 +446,10 @@
             ],
         };
 
-        let currentModalInstance = null; // State to manage the currently open modal
-
-        /**
-         * Opens a modal with the given content.
-         * @param {string} content - The HTML content to display in the modal.
-         */
-        function openModal(content) {
-            console.log('openModal called'); // Debugging
-            if (currentModalInstance) {
-                closeModal(); // Ensure previous modal is closed cleanly
-            }
-            // window.InfoModal is a global function from main.js
-            currentModalInstance = window.InfoModal(true, closeModal, content);
-            document.body.appendChild(currentModalInstance);
-            console.log('Modal opened with content:', content.substring(0, 50) + '...'); // Debugging
-        }
-
-        /**
-         * Closes the currently open modal.
-         */
-        function closeModal() {
-            console.log('closeModal called'); // Debugging
-            if (currentModalInstance) {
-                currentModalInstance.classList.remove('show');
-                currentModalInstance.addEventListener('transitionend', () => {
-                    currentModalInstance.remove();
-                    currentModalInstance = null; // Reset the instance
-                    document.body.classList.remove('modal-open');
-                    console.log('Modal closed.'); // Debugging
-                }, { once: true });
-            }
-        }
-
         // Initialize the app with the specific content data for this page
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOMContentLoaded - Initializing app for herayon.html'); // Debugging
-            initializeApp(herayonContentData, openModal, closeModal);
+            console.log('DOMContentLoaded - Initializing app for sal_kelim.html'); // Debugging
+            initializeApp(salKelimContentData);
         });
     </script>
 </body>
