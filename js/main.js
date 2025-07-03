@@ -126,13 +126,12 @@ function AccordionItem(title, summary, childrenElements, sectionId, isDirectCont
 
 
     const contentWrapper = document.createElement('div');
-    // Removed specific padding classes here as they are now handled by .collapse-grid.show > div
     contentWrapper.className = 'text-end'; // Set contentWrapper background to white
 
     // Conditionally render content based on isDirectContent
     if (isDirectContent) {
         // For direct content, we want the image to appear first, then the text
-        if (sectionId === "head-of-taatz-message") {
+        if (sectionId === "head-of-taatz-message") { // This condition might not be hit after the change in sal_kelim.html
             contentWrapper.innerHTML = `
                 <img src="https://www.dropbox.com/scl/fi/qkhvwkm7x8to9yq0d92k1/2025-07-03-145742.png?rlkey=ptg5ybb6jj4t32hdiyiz6vs3u&raw=1" alt="ראש מרכז תעץ" class="head-of-taatz-image">
                 ${contentHtml}
@@ -141,8 +140,7 @@ function AccordionItem(title, summary, childrenElements, sectionId, isDirectCont
             contentWrapper.innerHTML = contentHtml; // Directly embed content
         }
     } else {
-        // Removed the summary paragraph from here to avoid it "peeking through"
-        // The summary is now only used for search filtering
+        // For regular sections, map subItems to SubCard components
         contentWrapper.innerHTML = `
             <div class="d-grid gap-1 sub-card-container"></div> <!-- Container for sub-cards -->
         `;
@@ -314,8 +312,7 @@ function initializeApp(contentData) {
     const searchInput = document.createElement('input');
     searchInput.type = 'text';
     searchInput.placeholder = 'חיפוש...';
-    searchInput.className = 'form-control form-control-sm mb-3 text-end px-3 py-1 rounded-pill shadow-sm border focus-ring-0 search-input'; // py-1 for reduced height, form-control-sm for smaller font
-    searchInput.style.cssText = 'background-color: #FFFFFF; color: #0A4A7A; border-color: #B5D0E8;'; // White background
+    searchInput.className = 'search-input'; // Using the simplified class
     mainContainer.appendChild(searchInput);
 
     // Create accordion container
@@ -325,18 +322,12 @@ function initializeApp(contentData) {
 
     // Render accordion sections
     contentData.sections.forEach(section => {
-        if (section.isDirectContent) {
-            // For direct content sections, pass the contentHtml directly
-            const accordionItem = AccordionItem(section.title, '', [], section.id, true, section.contentHtml);
-            accordionContainer.appendChild(accordionItem);
-        } else {
-            // For regular sections, map subItems to SubCard components
-            const subCardElements = section.subItems.map(subItem =>
-                SubCard(subItem.title, () => openModal(subItem.content), subItem.id)
-            );
-            const accordionItem = AccordionItem(section.title, section.summary, subCardElements, section.id);
-            accordionContainer.appendChild(accordionItem);
-        }
+        // For regular sections, map subItems to SubCard components
+        const subCardElements = section.subItems.map(subItem =>
+            SubCard(subItem.title, () => openModal(subItem.content), subItem.id)
+        );
+        const accordionItem = AccordionItem(section.title, section.summary, subCardElements, section.id);
+        accordionContainer.appendChild(accordionItem);
     });
 
     // Create footer card for external links
@@ -417,36 +408,28 @@ function initializeApp(contentData) {
             }
 
             // Check sub-items for matches and adjust their visibility/interactivity
-            // Only iterate sub-items if it's not a direct content section
-            if (!sectionData.isDirectContent) {
-                subCardButtons.forEach((subCardButton, index) => {
-                    const subItemData = sectionData.subItems[index];
-                    const subItemContent = subItemData.content.toLowerCase();
-                    const subItemTitle = subItemData.title.toLowerCase();
+            subCardButtons.forEach((subCardButton, index) => {
+                const subItemData = sectionData.subItems[index];
+                const subItemContent = subItemData.content.toLowerCase();
+                const subItemTitle = subItemData.title.toLowerCase();
 
-                    if (subItemTitle.includes(searchTerm) || subItemContent.includes(searchTerm)) {
-                        subCardButton.style.opacity = '1'; // Full opacity if matches
-                        subCardButton.style.pointerEvents = 'auto'; // Enable clicks
-                        anySubItemMatches = true;
-                        sectionMatches = true; // If a sub-item matches, the parent section must be shown
+                if (subItemTitle.includes(searchTerm) || subItemContent.includes(searchTerm)) {
+                    subCardButton.style.opacity = '1'; // Full opacity if matches
+                    subCardButton.style.pointerEvents = 'auto'; // Enable clicks
+                    anySubItemMatches = true;
+                    sectionMatches = true; // If a sub-item matches, the parent section must be shown
+                } else {
+                    // Dim non-matching sub-items and disable clicks if a search term is active
+                    if (searchTerm !== '') {
+                        subCardButton.style.opacity = '0.3';
+                        subCardButton.style.pointerEvents = 'none';
                     } else {
-                        // Dim non-matching sub-items and disable clicks if a search term is active
-                        if (searchTerm !== '') {
-                            subCardButton.style.opacity = '0.3';
-                            subCardButton.style.pointerEvents = 'none';
-                        } else {
-                            // If search term is empty, reset sub-item styles
-                            subCardButton.style.opacity = '1';
-                            subCardButton.style.pointerEvents = 'auto';
-                        }
+                        // If search term is empty, reset sub-item styles
+                        subCardButton.style.opacity = '1';
+                        subCardButton.style.pointerEvents = 'auto';
                     }
-                });
-            } else {
-                // For direct content section, check its contentHtml
-                if (sectionData.contentHtml.toLowerCase().includes(searchTerm)) {
-                    sectionMatches = true;
                 }
-            }
+            });
 
 
             // Control visibility and expansion of the main accordion item
@@ -456,17 +439,15 @@ function initializeApp(contentData) {
                 accordionDiv.classList.remove('open');
                 accordionContentDiv.classList.remove('show');
                 accordionButton.classList.remove('open');
-                if (!sectionData.isDirectContent) { // Only reset sub-card styles for non-direct content
-                    subCardButtons.forEach(btn => { // Ensure all sub-cards are visible when search is cleared
-                        btn.style.opacity = '1';
-                        btn.style.pointerEvents = 'auto';
-                    });
-                }
+                subCardButtons.forEach(btn => { // Ensure all sub-cards are visible when search is cleared
+                    btn.style.opacity = '1';
+                    btn.style.pointerEvents = 'auto';
+                });
             } else if (sectionMatches) {
                 // If the section or any of its sub-items match, show the section
                 accordionDiv.style.display = '';
                 // Open the accordion if a sub-item matched or the main accordion itself matched
-                if (anySubItemMatches || sectionData.title.toLowerCase().includes(searchTerm) || (sectionData.summary && sectionData.summary.toLowerCase().includes(searchTerm)) || (sectionData.isDirectContent && sectionData.contentHtml.toLowerCase().includes(searchTerm))) {
+                if (anySubItemMatches || sectionData.title.toLowerCase().includes(searchTerm) || (sectionData.summary && sectionData.summary.toLowerCase().includes(searchTerm))) {
                     accordionDiv.classList.add('open');
                     accordionContentDiv.classList.add('show');
                     accordionButton.classList.add('open');
@@ -542,7 +523,8 @@ function initializeApp(contentData) {
         } else if (target.closest('.accordion-item-container.open .collapse-grid p, .accordion-item-container.open .collapse-grid li')) {
             // Ensure it's within a direct content accordion and not a sub-card button itself
             const directContentAccordion = target.closest('.accordion-item-container.open');
-            if (directContentAccordion && directContentAccordion.dataset.sectionId === 'head-of-taatz-message') { // Check if it's the direct content accordion
+            // Removed the specific check for 'head-of-taatz-message' as it's no longer direct content
+            if (directContentAccordion) {
                 textToCopy = target.textContent;
             }
         }
