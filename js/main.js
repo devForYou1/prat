@@ -144,8 +144,9 @@ function AccordionItem(title, summary, childrenElements, sectionId, isDirectCont
             contentWrapper.innerHTML = contentHtml; // Directly embed content
         }
     } else {
+        // Removed the summary paragraph from here to avoid it "peeking through"
+        // The summary is now only used for search filtering
         contentWrapper.innerHTML = `
-            <p class="mb-2 text-sm" style="color: #0A4A7A;">${summary}</p>
             <div class="d-grid gap-1 sub-card-container"></div> <!-- Container for sub-cards -->
         `;
         const subCardContainer = contentWrapper.querySelector('.sub-card-container');
@@ -305,9 +306,8 @@ function initializeApp(contentData) {
     introParagraphsContainer.className = 'text-center'; // Center the paragraphs
     contentData.introParagraphs.forEach(paragraphText => {
         const p = document.createElement('p');
-        // Adjusted font size for mobile: `text-sm`
-        p.className = 'text-sm lh-base mb-1 text-primary-dark intro-paragraph'; // Added intro-paragraph class
-        p.style.color = '#0A4A7A';
+        // Added intro-paragraph-text class for specific styling
+        p.className = 'intro-paragraph-text';
         p.textContent = paragraphText;
         introParagraphsContainer.appendChild(p);
     });
