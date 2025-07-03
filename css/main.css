@@ -85,7 +85,21 @@ body.modal-open {
 
 .collapse-grid > div {
     overflow: hidden;
+    /* Ensure content is not visible when collapsed */
+    visibility: hidden;
+    height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    transition: visibility 0.3s ease-out, height 0.3s ease-out, padding-top 0.3s ease-out, padding-bottom 0.3s ease-out;
 }
+
+.collapse-grid.show > div {
+    visibility: visible;
+    height: auto; /* Allow content to take its natural height */
+    padding-top: 1rem; /* Adjust as needed */
+    padding-bottom: 0.5rem; /* Adjust as needed */
+}
+
 
 /* Scroll-to-Top Button Styles */
 .scroll-to-top-button {
@@ -252,3 +266,75 @@ body.modal-open {
     padding-bottom: 0.5rem; /* Reduced padding */
     height: auto; /* Allow height to adjust based on padding */
 }
+
+/* Styles for footer link squares */
+.footer-link-square {
+    background: linear-gradient(135deg, #F29F05, #37A647, #1B62BF); /* Gradient background */
+    color: white; /* White text color */
+    font-weight: bold;
+    border-radius: 0.5rem; /* Rounded corners */
+    text-decoration: none; /* Remove underline */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px; /* Fixed width */
+    height: 54px; /* Fixed height */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.footer-link-square:hover {
+    transform: translateY(-2px); /* Slight lift on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+/* Make colors more vibrant */
+body {
+    background: linear-gradient(to bottom right, #B5D0E8, #FFFFFF); /* Slightly more vibrant blue */
+}
+
+.text-primary-dark {
+    color: #0A4A7A; /* Ensure this dark blue is consistent */
+}
+
+.accordion-header-button {
+    background: linear-gradient(to right, #E0F2F7, #FFFFFF); /* More vibrant accordion header */
+    border: 1px solid #B5D0E8;
+}
+
+.subcard-button {
+    background: linear-gradient(to right, #F0F8FF, #FFFFFF); /* More vibrant subcard background */
+    border: 1px solid #B5D0E8;
+}
+
+.custom-modal-content {
+    background-color: #FFFFFF; /* Keep modal content white */
+}
+
+.custom-modal-header {
+    border-bottom: 1px solid #B5D0E8; /* More vibrant modal header border */
+}
+
+.custom-modal-title {
+    color: #0A4A7A; /* Ensure modal title is dark blue */
+}
+
+.custom-modal-close-button:hover {
+    color: #1B62BF; /* More vibrant close button on hover */
+}
+
+.custom-modal-scrollable-body p,
+.custom-modal-scrollable-body li,
+.accordion-item-container[data-section-id="head-of-taatz-message"] .collapse-grid p,
+.accordion-item-container[data-section-id="head-of-taatz-message"] .collapse-grid li {
+    color: #0A4A7A; /* Ensure text color is dark blue */
+}
+
+/* Gradient for bold text */
+.gradient-text-bold {
+    background: linear-gradient(to right, #F29F05, #37A647, #1B62BF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent; /* Fallback for non-webkit browsers */
+}
+
