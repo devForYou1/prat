@@ -360,6 +360,7 @@ body.modal-open {
     background-color: #FFFFFF; /* bg-white */
     text-align: right; /* text-end */
     margin-bottom: 1.5rem; /* mb-3 */
+    width: 100%; /* Ensure full width as requested */
 }
 .search-input:focus {
     outline: none; /* focus-ring-0 */
