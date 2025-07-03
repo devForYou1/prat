@@ -1,16 +1,15 @@
 /* Custom CSS for animations and scrollbar */
 body {
-    font-family: 'Assistant', sans-serif;
-    /* Changed background gradient to a less vibrant blue */
     background: linear-gradient(to bottom right, #E0F2F7, #FFFFFF); /* Lighter blue to white gradient */
+    font-family: 'Assistant', sans-serif;
+    margin: 0;
+    padding: 1rem; /* Increased padding for better overall spacing */
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem; /* Increased padding for better overall spacing */
-    margin: 0;
-    transition: overflow 0.3s ease-in-out; /* Smooth transition for overflow change */
     overflow-x: hidden; /* Prevent horizontal scrolling */
+    transition: overflow 0.3s ease-in-out; /* Smooth transition for overflow change */
 }
 
 /* Feature 2: Disable main page scroll when modal is open */
@@ -41,7 +40,6 @@ body.modal-open {
     }
 }
 
-
 .animate-main-container {
     animation: fadeInScale 0.7s ease-out forwards;
 }
@@ -65,104 +63,161 @@ body.modal-open {
     background: #073B5E; /* Even darker on hover */
 }
 
-/* Accordion specific styles */
-.accordion-item-container {
+/* Main container styling */
+.main-container-border {
+    position: relative; /* For shimmer effect positioning */
+    width: 100%;
+    max-width: 640px; /* Equivalent to max-w-xl in Tailwind */
+    margin: auto;
+    padding: 1.5rem; /* Increased padding for better spacing */
+    border-radius: 1rem; /* Larger rounded corners */
+    border: 1px solid #B5D0E8; /* Lighter border color */
     background-color: #F5FAFF; /* Very light blue for internal background */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Enhanced shadow for more depth */
-    border: 1px solid #B5D0E8; /* Lighter border color for the container */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); /* More pronounced shadow */
+}
+
+/* Intro paragraphs styling */
+.intro-paragraph-text {
+    line-height: 1.8; /* Increased line height for better readability */
+    margin-bottom: 1rem; /* Increased margin for spacing */
+    font-size: 1rem; /* Slightly larger font for intro text */
+    color: #0A4A7A; /* Ensure dark blue color */
+    text-align: center; /* Center align text */
+}
+
+/* Motto text styling */
+.motto-text {
+    font-weight: bold;
+    font-size: 1.1rem; /* Slightly larger font size */
+    background: linear-gradient(to right, #50b8ee, #0a4a7a); /* Use gradient from taaz.txt SVG */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent; /* Fallback for non-webkit browsers */
+    margin-top: 1.5rem; /* Increased top margin */
+    margin-bottom: 2rem; /* Increased bottom margin */
+    text-align: center;
+}
+
+/* Image styling for head of taatz */
+.head-of-taatz-image {
+    max-width: 250px; /* Set a fixed max-width for the image */
+    width: 100%; /* Ensure it's responsive within its max-width */
+    height: auto;
+    margin: 0 auto 1.5rem auto; /* Center image and add bottom margin */
+    display: block; /* Ensure it behaves as a block element for centering */
+    border-radius: 0.75rem; /* Rounded corners for the image */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for the image */
+}
+
+/* Accordion item container */
+.accordion-item-container {
+    border: 1px solid #B5D0E8;
+    background-color: #F5FAFF; /* Very light blue for internal background */
     border-radius: 0.75rem; /* Slightly larger border-radius for modern look */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Enhanced shadow for more depth */
     margin-bottom: 1rem; /* Increased margin between accordion items */
+    overflow: hidden; /* Ensure content doesn't spill out */
 }
 
-/* Only the arrow should rotate, not the text */
-.accordion-item-container .accordion-header-button .arrow-icon {
+/* Accordion header button */
+.accordion-header-button {
+    background-color: #F5FAFF; /* Very light blue background for button */
+    border: none;
+    padding: 1rem 1.25rem; /* Increased padding for better touch targets and spacing */
+    width: 100%;
+    text-align: right;
+    font-weight: bold;
+    color: #0A4A7A; /* Solid dark blue */
+    font-size: 1.125rem; /* Larger font size */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+.accordion-header-button:hover {
+    background-color: #E0F2F7; /* Slightly darker blue on hover */
+}
+
+/* Arrow icon rotation */
+.arrow-icon svg {
+    transform: rotate(0deg);
     transition: transform 0.3s ease-out;
+    color: #0A4A7A; /* Ensure arrow color is dark blue */
 }
-
-.accordion-item-container.open .accordion-header-button .arrow-icon {
+.accordion-item-container.open .arrow-icon svg {
     transform: rotate(180deg);
 }
 
-.accordion-header-button {
-    background-color: #F5FAFF; /* Very light blue background for button */
-    border: none; /* Remove border from button itself */
-    padding: 1rem 1.25rem; /* Increased padding for better touch targets and spacing */
-    width: 100%; /* Ensure button takes full width */
-    text-align: right; /* Align text to the right */
-    display: flex; /* Use flexbox for alignment */
-    justify-content: space-between; /* Space out title and arrow */
-    align-items: center; /* Center items vertically */
-}
-
-/* Dark blue for accordion titles (not gradient) */
-.accordion-header-button .accordion-title-text {
-    font-size: 1.125rem; /* Larger font size for better readability (text-lg) */
-    color: #0A4A7A; /* Solid dark blue from the palette */
-    background: none; /* Ensure no gradient */
-    -webkit-background-clip: unset;
-    -webkit-text-fill-color: unset;
-    background-clip: unset;
-}
-
-
+/* Collapse grid for accordion content */
 .collapse-grid {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows 0.4s ease-out; /* Slightly longer transition for smoother collapse */
+    transition: grid-template-rows 0.4s ease-out; /* Smooth transition for collapse */
 }
-
 .collapse-grid.show {
     grid-template-rows: 1fr;
 }
-
 .collapse-grid > div {
-    overflow: hidden;
-    /* Ensure content is not visible when collapsed */
+    overflow: hidden; /* Hide content when collapsed */
     visibility: hidden;
     height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    background-color: #F5FAFF; /* Very light blue background for content */
-    transition: visibility 0.4s ease-out, height 0.4s ease-out, padding-top 0.4s ease-out, padding-bottom 0.4s ease-out;
+    padding: 0; /* No padding when collapsed */
+    transition: all 0.4s ease-out; /* Smooth transition for content */
+    background-color: #F5FAFF; /* Match accordion item background */
 }
-
 .collapse-grid.show > div {
     visibility: visible;
-    height: auto; /* Allow content to take its natural height */
-    padding: 1rem 1.25rem; /* Consistent padding with header */
+    height: auto; /* Allow content to take natural height */
+    padding: 1rem 1.25rem; /* Consistent padding when open */
 }
-
 
 /* Scroll-to-Top Button Styles */
 .scroll-to-top-button {
     position: fixed;
-    bottom: 25px; /* Slightly higher */
-    left: 25px; /* Slightly more inward */
+    bottom: 25px;
+    left: 25px;
     background-color: #0A4A7A; /* Dark blue */
     color: white;
     border: none;
     border-radius: 50%;
-    width: 52px; /* Slightly larger */
-    height: 52px; /* Slightly larger */
+    width: 52px;
+    height: 52px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* More prominent shadow */
-    opacity: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    opacity: 0; /* Start hidden */
     visibility: hidden;
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
     z-index: 1000;
 }
-
 .scroll-to-top-button.show {
     opacity: 1;
     visibility: visible;
 }
-
 .scroll-to-top-button svg {
-    width: 26px; /* Slightly larger icon */
+    width: 26px;
     height: 26px;
+}
+
+/* Sub-card button styling */
+.subcard-button {
+    background-color: #F5FAFF; /* Very light blue subcard background */
+    border-color: #B5D0E8; /* Lighter border color */
+    font-size: 1rem; /* Standard font size for sub-cards */
+    padding: 0.75rem 1rem; /* Increased padding */
+    border-radius: 0.5rem; /* Larger border-radius */
+    margin-bottom: 0.5rem; /* Increased margin between sub-cards */
+    color: #0A4A7A; /* Ensure text color is dark blue */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+.subcard-button:hover {
+    background-color: #E0F2F7; /* Slightly darker blue on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
 }
 
 /* Custom Modal Styles */
@@ -180,11 +235,9 @@ body.modal-open {
     opacity: 0; /* Start hidden for fade-in animation */
     transition: opacity 0.3s ease-out;
 }
-
 .custom-modal-backdrop.show {
     opacity: 1; /* Fade in */
 }
-
 .custom-modal-content {
     background-color: #F5FAFF; /* Very light blue for modal content */
     border-radius: 1rem; /* Larger rounded corners */
@@ -198,12 +251,10 @@ body.modal-open {
     opacity: 0; /* Start hidden for fade-in animation */
     transition: transform 0.3s ease-out, opacity 0.3s ease-out;
 }
-
 .custom-modal-backdrop.show .custom-modal-content {
     transform: scale(1); /* Scale to full size */
     opacity: 1; /* Fade in */
 }
-
 .custom-modal-header {
     display: flex;
     justify-content: space-between;
@@ -212,14 +263,12 @@ body.modal-open {
     border-bottom: 1px solid #B5D0E8; /* Lighter border at the bottom */
     margin-bottom: 1rem; /* Increased margin */
 }
-
 .custom-modal-title {
     font-size: 1.5rem; /* Larger title font size */
     font-weight: bold;
     color: #0A4A7A; /* Solid dark blue for modal titles */
     margin: 0;
 }
-
 .custom-modal-close-button {
     background: none;
     border: none;
@@ -230,11 +279,9 @@ body.modal-open {
     line-height: 1;
     transition: color 0.2s ease-in-out;
 }
-
 .custom-modal-close-button:hover {
     color: #1B62BF; /* More vibrant close button on hover */
 }
-
 .custom-modal-scrollable-body {
     overflow-y: auto; /* Enable vertical scrolling for content */
     flex-grow: 1; /* Allow content to fill available space */
@@ -249,7 +296,6 @@ body.modal-open {
     text-align: justify; /* Justify text */
     margin-bottom: 1rem; /* Increased margin for paragraphs/list items */
 }
-
 
 /* Specific styles for the taaz SVG to ensure its gradient is visible */
 .taaz-svg .cls-1 {
@@ -320,54 +366,6 @@ body.modal-open {
     }
 }
 
-/* Make colors more vibrant */
-body {
-    background: linear-gradient(to bottom right, #E0F2F7, #FFFFFF); /* Lighter blue to white gradient */
-}
-
-.text-primary-dark {
-    color: #0A4A7A; /* Ensure this dark blue is consistent */
-}
-
-/* Accordion header button background is now plain white, but the border is lighter */
-/* The gradient for the title itself is handled by .gradient-text-bold */
-
-.subcard-button {
-    background-color: #F5FAFF; /* Very light blue subcard background */
-    border-color: #B5D0E8; /* Lighter border color */
-    font-size: 1rem; /* Standard font size for sub-cards */
-    padding: 0.75rem 1rem; /* Increased padding */
-    border-radius: 0.5rem; /* Larger border-radius */
-    margin-bottom: 0.5rem; /* Increased margin between sub-cards */
-}
-
-/* Removed hover effects for subcard buttons for mobile optimization */
-@media (hover: hover) {
-    .subcard-button:hover {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow on hover */
-        transform: translateY(-2px); /* Slight lift on hover */
-    }
-}
-
-.custom-modal-content {
-    background-color: #F5FAFF; /* Keep modal content very light blue */
-}
-
-.custom-modal-header {
-    border-bottom: 1px solid #B5D0E8; /* More vibrant modal header border */
-}
-
-.custom-modal-close-button:hover {
-    color: #1B62BF; /* More vibrant close button on hover */
-}
-
-.custom-modal-scrollable-body p,
-.custom-modal-scrollable-body li,
-.accordion-item-container[data-section-id="head-of-taatz-message"] .collapse-grid p,
-.accordion-item-container[data-section-id="head-of-taatz-message"] .collapse-grid li {
-    color: #0A4A7A; /* Ensure text color is dark blue */
-}
-
 /* Gradient for main H1 and motto */
 h1, .motto-text {
     background: linear-gradient(to right, #50b8ee, #0a4a7a); /* Use gradient from taaz.txt SVG */
@@ -381,7 +379,6 @@ h1, .motto-text {
 h2, h3, h4, .custom-modal-title {
     color: #0A4A7A; /* Dark blue from the palette */
 }
-
 
 /* Ensure images are responsive */
 .responsive-image {
@@ -402,71 +399,8 @@ h2, h3, h4, .custom-modal-title {
     padding: 0.75rem; /* Increased padding for table cells */
 }
 
-
-/* Specific styling for the main container's border to be lighter */
-.main-container-border {
-    border-color: #B5D0E8;
-}
-
-/* Ensure content within accordion items is justified */
-.collapse-grid p,
-.collapse-grid li {
-    text-align: justify;
-    line-height: 1.8; /* Increased line height for better readability */
-}
-
-/* Adjust main container for full responsiveness on small screens */
-@media (max-width: 768px) {
-    .main-container-border {
-        max-width: 100%; /* Ensure it takes full width on smaller screens */
-        padding: 1rem; /* Reduce padding on smaller screens */
-    }
-    body {
-        padding: 0.75rem; /* Reduce body padding on smaller screens */
-    }
-}
-
-/* Adjustments for intro paragraphs */
-.intro-paragraph-text {
-    line-height: 1.8; /* Increased line height for better readability */
-    margin-bottom: 1rem; /* Increased margin for spacing */
-    font-size: 1rem; /* Slightly larger font for intro text */
-    color: #0A4A7A; /* Ensure dark blue color */
-}
-
-/* Adjustments for motto */
-.motto-text {
-    margin-top: 1.5rem; /* Increased top margin */
-    margin-bottom: 1.5rem; /* Increased bottom margin */
-}
-
-/* Adjustments for search input */
-.search-input {
-    margin-bottom: 1.5rem; /* Increased bottom margin */
-}
-
-/* Adjustments for accordion container */
-.accordion-container {
-    margin-bottom: 1.5rem; /* Increased bottom margin */
-}
-
-/* Adjustments for footer card */
-.footer-card {
-    margin-top: 1.5rem; /* Increased top margin */
-    padding: 1.25rem; /* Increased padding */
-}
-
 /* General text spacing for improved readability */
 p, li {
     line-height: 1.8; /* Ensure consistent line height */
     margin-bottom: 1rem; /* Ensure consistent paragraph spacing */
-}
-
-/* Specific adjustment for the image size in sal_kelim.html */
-.head-of-taatz-image {
-    max-width: 250px; /* Set a fixed max-width for the image */
-    width: 100%; /* Ensure it's responsive within its max-width */
-    height: auto;
-    margin: 0 auto 1.5rem auto; /* Center image and add bottom margin */
-    display: block; /* Ensure it behaves as a block element for centering */
 }
