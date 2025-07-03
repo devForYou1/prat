@@ -102,11 +102,13 @@ function InfoModal(isOpen, onClose, content) {
  */
 function AccordionItem(title, summary, childrenElements, sectionId, isDirectContent = false, contentHtml = '') {
     const accordionDiv = document.createElement('div');
-    accordionDiv.className = 'rounded-4 overflow-hidden border transition-all duration-300 mb-3 accordion-item-container';
+    // Adjusted classes for better mobile UI: `mb-2` for slightly less margin, `rounded-lg` for smaller rounded corners
+    accordionDiv.className = 'rounded-lg overflow-hidden border transition-all duration-300 mb-2 accordion-item-container';
     accordionDiv.dataset.sectionId = sectionId; // Store section ID for filtering
 
     const button = document.createElement('button');
-    button.className = 'btn w-100 py-3 px-4 fs-6 fw-semibold d-flex justify-content-between align-items-center bg-white transition-all duration-300 focus-ring-0 accordion-header-button';
+    // Adjusted classes for button: `py-2 px-3` for reduced padding, `text-base` for slightly smaller font
+    button.className = 'btn w-100 py-2 px-3 text-base fw-semibold d-flex justify-content-between align-items-center bg-white transition-all duration-300 focus-ring-0 accordion-header-button';
     button.style.color = '#0A4A7A'; // Fallback color
 
     // Separate title text and arrow icon into distinct spans
@@ -127,14 +129,15 @@ function AccordionItem(title, summary, childrenElements, sectionId, isDirectCont
 
 
     const contentWrapper = document.createElement('div');
-    contentWrapper.className = 'overflow-hidden px-4 pb-3 pt-2 text-end bg-white'; // Set contentWrapper background to white
+    // Adjusted classes for contentWrapper: `px-3 pb-2 pt-1` for reduced padding
+    contentWrapper.className = 'overflow-hidden px-3 pb-2 pt-1 text-end bg-white'; // Set contentWrapper background to white
 
     // Conditionally render content based on isDirectContent
     if (isDirectContent) {
         // For direct content, we want the image to appear first, then the text
         if (sectionId === "head-of-taatz-message") {
             contentWrapper.innerHTML = `
-                <img src="https://www.dropbox.com/scl/fi/qkhvwkm7x8to9yq0d92k1/2025-07-03-145742.png?rlkey=ptg5ybb6jj4t32hdiyiz6vs3u&raw=1" alt="ראש מרכז תעץ" class="mb-4 rounded-lg shadow-md mx-auto responsive-image max-w-xs">
+                <img src="https://www.dropbox.com/scl/fi/qkhvwkm7x8to9yq0d92k1/2025-07-03-145742.png?rlkey=ptg5ybb6jj4t32hdiyiz6vs3u&raw=1" alt="ראש מרכז תעץ" class="mb-3 rounded-lg shadow-md mx-auto responsive-image max-w-xs">
                 ${contentHtml}
             `;
         } else {
@@ -142,8 +145,8 @@ function AccordionItem(title, summary, childrenElements, sectionId, isDirectCont
         }
     } else {
         contentWrapper.innerHTML = `
-            <p class="mb-3 fs-6" style="color: #0A4A7A;">${summary}</p>
-            <div class="d-grid gap-2 sub-card-container"></div> <!-- Container for sub-cards -->
+            <p class="mb-2 text-sm" style="color: #0A4A7A;">${summary}</p>
+            <div class="d-grid gap-1 sub-card-container"></div> <!-- Container for sub-cards -->
         `;
         const subCardContainer = contentWrapper.querySelector('.sub-card-container');
         childrenElements.forEach(child => {
@@ -176,14 +179,14 @@ function AccordionItem(title, summary, childrenElements, sectionId, isDirectCont
  */
 function SubCard(title, onClick, subItemId) {
     const button = document.createElement('button');
-    // Changed to plain white background
-    button.className = `btn w-100 py-2 px-3 bg-white rounded-3 shadow-sm border
-                        text-primary-dark fs-6 fw-medium transition-all duration-200
-                        focus-ring-0 text-end position-relative overflow-hidden mb-2 subcard-button`;
+    // Changed to plain white background, reduced padding, smaller font, and `mb-1`
+    button.className = `btn w-100 py-1 px-2 bg-white rounded-2 shadow-sm border
+                        text-primary-dark text-sm fw-medium transition-all duration-200
+                        focus-ring-0 text-end position-relative overflow-hidden mb-1 subcard-button`;
     button.style.color = '#0A4A7A';
     button.dataset.subItemId = subItemId; // Store sub-item ID for filtering
     button.innerHTML = `
-        <span class="position-absolute inset-0 bg-white opacity-0 transition-opacity duration-300 shimmer" style="border-radius: 0.75rem;"></span>
+        <span class="position-absolute inset-0 bg-white opacity-0 transition-opacity duration-300 shimmer" style="border-radius: 0.5rem;"></span>
         ${title}
     `;
     button.onclick = onClick;
@@ -250,7 +253,8 @@ function initializeApp(contentData) {
 
     // Create the main container for the application content
     const mainContainer = document.createElement('div');
-    mainContainer.className = 'position-relative w-100 max-w-2xl mx-auto p-4 bg-white rounded-4 shadow-lg border main-container-border animate-main-container';
+    // Adjusted padding for smaller screens, `max-w-xl` for better fit on tablets/smaller desktops
+    mainContainer.className = 'position-relative w-100 max-w-xl mx-auto p-3 bg-white rounded-4 shadow-lg border main-container-border animate-main-container';
     mainContainer.setAttribute('dir', 'rtl'); // Set direction for RTL
 
     // Add a subtle background shimmer effect for visual appeal
@@ -261,7 +265,7 @@ function initializeApp(contentData) {
 
     // Create logo container at the top - now only one SVG in the middle
     const logoContainer = document.createElement('div');
-    logoContainer.className = 'd-flex justify-content-center align-items-center mb-4 w-100 logo-container'; // Centered
+    logoContainer.className = 'd-flex justify-content-center align-items-center mb-3 w-100 logo-container'; // Centered, reduced mb
     logoContainer.style.cssText = 'transform: translateY(-30px); opacity: 0; animation: fadeInFromTop 0.5s ease-out 0.2s forwards;';
 
     // Single Taaz SVG in the middle
@@ -271,7 +275,7 @@ function initializeApp(contentData) {
         xmlns: "http://www.w3.org/2000/svg",
         'xmlns:xlink': "http://www.w3.org/1999/xlink",
         viewBox: "0 0 568.89 544.35",
-        class: "w-24 h-24 object-contain taaz-main-logo" // Medium size: w-24 h-24
+        class: "w-20 h-20 object-contain taaz-main-logo" // Smaller size: w-20 h-20
     });
     taazSvg.innerHTML = `
         <defs>
@@ -291,7 +295,8 @@ function initializeApp(contentData) {
 
     // Create main title
     const mainTitle = document.createElement('h1');
-    mainTitle.className = 'text-3xl md:text-4xl font-extrabold mb-2 text-center'; // Added text-center, CSS handles gradient
+    // Adjusted font size for mobile: `text-2xl md:text-3xl`
+    mainTitle.className = 'text-2xl md:text-3xl font-extrabold mb-2 text-center'; // Added text-center, CSS handles gradient
     mainTitle.textContent = contentData.mainTitle;
     mainContainer.appendChild(mainTitle);
 
@@ -300,7 +305,8 @@ function initializeApp(contentData) {
     introParagraphsContainer.className = 'text-center'; // Center the paragraphs
     contentData.introParagraphs.forEach(paragraphText => {
         const p = document.createElement('p');
-        p.className = 'fs-6 lh-base mb-2 text-primary-dark';
+        // Adjusted font size for mobile: `text-sm`
+        p.className = 'text-sm lh-base mb-1 text-primary-dark';
         p.style.color = '#0A4A7A';
         p.textContent = paragraphText;
         introParagraphsContainer.appendChild(p);
@@ -309,7 +315,8 @@ function initializeApp(contentData) {
 
     // Create motto
     const motto = document.createElement('p');
-    motto.className = 'fs-6 fw-bold lh-base mt-4 mb-4 text-center motto-text'; // Added text-center and motto-text class for gradient
+    // Adjusted font size for mobile: `text-sm`, reduced margin
+    motto.className = 'text-sm fw-bold lh-base mt-2 mb-3 text-center motto-text'; // Added text-center and motto-text class for gradient
     motto.textContent = contentData.motto;
     mainContainer.appendChild(motto);
 
@@ -317,14 +324,14 @@ function initializeApp(contentData) {
     const searchInput = document.createElement('input');
     searchInput.type = 'text';
     searchInput.placeholder = 'חיפוש...';
-    // Updated classes for search input: white background, reduced height
-    searchInput.className = 'form-control form-control-lg mb-4 text-end px-4 py-1 rounded-pill shadow-sm border focus-ring-0'; // py-1 for reduced height
+    // Updated classes for search input: white background, reduced height, smaller font
+    searchInput.className = 'form-control form-control-sm mb-3 text-end px-3 py-1 rounded-pill shadow-sm border focus-ring-0'; // py-1 for reduced height, form-control-sm for smaller font
     searchInput.style.cssText = 'background-color: #FFFFFF; color: #0A4A7A; border-color: #B5D0E8;'; // White background
     mainContainer.appendChild(searchInput);
 
     // Create accordion container
     const accordionContainer = document.createElement('div');
-    accordionContainer.className = 'accordion-container mb-4';
+    accordionContainer.className = 'accordion-container mb-3'; // Reduced margin
     mainContainer.appendChild(accordionContainer);
 
     // Render accordion sections
@@ -345,17 +352,19 @@ function initializeApp(contentData) {
 
     // Create footer card for external links
     const footerCard = document.createElement('div');
-    footerCard.className = 'd-flex flex-column flex-sm-row justify-content-between align-items-center p-3 mt-4 rounded-4 shadow-md footer-card';
+    // Adjusted padding and margin for mobile
+    footerCard.className = 'd-flex flex-column flex-sm-row justify-content-between align-items-center p-2 mt-3 rounded-4 shadow-md footer-card';
     footerCard.style.cssText = 'background-color: #E0F2F7; border: 1px solid #B5D0E8;';
 
     const footerTitle = document.createElement('p');
-    footerTitle.className = 'fs-6 fw-semibold text-primary-dark mb-2 mb-sm-0 margin-inline-end-auto footer-title';
+    // Adjusted font size for mobile
+    footerTitle.className = 'text-sm fw-semibold text-primary-dark mb-1 mb-sm-0 margin-inline-end-auto footer-title';
     footerTitle.style.color = '#0A4A7A';
     footerTitle.textContent = 'קישורים שימושיים:';
     footerCard.appendChild(footerTitle);
 
     const footerLinksContainer = document.createElement('div');
-    footerLinksContainer.className = 'd-flex gap-3 footer-links-container';
+    footerLinksContainer.className = 'd-flex gap-2 footer-links-container'; // Reduced gap
 
     // Updated Footer Links to be simple squares with text
     const links = [
@@ -369,8 +378,9 @@ function initializeApp(contentData) {
         linkButton.href = linkInfo.href;
         linkButton.target = '_blank';
         linkButton.rel = 'noopener noreferrer';
-        linkButton.className = 'flex-grow-1 flex-shrink-0 d-flex justify-content-center align-items-center text-center p-2 rounded-lg shadow-sm text-white fw-bold footer-link-square';
-        linkButton.style.cssText = 'background: linear-gradient(135deg, #F29F05, #37A647, #1B62BF); width: 120px; height: 54px; text-decoration: none; color: white;'; // Fixed size and gradient background
+        // Adjusted size for mobile
+        linkButton.className = 'flex-grow-1 flex-shrink-0 d-flex justify-content-center align-items-center text-center p-1 rounded-lg shadow-sm text-white fw-bold footer-link-square text-xs'; // text-xs for smaller font
+        linkButton.style.cssText = 'background: linear-gradient(135deg, #F29F05, #37A647, #1B62BF); width: 100px; height: 40px; text-decoration: none; color: white;'; // Fixed size and gradient background
         linkButton.textContent = linkInfo.title;
         footerLinksContainer.appendChild(linkButton);
     });
