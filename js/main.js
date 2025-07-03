@@ -324,6 +324,17 @@ function initializeApp(contentData) {
         accordionContainer.appendChild(accordionItem);
     });
 
+    // Explicitly open the "דבר ראש מרכז תע"ץ" accordion on load
+    const headOfTaatzAccordion = document.querySelector('.accordion-item-container[data-section-id="head-of-taatz-message"]');
+    if (headOfTaatzAccordion) {
+        const contentDiv = headOfTaatzAccordion.querySelector('.collapse-grid');
+        const button = headOfTaatzAccordion.querySelector('.accordion-header-button');
+        headOfTaatzAccordion.classList.add('open');
+        contentDiv.classList.add('show');
+        button.classList.add('open');
+    }
+
+
     // Create footer card for external links
     const footerCard = document.createElement('div');
     footerCard.className = 'd-flex flex-column flex-sm-row justify-content-between align-items-center p-2 mt-3 rounded-4 shadow-md footer-card';
@@ -443,6 +454,12 @@ function initializeApp(contentData) {
                         btn.style.opacity = '1';
                         btn.style.pointerEvents = 'auto';
                     });
+                }
+                // Special handling for "דבר ראש מרכז תע"ץ" to remain open by default
+                if (sectionId === "head-of-taatz-message") {
+                    accordionDiv.classList.add('open');
+                    accordionContentDiv.classList.add('show');
+                    accordionButton.classList.add('open');
                 }
             } else if (sectionMatches) {
                 // If the section or any of its sub-items match, show the section
