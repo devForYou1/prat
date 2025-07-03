@@ -29,6 +29,9 @@
     <!-- Bootstrap JS CDN (bundle includes Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
+    <!-- Main JS - LOAD BEFORE INLINE SCRIPT THAT USES initializeApp -->
+    <script src="./js/main.js"></script>
+
     <script>
         // Data specific to this page
         const contentData = {
@@ -547,7 +550,5 @@
             initializeApp(contentData);
         });
     </script>
-    <!-- Main JS -->
-    <script src="./js/main.js"></script>
 </body>
 </html>
