@@ -2,7 +2,7 @@
 body {
     font-family: 'Assistant', sans-serif;
     /* Changed background gradient to a less vibrant blue */
-    background: linear-gradient(to bottom right, #C2E0F0, #FFFFFF);
+    background: linear-gradient(to bottom right, #B5D0E8, #FFFFFF); /* Slightly more vibrant blue */
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -10,6 +10,7 @@ body {
     padding: 1rem;
     margin: 0;
     transition: overflow 0.3s ease-in-out; /* Smooth transition for overflow change */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 /* Feature 2: Disable main page scroll when modal is open */
@@ -51,7 +52,7 @@ body.modal-open {
 }
 
 .modal-content-scrollable::-webkit-scrollbar-track {
-    background: #B5D0E8; /* Light blue track - using new subtle blue */
+    background: #E0F2F7; /* Light blue track - using new subtle blue */
     border-radius: 10px;
 }
 
@@ -65,8 +66,19 @@ body.modal-open {
 }
 
 /* Accordion specific styles */
+.accordion-item-container {
+    background-color: #FFFFFF; /* Plain white background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for shiny effect */
+    border-color: #B5D0E8; /* Lighter border color */
+}
+
 .accordion-item-container.open .accordion-header-button span {
     transform: rotate(180deg);
+}
+
+.accordion-header-button {
+    background-color: #FFFFFF; /* Plain white background */
+    border-color: #B5D0E8; /* Lighter border color */
 }
 
 .accordion-header-button span {
@@ -90,6 +102,7 @@ body.modal-open {
     height: 0;
     padding-top: 0;
     padding-bottom: 0;
+    background-color: #FFFFFF; /* Plain white background for content */
     transition: visibility 0.3s ease-out, height 0.3s ease-out, padding-top 0.3s ease-out, padding-bottom 0.3s ease-out;
 }
 
@@ -177,7 +190,7 @@ body.modal-open {
     justify-content: space-between;
     align-items: center;
     padding-bottom: 1rem;
-    border-bottom: 1px solid #e0e0e0; /* Light border at the bottom */
+    border-bottom: 1px solid #B5D0E8; /* Lighter border at the bottom */
     margin-bottom: 1rem;
 }
 
@@ -200,7 +213,7 @@ body.modal-open {
 }
 
 .custom-modal-close-button:hover {
-    color: #0A4A7A; /* Darker on hover */
+    color: #1B62BF; /* More vibrant close button on hover */
 }
 
 .custom-modal-scrollable-body {
@@ -218,20 +231,6 @@ body.modal-open {
 /* Specific styles for the taaz SVG to ensure its gradient is visible */
 .taaz-svg .cls-1 {
     fill: url(#New_Gradient_Swatch_3);
-}
-/* Specific styles for the צ360 SVG to ensure its fill is visible */
-.tsad360-svg rect {
-    fill: url(#paint0_linear_3797_24326);
-}
-.tsad360-svg path {
-    fill: white;
-}
-/* Specific styles for the idf SVG */
-.idf-svg rect {
-    fill: url(#paint0_linear_3797_24326); /* Use the same gradient as tsad360 as per user's provided SVG */
-}
-.idf-svg path {
-    fill: white; /* White fill for the shield path as per SVG */
 }
 
 /* Mobile adjustments for footer */
@@ -251,6 +250,11 @@ body.modal-open {
     .footer-links-container {
         width: 100%; /* Take full width */
         justify-content: flex-end; /* Align links to the right */
+    }
+    .footer-link-square {
+        width: 100%; /* Make footer links full width on mobile */
+        height: auto; /* Allow height to adjust */
+        padding: 0.75rem; /* Add some padding */
     }
 }
 
@@ -277,9 +281,10 @@ body.modal-open {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 120px; /* Fixed width */
+    min-width: 100px; /* Ensure a minimum width */
     height: 54px; /* Fixed height */
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: 1px solid #B5D0E8; /* Lighter border for footer links */
 }
 
 .footer-link-square:hover {
@@ -296,14 +301,12 @@ body {
     color: #0A4A7A; /* Ensure this dark blue is consistent */
 }
 
-.accordion-header-button {
-    background: linear-gradient(to right, #E0F2F7, #FFFFFF); /* More vibrant accordion header */
-    border: 1px solid #B5D0E8;
-}
+/* Accordion header button background is now plain white, but the border is lighter */
+/* The gradient for the title itself is handled by .gradient-text-bold */
 
 .subcard-button {
-    background: linear-gradient(to right, #F0F8FF, #FFFFFF); /* More vibrant subcard background */
-    border: 1px solid #B5D0E8;
+    background-color: #FFFFFF; /* Plain white subcard background */
+    border-color: #B5D0E8; /* Lighter border color */
 }
 
 .custom-modal-content {
@@ -315,7 +318,7 @@ body {
 }
 
 .custom-modal-title {
-    color: #0A4A7A; /* Ensure modal title is dark blue */
+    /* Color is now handled by gradient-text-bold */
 }
 
 .custom-modal-close-button:hover {
@@ -338,3 +341,22 @@ body {
     color: transparent; /* Fallback for non-webkit browsers */
 }
 
+/* Ensure images are responsive */
+.responsive-image {
+    max-width: 100%;
+    height: auto;
+    display: block; /* Remove extra space below image */
+}
+
+/* Ensure tables are responsive */
+.table-bordered {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto; /* Allow horizontal scrolling for tables on small screens */
+    display: block; /* Make table a block element to enable overflow-x */
+}
+
+/* Specific styling for the main container's border to be lighter */
+.main-container-border {
+    border-color: #B5D0E8;
+}
