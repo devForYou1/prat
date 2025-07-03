@@ -11,6 +11,7 @@ body {
     overflow-x: hidden; /* Prevent horizontal scrolling */
     overflow-y: auto; /* Allow vertical scrolling */
     transition: overflow 0.3s ease-in-out; /* Smooth transition for overflow change */
+    overscroll-behavior-y: contain; /* Prevent bounce scroll on Y-axis */
 }
 
 /* Feature 2: Disable main page scroll when modal is open */
@@ -69,8 +70,8 @@ body.modal-open {
     position: relative; /* For shimmer effect positioning and stacking context */
     z-index: 1; /* Ensure it's above background overlay */
     width: 100%;
-    max-width: 640px; /* Equivalent to max-w-xl in Tailwind */
-    margin: auto;
+    max-width: 95%; /* Reduced max-width to make it narrower */
+    margin: auto; /* Center the container */
     padding: 1.5rem; /* Increased padding for better spacing */
     border-radius: 1rem; /* Larger rounded corners */
     border: 1px solid #B5D0E8; /* Lighter border color */
