@@ -31,12 +31,10 @@
     <!-- Bootstrap JS CDN (bundle includes Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
-    <!-- Main JS - Contains shared logic and components -->
-    <script src="./js/main.js"></script>
-
-    <!-- Page-specific content data and initialization -->
+    <!-- Page-specific content data defined globally -->
     <script>
-        const salKelimContentData = {
+        // Define salKelimContentData globally so main.js can access it
+        window.salKelimContentData = {
             mainTitle: "סל הכלים למפקד/ת",
             introParagraphs: [
                 "לשימור ולניהול עובדי צה\"ל - מרכז תעסוקת עובדי צה\"ל 2025. החוברת נועדה לרכז את הכלים הקיימים לשימור, לניהול ולטיפול בעובדות ועובדי צה\"ל. המפקדים נמצאים בהתמודדות יומיומית עם אתגרים מבצעיים, מקצועיים ואישיים, והתקופה הנוכחית דורשת גיוס והכשרה מיידית של כוח אדם איכותי, כמו גם ניהול והשגת מחויבות גבוהה לעובדים קיימים. האנשים הם הלב הפועם של צה\"ל, ושימורם, טיפוחם והתפתחותם האישית והמקצועית הם המפתח להצלחה. העובדים מבצעים משימות, דוגלים בערכים, פועלים מתוך תחושת שליחות ומחויבות, וחשוב להעריך ולתמוך בהם. שימור כוח האדם האיכותי הוא מפתח להצלחת המשימות המבצעיות וההישגים הלאומיים של צה\"ל.",
@@ -57,7 +55,6 @@
                         <p class="text-sm lh-base mb-3">האנשים שלנו – החיילים, המפקדים והעובדים – הם הלב הפועם של צה"ל. השימור שלהם, השקעה בטיפוחם ובהתפתחותם האישית והמקצועית, הם המפתח להצלחתנו.</p>
                         <p class="text-sm lh-base mb-3">זכרו, העובדים שלנו לא רק מבצעים משימות, הם דוגלים בערכים, פועלים מתוך תחושת שליחות ומחויבות, וחשוב שנדע להעריך ולתמוך בהם גם בזמנים קשים אלה.</p>
                         <p class="text-sm lh-base mb-3">השימור של כוח האדם האיכותי והמסור הוא לא רק עניין של "שימור עובדים", אלא מפתח להצלחת המשימות המבצעיות וההישגים הלאומיים של צה"ל.</p>
-                        <p class="text-sm lh-base mb-3">אני מאחל לכם הצלחה רבה ומאמין כי יחד, בשיתוף פעולה ובניהול נכון, נוכל להמשיך ולעמוד במשימותינו ולהוביל את צה"ל אל עבר עתיד טוב יותר, גם בתקופה זו.</p>
                         <p class="text-sm lh-base mb-3 text-end fw-bold">אל"ם מישאל מרדכי , ראש מרכז תע"ץ</p>
                     `,
                     subItems: [] // No sub-items for direct content
@@ -488,7 +485,7 @@
                                 <h2 class="fs-4 fw-bold mb-3 text-center">כלי הערכה ומשוב</h2>
                                 <div class="content-section">
                                     <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-clipboard-check section-icon"></i> תהליך הערכת עובדים</h3>
-                                    <p class="text-sm lh-base mb-3">תהליך הערכת עובדים והערכה זו משקף את תפוקת העובד בשנה החולפת, הוא הרה להיות מכיס מרכז סיכום שנתי – והאמנו שאזמדנו אסטרטגיה חוות דעת השנתית.</p>
+                                    <p class="text-sm lh-base mb-3">תהליך הערכת עובדים והערכה זו משקפת את תפוקת העובד בשנה החולפת, הוא הרה להיות מכיס מרכז סיכום שנתי – והאמנו שאזמדנו אסטרטגיה חוות דעת השנתית.</p>
                                     <p class="text-sm lh-base mb-3">המרכיבים הכוללים והמובילים של שירות זה נועדו לסייע לעובד/ת ולמשפחתו/ה, המטפלת/המטפל בעבודה וכוללים רכיבים כלים ראשיים שנועדו.</p>
                                     <p class="text-sm lh-base mb-3">הערכת עובדים אינה רק חובה ניהולית, אלא גם כלי שכשיר מאפשר אחת לשנה לבצע את תהליך הערכת עובדים, ולתת קשובים לעובדים על ביצועיהם, לזהות חזקות ולטפל באתגרים, ולשקף להם את תרומתם. תהליך המתבצע נכון, הוא האפך לכלי מנף להצלחה – מהווה חזק את המוטיבציה.</p>
                                     <p class="text-sm lh-base mb-3">תהליך זה גורם לנו כמנהלים וככלים עוצמתיים להציע את הקיים לחיזוק את הון האנושי בארגון. עובדים שמקבלים משוב והערכה, מודעים להישגיהם ועבור היעדים הבאים. הערכת עובדים אינה רק השקעה בעבר – היא השקעה בעתיד.</p>
@@ -580,12 +577,9 @@
                 },
             ],
         };
-
-        // Initialize the app with the specific content data for this page
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOMContentLoaded - Initializing app for sal_kelim.html'); // Debugging
-            initializeApp(salKelimContentData);
-        });
     </script>
+
+    <!-- Main JS - Contains shared logic and components -->
+    <script src="./js/main.js"></script>
 </body>
 </html>
