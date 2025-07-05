@@ -1,7 +1,6 @@
 /* Custom CSS for animations and scrollbar */
 body {
-    /* Updated background with Glassmorphism gradient */
-    background: linear-gradient(to bottom right, #50b8ee, #0a4a7a);
+    background: linear-gradient(to bottom right, #E0F2F7, #FFFFFF); /* Lighter blue to white gradient */
     font-family: 'Assistant', sans-serif;
     margin: 0;
     padding: 1rem; /* Increased padding for better overall spacing */
@@ -20,11 +19,10 @@ body.modal-open {
     overflow: hidden; /* Prevents scrolling of the main body */
 }
 
-/* Keyframe for fade-in and slight scale animation */
 @keyframes fadeInScale {
     from {
         opacity: 0;
-        transform: scale(0.98); /* Slightly smaller for scale effect */
+        transform: scale(0.95);
     }
     to {
         opacity: 1;
@@ -44,473 +42,451 @@ body.modal-open {
     }
 }
 
+/* Keyframe for main container animation */
+@keyframes slideInFromBottom {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .animate-main-container {
-    animation: fadeInScale 0.7s ease-out forwards;
+    animation: slideInFromBottom 0.6s ease-out forwards;
 }
 
-/* Custom Scrollbar Styles - using only blue/white/black palette, more subtle */
-.modal-content-scrollable::-webkit-scrollbar {
-    width: 8px; /* Slightly wider for easier interaction */
-}
-
-.modal-content-scrollable::-webkit-scrollbar-track {
-    background: rgba(224, 242, 247, 0.5); /* Light blue track with transparency */
-    border-radius: 10px;
-}
-
-.modal-content-scrollable::-webkit-scrollbar-thumb {
-    background: rgba(10, 74, 122, 0.7); /* Darker blue thumb with transparency */
-    border-radius: 10px;
-}
-
-.modal-content-scrollable::-webkit-scrollbar-thumb:hover {
-    background: rgba(7, 59, 94, 0.8); /* Even darker on hover */
-}
-
-/* Main container styling with Glassmorphism */
+/* Main container styling */
 .main-container-border {
-    position: relative; /* For shimmer effect positioning and stacking context */
-    z-index: 1; /* Ensure it's above background overlay */
+    background-color: #FFFFFF; /* White background */
+    border: 1px solid #B5D0E8; /* Light blue border */
+    border-radius: 1.5rem; /* More rounded corners */
+    padding: 2rem; /* Increased padding */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+    max-width: 900px; /* Max width for larger screens */
+    width: 100%; /* Fluid width */
+    margin: 2rem auto; /* Top/bottom margin for spacing, auto for centering */
+    position: relative; /* For shimmer effect positioning */
+    overflow: hidden; /* Ensure shimmer doesn't overflow */
+}
+
+/* Shimmer effect for main container */
+.shimmer-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    max-width: 960px; /* Reduced max-width to make it narrower */
-    margin: auto; /* Center the container */
-    padding: 1.5rem; /* Increased padding for better spacing */
-    border-radius: 1rem; /* Larger rounded corners */
-    /* Glassmorphism border: semi-transparent white */
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    /* Glassmorphism background: semi-transparent with blur */
-    background-color: rgba(255, 255, 255, 0.15); /* Very light background with more transparency */
-    backdrop-filter: blur(10px); /* Blur effect */
-    -webkit-backdrop-filter: blur(10px); /* Safari support */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); /* More pronounced shadow */
+    height: 100%;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+    border-radius: 1.5rem; /* Match container border-radius */
+    pointer-events: none; /* Allow clicks to pass through */
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Logo container styling */
+.logo-container {
+    animation: fadeInFromTop 0.5s ease-out 0.2s forwards; /* Apply animation */
+    margin-bottom: 1.5rem; /* Increased space below logo */
+}
+
+.taaz-main-logo {
+    width: 80px; /* Adjust size as needed */
+    height: 80px;
+    display: block; /* Ensure it behaves as a block element for centering */
+    margin: 0 auto; /* Center the SVG */
+}
+
+/* Main title styling */
+.main-container-border h1 {
+    color: #0A4A7A; /* Dark blue for main title */
+    font-size: 2.5rem; /* Larger font size */
+    margin-bottom: 1rem; /* Space below title */
+    text-align: center;
+    font-weight: 800; /* Extra bold */
+    animation: fadeInScale 0.5s ease-out forwards;
 }
 
 /* Intro paragraphs styling */
 .intro-paragraph-text {
-    line-height: 1.8; /* Increased line height for better readability */
-    margin-bottom: 1rem; /* Increased margin for spacing */
-    font-size: 1rem; /* Slightly larger font for intro text */
-    color: #0A4A7A; /* Ensure dark blue color */
-    text-align: center; /* Center align text */
+    color: #333333; /* Darker text for readability */
+    font-size: 1.1rem; /* Slightly larger font */
+    line-height: 1.8; /* Increased line height for readability */
+    margin-bottom: 1rem;
+    text-align: center; /* Center align paragraphs */
+    animation: fadeInScale 0.5s ease-out forwards;
 }
 
-/* Motto text styling */
+/* Motto styling */
 .motto-text {
-    font-weight: bold;
-    font-size: 1.1rem; /* Slightly larger font size */
-    background: linear-gradient(to right, #50b8ee, #0a4a7a); /* Use gradient from taaz.txt SVG */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent; /* Fallback for non-webkit browsers */
-    margin-top: 1.5rem; /* Increased top margin */
-    margin-bottom: 2rem; /* Increased bottom margin */
+    font-size: 1.25rem; /* Larger font for motto */
+    font-weight: 700; /* Bold */
+    color: #0A4A7A; /* Dark blue */
     text-align: center;
+    margin-top: 1.5rem; /* Space above motto */
+    margin-bottom: 2rem; /* Space below motto */
+    animation: fadeInScale 0.5s ease-out forwards;
 }
 
-/* Image styling for head of taatz */
-.head-of-taatz-image {
-    max-width: 250px; /* Set a fixed max-width for the image */
-    width: 100%; /* Ensure it's responsive within its max-width */
-    height: auto;
-    margin: 0 auto 1.5rem auto; /* Center image and add bottom margin */
-    display: block; /* Ensure it behaves as a block element for centering */
-    border-radius: 0.75rem; /* Rounded corners for the image */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for the image */
+/* Search input styling */
+.search-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem; /* Space below search input */
+    border: 1px solid #B5D0E8;
+    border-radius: 0.75rem; /* Rounded corners */
+    font-size: 1rem;
+    color: #333333;
+    background-color: #F5FAFF; /* Light background */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08); /* Inner shadow */
+    transition: all 0.3s ease;
+    text-align: right; /* Align placeholder text to the right */
 }
 
-/* Accordion item container with Glassmorphism */
+.search-input::placeholder {
+    color: #888888; /* Lighter placeholder text */
+    text-align: right; /* Ensure placeholder is also right-aligned */
+}
+
+.search-input:focus {
+    border-color: #50B8EE; /* Highlight on focus */
+    box-shadow: 0 0 0 3px rgba(80, 184, 238, 0.3); /* Focus ring */
+    outline: none;
+}
+
+/* Accordion container */
+.accordion-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; /* Space between accordion items */
+}
+
+/* Accordion item container */
 .accordion-item-container {
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Semi-transparent white border */
-    background-color: rgba(255, 255, 255, 0.1); /* More transparent background */
-    backdrop-filter: blur(8px); /* Blur effect */
-    -webkit-backdrop-filter: blur(8px); /* Safari support */
-    border-radius: 0.75rem; /* Slightly larger border-radius for modern look */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Enhanced shadow for more depth */
-    margin-bottom: 1.25rem; /* Increased margin between accordion items as requested */
-    overflow: hidden; /* Ensure content doesn't spill out */
-    transition: all 0.3s ease-in-out; /* Smooth transition for overall accordion item */
+    background-color: #F5FAFF; /* Light background for items */
+    border: 1px solid #B5D0E8;
+    border-radius: 1rem; /* Rounded corners */
+    overflow: hidden; /* Hide overflowing content during collapse */
+    transition: all 0.3s ease-in-out; /* Smooth transition for open/close */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+}
+
+.accordion-item-container.open {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); /* Stronger shadow when open */
 }
 
 /* Accordion header button */
 .accordion-header-button {
-    background-color: transparent; /* Transparent background for button */
-    border: none;
-    padding: 1rem 1.25rem; /* Increased padding for better touch targets and spacing */
-    width: 100%;
-    text-align: right;
-    font-weight: bold;
-    color: #0A4A7A; /* Solid dark blue */
-    font-size: 1.125rem; /* Larger font size */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-}
-
-/* Arrow icon rotation */
-.arrow-icon svg {
-    transform: rotate(0deg);
-    transition: transform 0.3s ease-out;
-    color: #0A4A7A; /* Ensure arrow color is dark blue */
-}
-.accordion-item-container.open .arrow-icon svg {
-    transform: rotate(180deg);
-}
-
-/* Collapse grid for accordion content with fade-in and scale */
-.collapse-grid {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.4s ease-out, opacity 0.4s ease-out, transform 0.4s ease-out;
-    opacity: 0;
-    transform: scaleY(0.95);
-    transform-origin: top;
-}
-.collapse-grid.show {
-    grid-template-rows: 1fr;
-    opacity: 1;
-    transform: scaleY(1);
-}
-.collapse-grid > div {
-    overflow: hidden; /* Hide content when collapsed */
-    visibility: hidden;
-    height: 0;
-    padding: 0; /* No padding when collapsed */
-    transition: all 0.4s ease-out; /* Smooth transition for content */
-    background-color: transparent; /* Match accordion item background */
-}
-.collapse-grid.show > div {
-    visibility: visible;
-    height: auto; /* Allow content to take natural height */
-    padding: 1rem 1.25rem; /* Consistent padding when open */
-}
-
-/* Scroll-to-Top Button Styles */
-.scroll-to-top-button {
-    position: fixed;
-    bottom: 25px;
-    left: 25px;
-    background-color: #0A4A7A; /* Dark blue */
-    color: white;
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background-color: #E0F2F7; /* Slightly darker header background */
     border: none;
-    border-radius: 50%;
-    width: 52px;
-    height: 52px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    opacity: 0; /* Start hidden */
-    visibility: hidden;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-    z-index: 1000;
-}
-.scroll-to-top-button.show {
-    opacity: 1;
-    visibility: visible;
-}
-.scroll-to-top-button svg {
-    width: 26px;
-    height: 26px;
+    text-align: right;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0A4A7A; /* Dark blue text */
+    border-radius: 1rem; /* Match container border-radius */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Sub-card button styling with Glassmorphism */
-.subcard-button {
-    background-color: rgba(255, 255, 255, 0.1); /* More transparent subcard background */
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Semi-transparent white border */
-    backdrop-filter: blur(5px); /* Blur effect */
-    -webkit-backdrop-filter: blur(5px); /* Safari support */
-    font-size: 1rem; /* Standard font size for sub-cards */
-    padding: 0.75rem 1rem; /* Increased padding */
-    border-radius: 0.5rem; /* Larger border-radius */
-    margin-bottom: 0.5rem; /* Increased margin between sub-cards */
-    color: #0A4A7A; /* Ensure text color is dark blue */
-    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
-    width: 100%; /* Ensure full width */
+.accordion-header-button:hover {
+    background-color: #D1EAF4; /* Lighter hover state */
+}
+
+.accordion-header-button.open {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* Accordion title text */
+.accordion-title-text {
+    flex-grow: 1; /* Allow title to take available space */
     text-align: right; /* Align text to the right */
-    display: block; /* Ensure it's a block element */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.08); /* Subtle shadow for sub-cards */
+    margin-right: 1rem; /* Space between text and arrow */
 }
 
-/* Hover effects for devices that support hover */
-@media (hover: hover) {
-    .accordion-header-button:hover {
-        background-color: rgba(255, 255, 255, 0.2); /* Slightly more opaque on hover */
-    }
-    .subcard-button:hover {
-        background-color: rgba(255, 255, 255, 0.2); /* Slightly more opaque on hover */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow on hover */
-        transform: translateY(-2px); /* Slight lift on hover */
-    }
-    .footer-link-square:hover {
-        transform: translateY(-3px); /* Slight lift on hover */
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35); /* Enhanced shadow on hover */
-    }
+/* Arrow icon */
+.arrow-icon {
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease-in-out;
 }
 
-/* Disable hover effects on touch devices */
-@media (hover: none) {
-    .accordion-header-button:hover {
-        background-color: transparent; /* Reset to default background */
-    }
-    .subcard-button:hover {
-        background-color: rgba(255, 255, 255, 0.1); /* Reset to default background */
-        box-shadow: 0 2px 4px rgba(0,0,0,0.08); /* Reset to default shadow */
-        transform: translateY(0); /* Remove lift */
-    }
-    .footer-link-square:hover {
-        transform: translateY(0); /* Remove lift */
-        box-shadow: none; /* Remove shadow */
-    }
+.accordion-item-container.open .arrow-icon {
+    transform: rotate(180deg); /* Rotate arrow when open */
 }
 
-.subcard-button:active {
-    background-color: rgba(10, 74, 122, 0.7); /* Dark blue on active/click with transparency */
-    color: white; /* White text on active/click */
-    transform: translateY(0); /* Remove lift on active */
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); /* Inset shadow for pressed effect */
+/* Accordion content */
+.collapse-grid {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; /* Smooth transition for max-height and padding */
+    padding: 0 1.5rem; /* Horizontal padding, no vertical padding when collapsed */
 }
 
+.collapse-grid.show {
+    max-height: 1000px; /* Adjust as needed, should be larger than max content height */
+    padding: 1rem 1.5rem; /* Add vertical padding when open */
+}
 
-/* Custom Modal Styles with Glassmorphism */
+/* Sub-card container for grid layout */
+.sub-card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid */
+    gap: 0.75rem; /* Space between sub-cards */
+    padding-top: 0.5rem; /* Small padding at the top of sub-cards */
+}
+
+/* Sub-card button styling */
+.subcard-button {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: #FFFFFF; /* White background for sub-cards */
+    border: 1px solid #B5D0E8;
+    border-radius: 0.75rem; /* Rounded corners */
+    text-align: right;
+    font-size: 0.95rem;
+    color: #333333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05); /* Lighter shadow */
+}
+
+.subcard-button:hover {
+    background-color: #F0F8FF; /* Light hover effect */
+    border-color: #50B8EE; /* Highlight border on hover */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Modal Styling */
 .custom-modal-backdrop {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Darker semi-transparent background */
+    background-color: rgba(0, 0, 0, 0.5); /* Dim background */
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1050; /* Bootstrap modal backdrop z-index */
-    opacity: 0; /* Start hidden for fade-in animation */
+    z-index: 1050; /* Above other content */
+    opacity: 0;
     transition: opacity 0.3s ease-out;
 }
+
 .custom-modal-backdrop.show {
-    opacity: 1; /* Fade in */
+    opacity: 1;
 }
+
 .custom-modal-content {
-    background-color: rgba(255, 255, 255, 0.2); /* More transparent modal content */
-    backdrop-filter: blur(15px); /* Stronger blur for modal */
-    -webkit-backdrop-filter: blur(15px); /* Safari support */
-    border-radius: 1rem; /* Larger rounded corners */
-    padding: 1.5rem; /* Increased padding */
-    max-width: 90%; /* Wider max width for better content display */
-    max-height: 90%; /* Max height to allow scrolling */
+    background-color: #FFFFFF;
+    border-radius: 1rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+    width: 90%; /* Responsive width */
+    max-width: 700px; /* Max width for larger screens */
+    max-height: 90vh; /* Max height to prevent overflow */
     display: flex;
     flex-direction: column;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* More prominent shadow */
-    border: 1px solid rgba(255, 255, 255, 0.4); /* Clearer border for modal with transparency */
-    transform: scale(0.9); /* Start slightly smaller for scale-in animation */
-    opacity: 0; /* Start hidden for fade-in animation */
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-    z-index: 1051; /* Ensure modal content is above backdrop */
+    transform: scale(0.95);
+    opacity: 0;
+    animation: fadeInScale 0.3s ease-out forwards;
 }
+
 .custom-modal-backdrop.show .custom-modal-content {
-    transform: scale(1); /* Scale to full size */
-    opacity: 1; /* Fade in */
+    opacity: 1;
+    transform: scale(1);
 }
+
 .custom-modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 1rem; /* Increased padding */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3); /* Lighter border at the bottom with transparency */
-    margin-bottom: 1rem; /* Increased margin */
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #E0F2F7;
+    background-color: #E0F2F7; /* Light blue header */
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
 }
+
 .custom-modal-title {
-    font-size: 1.5rem; /* Larger title font size */
+    font-size: 1.5rem;
     font-weight: bold;
-    color: #0A4A7A; /* Solid dark blue for modal titles */
+    color: #0A4A7A; /* Dark blue title */
     margin: 0;
 }
+
 .custom-modal-close-button {
     background: none;
     border: none;
-    font-size: 2rem; /* Larger 'x' for close button */
-    color: #0A4A7A; /* Changed to Taaz blue */
+    font-size: 2rem;
+    color: #0A4A7A;
     cursor: pointer;
     padding: 0;
     line-height: 1;
-    transition: color 0.2s ease-in-out;
+    transition: color 0.2s ease;
 }
+
 .custom-modal-close-button:hover {
-    color: #1B62BF; /* More vibrant close button on hover */
+    color: #50B8EE;
 }
+
 .custom-modal-scrollable-body {
-    overflow-y: auto; /* Enable vertical scrolling for content */
+    padding: 1.5rem;
+    overflow-y: auto; /* Enable scrolling for modal content */
     flex-grow: 1; /* Allow content to fill available space */
-    padding-inline-end: 0.75rem; /* Padding for scrollbar */
-    color: #0A4A7A; /* Ensure text color within modal body */
-    font-size: 1rem; /* Standard font size for modal content */
-    line-height: 1.8; /* Increased line height for better readability */
-}
-.custom-modal-scrollable-body p,
-.custom-modal-scrollable-body li,
-.custom-modal-scrollable-body h3,
-.custom-modal-scrollable-body h4 {
-    color: #0A4A7A; /* Ensure text color for paragraphs, list items, and headers */
-    text-align: justify; /* Justify text */
-    margin-bottom: 1rem; /* Increased margin for paragraphs/list items */
-}
-.custom-modal-scrollable-body strong {
-    color: #0A4A7A; /* Ensure strong text is also in Taaz blue */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #B5D0E8 #F5FAFF; /* Firefox */
 }
 
-
-/* Specific styles for the taaz SVG to ensure its gradient is visible */
-.taaz-svg .cls-1 {
-    fill: url(#New_Gradient_Swatch_3);
+/* Custom scrollbar for Webkit browsers (Chrome, Safari) */
+.custom-modal-scrollable-body::-webkit-scrollbar {
+    width: 8px;
 }
 
-/* Mobile adjustments for footer */
-@media (max-width: 640px) {
-    .footer-card {
-        flex-direction: column; /* Stack title and links vertically */
-        align-items: flex-end; /* Align title to the right */
-        gap: 0.75rem; /* Increased gap on mobile */
-        padding: 1rem;
-    }
-    .footer-title {
-        width: 100%; /* Take full width */
-        text-align: right; /* Align title to the right */
-        margin-inline-end: 0;
-        margin-bottom: 0.75rem; /* Add some space below title on mobile */
-    }
-    .footer-links-container {
-        width: 100%; /* Take full width */
-        justify-content: flex-end; /* Align links to the right */
-    }
-    .footer-link-square {
-        width: 100%; /* Make footer links full width on mobile */
-        height: auto; /* Allow height to adjust */
-        padding: 1rem; /* Add some padding */
-    }
+.custom-modal-scrollable-body::-webkit-scrollbar-track {
+    background: #F5FAFF; /* Light track */
+    border-radius: 10px;
 }
 
-/* New styles for search input to make it less tall */
-.search-input {
-    padding: 0.5rem 1rem; /* Increased padding for better touch targets */
-    height: auto; /* Allow height to adjust based on padding */
-    font-size: 1rem; /* Standard font size for search input */
-    border-radius: 9999px; /* rounded-pill */
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* shadow-sm */
-    border: 1px solid rgba(255, 255, 255, 0.3); /* border with transparency */
-    color: #0A4A7A; /* text-primary-dark */
-    background-color: rgba(255, 255, 255, 0.1); /* bg-white with transparency */
-    backdrop-filter: blur(5px); /* Blur effect */
-    -webkit-backdrop-filter: blur(5px); /* Safari support */
-    text-align: right; /* text-end */
-    margin-bottom: 1.5rem; /* mb-3 */
-    width: 100%; /* Ensure full width as requested */
-}
-.search-input:focus {
-    outline: none; /* focus-ring-0 */
-    border-color: #1B62BF; /* A more active border color on focus */
-    box-shadow: 0 0 0 3px rgba(27, 98, 191, 0.25); /* Focus ring effect */
+.custom-modal-scrollable-body::-webkit-scrollbar-thumb {
+    background-color: #B5D0E8; /* Light blue thumb */
+    border-radius: 10px;
+    border: 2px solid #F5FAFF; /* Padding around thumb */
 }
 
+/* Content within modal body */
+.custom-modal-scrollable-body h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #0A4A7A;
+    margin-bottom: 1rem;
+    text-align: center;
+}
 
-/* Styles for footer link squares with Glassmorphism */
-.footer-link-square {
-    background-color: rgba(255, 255, 255, 0.1); /* White background for SVG box with transparency */
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(5px); /* Blur effect */
-    -webkit-backdrop-filter: blur(5px); /* Safari support */
-    border-radius: 0.75rem; /* 12px */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.08); /* Subtle shadow */
-    width: 54px; /* Fixed size as requested (40px SVG + padding) */
-    height: 54px; /* Fixed size as requested */
+.custom-modal-scrollable-body h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #50B8EE; /* Lighter blue for subheadings */
+    margin-top: 1.25rem;
+    margin-bottom: 0.75rem;
     display: flex;
-    justify-content: center;
     align-items: center;
-    text-decoration: none; /* Remove underline */
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    gap: 0.5rem; /* Space between icon and text */
 }
 
-/* Gradient for main H1 and motto */
-h1, .motto-text {
-    background: linear-gradient(to right, #50b8ee, #0a4a7a); /* Use gradient from taaz.txt SVG */
+.custom-modal-scrollable-body p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #444444;
+    margin-bottom: 1rem;
+}
+
+.custom-modal-scrollable-body ul {
+    list-style-type: disc;
+    padding-right: 1.25rem; /* Adjust for RTL list bullets */
+    margin-bottom: 1rem;
+}
+
+.custom-modal-scrollable-body ul li {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #444444;
+    margin-bottom: 0.5rem;
+}
+
+/* Icon styling for content sections */
+.section-icon {
+    color: #0A4A7A; /* Dark blue icons */
+    font-size: 1.1em;
+}
+
+/* Tip Gold styling */
+.tip-gold {
+    background: linear-gradient(to right, #FFFBEB, #FFF8E1); /* Light yellow gradient */
+    border: 1px solid #FFECB3; /* Gold-like border */
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Align text to the right */
+    text-align: right;
+}
+
+.tip-gold p {
+    margin: 0;
+    color: #6D4C41; /* Dark brown text for contrast */
+}
+
+.gradient-text-bold {
+    background: linear-gradient(to right, #FFA726, #FFCA28); /* Orange to yellow gradient */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     color: transparent; /* Fallback for non-webkit browsers */
-}
-
-/* Dark blue for all other headers (h2, h3, h4) and modal titles */
-h2, h3, h4, .custom-modal-title {
-    color: #0A4A7A; /* Dark blue from the palette */
-}
-
-/* Ensure images are responsive */
-.responsive-image {
-    max-width: 100%;
-    height: auto;
-    display: block; /* Remove extra space below image */
-}
-
-/* Ensure tables are responsive */
-.table-bordered {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: auto; /* Allow horizontal scrolling for tables on small screens */
-    display: block; /* Make table a block element to enable overflow-x */
-    font-size: 0.9rem; /* Slightly larger font size for table content */
-}
-.table-bordered th, .table-bordered td {
-    padding: 0.75rem; /* Increased padding for table cells */
-}
-
-/* General text spacing for improved readability */
-p, li {
-    line-height: 1.8; /* Ensure consistent line height */
-    margin-bottom: 1rem; /* Ensure consistent paragraph spacing */
-}
-
-/* Tip gold styling */
-.tip-gold {
-    background-color: rgba(255, 251, 235, 0.8); /* Light yellow background with transparency */
-    border: 1px solid rgba(242, 159, 5, 0.6); /* Orange border with transparency */
-    backdrop-filter: blur(5px); /* Blur effect */
-    -webkit-backdrop-filter: blur(5px); /* Safari support */
-    border-radius: 0.5rem;
-    padding: 1rem;
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.tip-gold .gradient-text-bold {
-    background: linear-gradient(to right, #F29F05, #B87A00); /* Orange gradient for "טיפ זהב!" */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent; /* Fallback */
     font-weight: bold;
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
 }
 
-.tip-gold p {
-    color: #0A4A7A; /* Dark blue text for tip content */
-    margin-bottom: 0; /* Remove extra margin for paragraphs inside tip */
+/* Scroll-to-Top Button */
+.scroll-to-top-button {
+    position: fixed;
+    bottom: 20px;
+    left: 20px; /* Position on the left for RTL */
+    background-color: #0A4A7A; /* Dark blue background */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, transform 0.2s ease;
+    z-index: 1000;
 }
 
-/* Footer styles with Glassmorphism */
+.scroll-to-top-button.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.scroll-to-top-button:hover {
+    transform: translateY(-3px); /* Slight lift on hover */
+    background-color: #50B8EE; /* Lighter blue on hover */
+}
+
+/* Footer Card Styling */
 .footer-card {
-    width: 100%;
-    max-width: 960px; /* Match main container width */
-    margin: 2rem auto 0 auto; /* Top margin for spacing, auto for centering */
-    padding: 1rem 1.5rem;
+    margin-top: 2rem; /* Space above footer */
+    background-color: #F5FAFF; /* Light background */
+    border: 1px solid #B5D0E8;
     border-radius: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Semi-transparent white border */
-    background-color: rgba(255, 255, 255, 0.1); /* More transparent background */
-    backdrop-filter: blur(10px); /* Blur effect */
-    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    padding: 1rem 1.5rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
@@ -534,57 +510,153 @@ p, li {
 }
 
 .footer-link-square {
-    background-color: rgba(255, 255, 255, 0.1); /* White background for SVG box with transparency */
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(5px); /* Blur effect */
-    -webkit-backdrop-filter: blur(5px); /* Safari support */
+    background-color: #FFFFFF; /* White background for SVG box */
+    border: 1px solid #B5D0E8;
     border-radius: 0.75rem; /* 12px */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.08); /* Subtle shadow */
-    width: 54px; /* Fixed size as requested (40px SVG + padding) */
-    height: 54px; /* Fixed size as requested */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    width: 48px; /* Fixed size for the square */
+    height: 48px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    text-decoration: none; /* Remove underline */
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    justify-content: center;
+    transition: all 0.2s ease;
 }
 
-.footer-link-square svg {
-    width: 40px; /* Fixed SVG size */
-    height: 40px; /* Fixed SVG size */
-    display: block; /* Ensure no extra space */
+.footer-link-square:hover {
+    border-color: #50B8EE;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
 }
 
-/* New: Styling for internal content sections within sub-tabs */
-.content-section {
-    background-color: rgba(255, 255, 255, 0.1); /* Slightly more transparent than main container */
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 0.75rem;
-    padding: 1rem;
-    margin-bottom: 1.5rem; /* Space between sections */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    backdrop-filter: blur(5px); /* Blur effect */
-    -webkit-backdrop-filter: blur(5px); /* Safari support */
+.footer-svg-icon svg {
+    width: 32px; /* Size of the SVG inside the square */
+    height: 32px;
+    color: #0A4A7A; /* Default color for SVG paths */
 }
 
-.content-section h3 {
-    display: flex;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .main-container-border {
+        padding: 1.5rem;
+        margin: 1rem auto;
+    }
+
+    .main-container-border h1 {
+        font-size: 2rem;
+    }
+
+    .intro-paragraph-text {
+        font-size: 1rem;
+    }
+
+    .motto-text {
+        font-size: 1.1rem;
+    }
+
+    .accordion-header-button {
+        font-size: 1rem;
+        padding: 0.8rem 1.2rem;
+    }
+
+    .subcard-button {
+        font-size: 0.9rem;
+        padding: 0.6rem 0.8rem;
+    }
+
+    .custom-modal-content {
+        width: 95%;
+    }
+
+    .custom-modal-title {
+        font-size: 1.25rem;
+    }
+
+    .custom-modal-close-button {
+        font-size: 1.8rem;
+    }
+
+    .custom-modal-scrollable-body {
+        padding: 1rem;
+    }
+
+    .custom-modal-scrollable-body h2 {
+        font-size: 1.3rem;
+    }
+
+    .custom-modal-scrollable-body h3 {
+        font-size: 1.1rem;
+    }
+
+    .custom-modal-scrollable-body p,
+    .custom-modal-scrollable-body ul li {
+        font-size: 0.95rem;
+    }
+
+    .footer-card {
+        flex-direction: column;
+        align-items: flex-end; /* Keep content aligned right */
+        padding: 1rem;
+    }
+
+    .footer-title {
+        margin-inline-end: 0; /* Remove auto margin for column layout */
+        margin-bottom: 0.5rem; /* Add some space below title */
+    }
+
+    .footer-links-container {
+        justify-content: flex-end; /* Keep links aligned right */
+        width: 100%; /* Take full width */
+    }
+}
+
+/* Image styling within content */
+.head-of-taatz-image {
+    max-width: 100%; /* Ensure image is responsive */
+    height: auto;
+    border-radius: 0.75rem; /* Rounded corners for images */
+    margin-bottom: 1rem;
+    display: block; /* Center image */
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Copy button styling */
+.copy-button {
+    background-color: #50B8EE; /* Light blue */
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    margin-top: 1rem;
+    display: inline-flex; /* Use flex to align icon and text */
     align-items: center;
     gap: 0.5rem; /* Space between icon and text */
-    margin-bottom: 0.75rem;
+    float: left; /* Align to the left */
 }
 
-.content-section .section-icon {
-    color: #0A4A7A; /* Icon color */
-    font-size: 1.25rem; /* Icon size */
+.copy-button:hover {
+    background-color: #0A4A7A; /* Darker blue on hover */
+    transform: translateY(-1px);
 }
 
-/* Styling for gradient text within content (e.g., strong tags) */
-.gradient-text-bold {
-    background: linear-gradient(to right, #50b8ee, #0a4a7a);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent; /* Fallback */
-    font-weight: bold;
+.copy-button svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor; /* Inherit color from button text */
+}
+
+/* Content section with copyable functionality */
+.content-section-copyable {
+    position: relative; /* Needed for absolute positioning of copy button */
+    padding-bottom: 2.5rem; /* Ensure space for the copy button */
+}
+
+.content-section-copyable .copy-button {
+    position: absolute;
+    bottom: 0;
+    left: 0; /* Position at bottom-left */
 }
