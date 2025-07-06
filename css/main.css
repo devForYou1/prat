@@ -730,6 +730,29 @@ body.modal-open {
     backdrop-filter: none;
 }
 
+/* Specific styling for the "דבר ראש מרכז תע"ץ" content section when open in accordion */
+.accordion-item-container.open #head-of-taatz-message-collapse .content-section {
+    padding: 0; /* Remove padding from this inner content-section to prevent double padding */
+}
+
+/* Ensure paragraphs within this specific section have consistent styling */
+.accordion-item-container.open #head-of-taatz-message-collapse .content-section p {
+    font-size: 1rem; /* Consistent with other content sections */
+    line-height: 1.7; /* Consistent with other content sections */
+    color: #444444; /* Consistent with other content sections */
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+
+/* Also ensure the h2 inside this section is styled correctly */
+.accordion-item-container.open #head-of-taatz-message-collapse .content-section h2 {
+    font-size: 1.5rem; /* Consistent with modal h2 */
+    font-weight: bold;
+    color: #0A4A7A;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
 
 /* Copy button styling */
 .copy-button {
