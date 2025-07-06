@@ -185,7 +185,7 @@ body.modal-open {
 
 /* Accordion item container - Glassmorphism */
 .accordion-item-container {
-    background-color: rgba(255, 255, 255, 0.95); /* Very bright glassy white */
+    background-color: rgba(255, 255, 255, 0.98); /* Very bright glassy white, more opaque */
     backdrop-filter: blur(8px); /* Blur effect */
     border: 1px solid #0A4A7A; /* Dark blue border for contrast */
     border-radius: 1rem; /* Rounded corners */
@@ -206,8 +206,8 @@ body.modal-open {
     align-items: center;
     width: 100%;
     padding: 1rem 1.5rem;
-    background-color: #E0F2F7; /* Light blue header background */
-    border: none;
+    background: linear-gradient(to right, #E0F2F7, #D1EAF4); /* Brighter gradient */
+    border: 1px solid #0A4A7A; /* Clear border */
     cursor: pointer;
     text-align: right;
     font-size: 1.1rem;
@@ -218,7 +218,7 @@ body.modal-open {
 }
 
 .accordion-header-button:hover {
-    background-color: #D1EAF4; /* Lighter hover state */
+    background: linear-gradient(to right, #D1EAF4, #C2E2ED); /* Lighter hover state */
 }
 
 .accordion-header-button.open {
@@ -274,9 +274,9 @@ body.modal-open {
     display: block;
     width: 100%;
     padding: 0.75rem 1rem;
-    background-color: rgba(255, 255, 255, 0.8); /* Slightly less opaque white */
+    background-color: rgba(80, 184, 238, 0.1); /* Very light blue tint, more vibrant */
     backdrop-filter: blur(5px); /* Subtle blur */
-    border: 1px solid rgba(10, 74, 122, 0.2); /* Lighter, more transparent dark blue border */
+    border: 1px solid #0A4A7A; /* Clearer dark blue border */
     border-radius: 0.75rem; /* Rounded corners */
     text-align: right;
     font-size: 0.95rem;
@@ -287,7 +287,7 @@ body.modal-open {
 }
 
 .subcard-button:hover {
-    background-color: rgba(240, 248, 255, 0.9); /* Light hover effect, more opaque */
+    background-color: rgba(80, 184, 238, 0.2); /* Slightly darker tint on hover */
     border-color: #50B8EE; /* Highlight border on hover */
     box-shadow: 0 3px 9px rgba(0, 0, 0, 0.12); /* Stronger shadow on hover */
     transform: translateY(-3px); /* More noticeable lift effect */
