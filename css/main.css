@@ -117,8 +117,8 @@ body.modal-open {
 
 .taaz-main-logo {
     width: auto; /* Allow width to adjust based on height */
-    height: 22.5vh; /* Increased height relative to viewport height (1.5x original 15vh) */
-    max-height: 180px; /* Increased max height to prevent excessive size (1.5x original 120px) */
+    height: 45vh; /* Increased height relative to viewport height (2x original 22.5vh) */
+    max-height: 360px; /* Increased max height to prevent excessive size (2x original 180px) */
     max-width: 100%; /* Ensure it doesn't overflow container */
     object-fit: contain; /* Maintain aspect ratio */
     display: block; /* Ensure it behaves as a block element for centering */
@@ -148,7 +148,7 @@ body.modal-open {
     font-size: 1.1rem; /* Slightly larger font */
     line-height: 1.8; /* Increased line height for readability */
     margin-bottom: 1rem;
-    text-align: center; /* Centered text as requested */
+    text-align: right; /* Reverted to right-aligned as per original request */
     animation: fadeInScale 0.5s ease-out forwards;
 }
 
@@ -617,7 +617,7 @@ body.modal-open {
 
 /* Image styling within content */
 .head-of-taatz-image {
-    max-width: 100%; /* Ensure image is responsive */
+    max-width: 80%; /* Ensure image is responsive and 80% width */
     height: auto;
     border-radius: 0.75rem; /* Rounded corners for images */
     margin-bottom: 1rem;
@@ -630,7 +630,7 @@ body.modal-open {
 }
 
 .signature-image {
-    max-width: 200px; /* Set a reasonable max-width for the signature */
+    max-width: 150px; /* Set a reasonable max-width for the signature */
     height: auto;
     display: block; /* Center the image */
     margin-left: auto;
@@ -709,6 +709,11 @@ body.modal-open {
 
     .motto-text {
         font-size: 1.1rem; /* Slightly smaller font for motto */
+    }
+
+    .search-input {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
     }
 
     .accordion-header-button {
