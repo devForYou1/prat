@@ -3,7 +3,7 @@ html, body {
     height: 100%; /* Ensure html and body take full height */
     width: 100%; /* Ensure html and body take full width */
     overflow-x: hidden; /* Prevent horizontal scrolling */
-    overscroll-behavior-y: none; /* Prevent bounce scroll on Y-axis for the entire page */
+    /* Removed overscroll-behavior-y: none; to allow native scroll behavior */
 }
 
 body {
@@ -15,6 +15,8 @@ body {
     display: flex; /* Use flexbox for main layout */
     flex-direction: column; /* Stack children vertically */
     color: #0A4A7A; /* Default text color for the entire body - dark blue */
+    /* Added this to ensure smooth scrolling throughout the body */
+    scroll-behavior: smooth;
 }
 
 /* Feature 2: Disable main page scroll when modal is open */
