@@ -15,7 +15,7 @@ body {
     display: flex; /* Use flexbox for centering */
     flex-direction: column; /* Stack children vertically */
     align-items: center; /* Center horizontally */
-    justify-content: center; /* Center vertically */
+    justify-content: center;
     color: #0A4A7A; /* Default text color for the entire body - dark blue */
 }
 
@@ -112,13 +112,13 @@ body.modal-open {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 120px; /* Minimum height for logo container */
+    min-height: 60px; /* Adjusted min height for smaller logo */
 }
 
 .taaz-main-logo {
     width: auto; /* Allow width to adjust based on height */
-    height: 45vh; /* Increased height relative to viewport height (2x original 22.5vh) */
-    max-height: 360px; /* Increased max height to prevent excessive size (2x original 180px) */
+    height: 22.5vh; /* Halved height relative to viewport height (from 45vh) */
+    max-height: 180px; /* Halved max height to prevent excessive size (from 360px) */
     max-width: 100%; /* Ensure it doesn't overflow container */
     object-fit: contain; /* Maintain aspect ratio */
     display: block; /* Ensure it behaves as a block element for centering */
@@ -148,7 +148,7 @@ body.modal-open {
     font-size: 1.1rem; /* Slightly larger font */
     line-height: 1.8; /* Increased line height for readability */
     margin-bottom: 1rem;
-    text-align: right; /* Reverted to right-aligned as per original request */
+    text-align: center; /* Centered as requested */
     animation: fadeInScale 0.5s ease-out forwards;
 }
 
@@ -275,7 +275,7 @@ body.modal-open {
 .sub-card-container {
     display: flex; /* Changed to flex */
     flex-direction: column; /* Vertical layout */
-    gap: 1.5rem; /* Increased space between sub-cards to 24px */
+    gap: 0.75rem; /* Reduced space between sub-cards to 12px (from 24px) */
     padding-top: 0.5rem; /* Small padding at the top of sub-cards */
 }
 
