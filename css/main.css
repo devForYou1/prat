@@ -457,6 +457,22 @@ body.modal-open {
     text-align: justify; /* Justify text */
 }
 
+/* Nested list styling within list-container-box */
+.list-container-box ul ul {
+    margin-top: 0.5rem; /* Space above nested list */
+    margin-bottom: 0.5rem; /* Space below nested list */
+    padding-right: 1.25rem; /* Indent nested list */
+    list-style-type: circle; /* Change bullet type for nested lists */
+    border-right: 1px solid rgba(181, 208, 232, 0.5); /* Subtle border for visual separation */
+    padding-left: 0.5rem; /* Add some padding to the left of the border */
+}
+
+.list-container-box ul ul li {
+    font-size: 0.95rem; /* Slightly smaller font for nested list items */
+    color: #2A6A9A; /* Slightly lighter blue for nested list items */
+}
+
+
 /* Removed .section-icon as per request */
 .section-icon {
     display: none; /* Hide icons in sub-card headings */
@@ -565,10 +581,12 @@ body.modal-open {
     transition: all 0.15s ease; /* Faster transition */
 }
 
-.footer-svg-icon svg {
-    width: 32px; /* Size of the SVG inside the square */
+.footer-svg-icon svg,
+.footer-svg-icon img { /* Added img to this rule */
+    width: 32px; /* Size of the SVG/image inside the square */
     height: 32px;
     color: #0A4A7A; /* Default color for SVG paths */
+    object-fit: contain; /* Ensure images fit without cropping */
 }
 
 /* Hover effects for non-touch devices */
@@ -787,8 +805,9 @@ body.modal-open {
         height: 40px;
     }
 
-    .footer-svg-icon svg {
-        width: 28px; /* Adjust SVG size within smaller square */
+    .footer-svg-icon svg,
+    .footer-svg-icon img { /* Added img to this rule */
+        width: 28px; /* Adjust SVG/image size within smaller square */
         height: 28px;
     }
 }
