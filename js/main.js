@@ -237,7 +237,15 @@ function renderApp(data) {
     appRoot.innerHTML = ''; // Clear existing content
 
     const mainContainer = document.createElement('div');
-    mainContainer.className = 'main-container-border animate-main-container';
+    // Add an explicit check for mainContainer after creation
+    if (!mainContainer) {
+        console.error('Failed to create mainContainer element. document.createElement returned null or undefined.');
+        return;
+    }
+    
+    // Use classList.add for robustness
+    mainContainer.classList.add('main-container-border');
+    mainContainer.classList.add('animate-main-container');
 
     // Add shimmer effect (kept for consistency with CSS, though display:none)
     const shimmer = document.createElement('div');
@@ -349,7 +357,7 @@ function renderApp(data) {
         if (section.isDirectContent) {
             // Direct content section
             const contentDiv = document.createElement('div');
-            // Now all direct content sections (including "דבר ראש מרכז תע״ץ") get the 'content-section' class.
+            // All direct content sections (including "דבר ראש מרכז תע״ץ") now get the 'content-section' class.
             contentDiv.className = 'content-section'; 
             contentDiv.innerHTML = section.contentHtml;
             collapseGrid.appendChild(contentDiv);
