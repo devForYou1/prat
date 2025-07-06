@@ -45,6 +45,16 @@ function getScrollbarWidth() {
 }
 
 /**
+ * Global handler for Escape key to close the modal.
+ * This function is defined once to ensure a stable reference for add/removeEventListener.
+ */
+function handleEscapeKey(e) {
+    if (e.key === 'Escape') {
+        closeInfoModal(); // Call the global close function
+    }
+}
+
+/**
  * InfoModal component: Creates a custom modal for displaying detailed content.
  * This function now only creates the modal structure, it doesn't open/close it.
  * @param {function} onClose - Callback function to close the modal.
@@ -103,15 +113,6 @@ function createInfoModalStructure(onClose, content) {
         }
     });
 
-    // Add event listener for Escape key to close modal
-    const handleEscape = (e) => {
-        if (e.key === 'Escape') {
-            onClose();
-        }
-    };
-    // Attach and detach this listener when modal opens/closes
-    backdrop.dataset.escapeListener = handleEscape; // Store reference to remove later
-
     return backdrop;
 }
 
@@ -123,7 +124,8 @@ function openInfoModal(content) {
     // If modal already exists, remove it first to ensure a clean state
     if (currentModalElement && document.body.contains(currentModalElement)) {
         document.body.removeChild(currentModalElement);
-        document.removeEventListener('keydown', currentModalElement.dataset.escapeListener);
+        // Ensure the escape listener is removed if modal was already open
+        document.removeEventListener('keydown', handleEscapeKey);
         currentModalElement = null;
     }
 
@@ -159,7 +161,7 @@ function openInfoModal(content) {
     }
 
     // Attach escape listener
-    document.addEventListener('keydown', currentModalElement.dataset.escapeListener);
+    document.addEventListener('keydown', handleEscapeKey);
 
     // Focus on the modal for accessibility
     currentModalElement.querySelector('.custom-modal-content').focus();
@@ -174,7 +176,7 @@ function closeInfoModal() {
         currentModalElement.querySelector('.custom-modal-content').classList.remove('show'); // Start content fade-out
 
         // Remove escape listener immediately
-        document.removeEventListener('keydown', currentModalElement.dataset.escapeListener);
+        document.removeEventListener('keydown', handleEscapeKey);
 
         // Re-enable scroll after transition ends
         currentModalElement.addEventListener('transitionend', () => {
