@@ -904,7 +904,7 @@ body.modal-open {
     }
 
     .motto-text {
-        font-size: 1rem; /* Even smaller font for motto */
+        font-size: 1.0rem; /* Even smaller font for motto */
     }
 
     .search-input {
