@@ -36,122 +36,69 @@ function InfoModal(isOpen, onClose, content) {
     const titleElement = tempDiv.querySelector('h2');
     const modalTitle = titleElement ? titleElement.textContent : 'פרטים נוספים';
 
-    // Remove the h2 from the content if it exists, as it's used for the modal title
+    const backdrop = document.createElement('div');
+    backdrop.className = 'custom-modal-backdrop';
+    backdrop.classList.add('show'); // Add 'show' class for fade-in effect
+
+    const modalContent = document.createElement('div');
+    modalContent.className = 'custom-modal-content';
+
+    const modalHeader = document.createElement('div');
+    modalHeader.className = 'custom-modal-header';
+
+    const title = document.createElement('h2');
+    title.className = 'custom-modal-title';
+    title.textContent = modalTitle;
+
+    const closeButton = document.createElement('button');
+    closeButton.className = 'custom-modal-close-button';
+    closeButton.innerHTML = '&times;'; // '×' symbol
+    closeButton.onclick = onClose;
+    closeButton.setAttribute('aria-label', 'סגור');
+
+    modalHeader.appendChild(title);
+    modalHeader.appendChild(closeButton);
+
+    const modalBody = document.createElement('div');
+    modalBody.className = 'custom-modal-scrollable-body';
+    // Remove the h2 from the content before appending to body, as it's already in the header
     if (titleElement) {
         titleElement.remove();
     }
+    modalBody.innerHTML = tempDiv.innerHTML; // Use the modified content
 
-    const modalBodyContent = tempDiv.innerHTML;
+    modalContent.appendChild(modalHeader);
+    modalContent.appendChild(modalBody);
+    backdrop.appendChild(modalContent);
 
-    const modalBackdrop = document.createElement('div');
-    modalBackdrop.className = 'custom-modal-backdrop';
-    modalBackdrop.innerHTML = `
-        <div class="custom-modal-content">
-            <div class="custom-modal-header">
-                <h5 class="custom-modal-title">${modalTitle}</h5>
-                <button type="button" class="custom-modal-close-button" aria-label="סגור">
-                    &times;
-                </button>
-            </div>
-            <div class="custom-modal-scrollable-body">
-                ${modalBodyContent}
-            </div>
-        </div>
-    `;
+    // Disable main page scroll when modal is open
+    document.body.classList.add('modal-open');
 
-    // Add event listener to the close button
-    const closeButton = modalBackdrop.querySelector('.custom-modal-close-button');
-    closeButton.addEventListener('click', onClose);
-
-    // Close modal when clicking outside the content
-    modalBackdrop.addEventListener('click', (e) => {
-        if (e.target === modalBackdrop) {
+    // Add event listener to close modal when clicking outside content
+    backdrop.addEventListener('click', (e) => {
+        if (e.target === backdrop) {
             onClose();
         }
     });
 
-    // Disable body scroll when modal is open
-    document.body.classList.add('modal-open');
-
-    // Enable body scroll when modal is closed (via onClose callback)
-    const originalOnClose = onClose;
-    onClose = () => {
-        document.body.classList.remove('modal-open');
-        originalOnClose();
+    // Add event listener for Escape key to close modal
+    const handleEscape = (e) => {
+        if (e.key === 'Escape') {
+            onClose();
+            document.removeEventListener('keydown', handleEscape);
+        }
     };
+    document.addEventListener('keydown', handleEscape);
 
-    // Add 'show' class after a small delay to trigger CSS transitions
-    setTimeout(() => {
-        modalBackdrop.classList.add('show');
-        modalBackdrop.querySelector('.custom-modal-content').classList.add('show');
-    }, 10);
-
-    return modalBackdrop;
+    return backdrop;
 }
 
-/**
- * AccordionItem component: Renders a single accordion item.
- * @param {object} item - The item data (id, title, summary, contentHtml, subItems).
- * @param {function} onSubItemClick - Callback for when a sub-item is clicked.
- * @returns {HTMLElement} The accordion item element.
- */
-function AccordionItem(item, onSubItemClick) {
-    const accordionItemDiv = document.createElement('div');
-    accordionItemDiv.className = 'accordion-item-container';
-    accordionItemDiv.id = `accordion-item-${item.id}`;
-
-    const headerButton = document.createElement('button');
-    headerButton.className = 'accordion-header-button';
-    headerButton.setAttribute('aria-expanded', 'false');
-    headerButton.innerHTML = `
-        <span class="accordion-title-text">${item.title}</span>
-        <svg class="arrow-icon w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-        </svg>
-    `;
-    accordionItemDiv.appendChild(headerButton);
-
-    const collapseContentDiv = document.createElement('div');
-    collapseContentDiv.className = 'collapse-grid';
-    collapseContentDiv.setAttribute('aria-hidden', 'true');
-
-    if (item.isDirectContent) {
-        // If it's direct content, render it directly
-        const contentWrapper = document.createElement('div');
-        contentWrapper.innerHTML = item.contentHtml;
-        collapseContentDiv.appendChild(contentWrapper);
-    } else {
-        // If it has sub-items, render them as buttons
-        const subCardContainer = document.createElement('div');
-        subCardContainer.className = 'sub-card-container';
-        item.subItems.forEach(subItem => {
-            const subCardButton = document.createElement('button');
-            subCardButton.className = 'subcard-button';
-            subCardButton.textContent = subItem.title;
-            subCardButton.addEventListener('click', () => onSubItemClick(subItem));
-            subCardContainer.appendChild(subCardButton);
-        });
-        collapseContentDiv.appendChild(subCardContainer);
-    }
-    
-    accordionItemDiv.appendChild(collapseContentDiv);
-
-    headerButton.addEventListener('click', () => {
-        const isOpen = headerButton.getAttribute('aria-expanded') === 'true';
-        headerButton.setAttribute('aria-expanded', !isOpen);
-        accordionItemDiv.classList.toggle('open', !isOpen);
-        collapseContentDiv.classList.toggle('show', !isOpen);
-        collapseContentDiv.setAttribute('aria-hidden', isOpen);
-    });
-
-    return accordionItemDiv;
-}
 
 /**
- * App component: Main application logic and rendering.
- * @param {object} contentData - The data object containing titles, paragraphs, and sections.
+ * Renders the main application structure and content.
+ * @param {object} data - The content data for the page.
  */
-function App(contentData) {
+function renderApp(data) {
     const appRoot = document.getElementById('app-root');
     if (!appRoot) {
         console.error('App root element not found!');
@@ -159,35 +106,32 @@ function App(contentData) {
     }
     appRoot.innerHTML = ''; // Clear existing content
 
-    // Main container
     const mainContainer = document.createElement('div');
     mainContainer.className = 'main-container-border animate-main-container';
-    appRoot.appendChild(mainContainer);
+
+    // Add shimmer effect
+    const shimmer = document.createElement('div');
+    shimmer.className = 'shimmer-effect';
+    mainContainer.appendChild(shimmer);
 
     // Logo
     const logoContainer = document.createElement('div');
     logoContainer.className = 'logo-container';
     const taazLogo = createSvgElement('svg', {
-        id: 'Layer_1',
-        'data-name': 'Layer 1',
-        xmlns: 'http://www.w3.org/2000/svg',
-        'xmlns:xlink': 'http://www.w3.org/1999/xlink',
+        class: 'taaz-main-logo',
         viewBox: '0 0 568.89 544.35',
-        class: 'taaz-main-logo'
+        innerHTML: '<defs><style>.cls-1{fill:url(#New_Gradient_Swatch_3);}</style><linearGradient id="New_Gradient_Swatch_3" data-name="New Gradient Swatch 3" x1="419.87" y1="414.45" x2="118.1" y2="112.68" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#50b8ee"/><stop offset=".75" stop-color="#0a4a7a"/></linearGradient></defs><path class="cls-1" d="M279.38,165.52s94.58-21.59,232.28-1.82c-32.91,37.96-83.84,21.5-126.51,20.23-21.16-.63-34.45-2.86-93.06,3.6-9.59-16.59-12.71-22-12.71-22ZM491.28,192.8c-20.38-1.2-63.93,6.68-78.36,4.74-51.04-6.86-115.63-1.29-115.63-1.29l11.84,21.1c56.62-2.27,85.83,8.48,122.15,4.22,19.75-2.31,45.86-14.8,59.99-28.77ZM384.91,230.74c-34.54-4.59-52.58-7.49-71.28-5.94l14.02,24.27c32.88,1.5,64.99,6.68,79.97,4.15,13.57-2.29,36.07-15.44,45.81-25.48-22.92,1.18-45.62,6.05-68.53,3ZM365.88,395h73.44l-65.81-113.98-2.58-4.6c10.71-3.17,23.37-8.11,29.35-14.01,0,0-17.42,1.64-35.82-1.4-10.22-1.69-21.34-2.9-32-3.63l12.96,22.43c.12,0,.24,0,.36.01l-.28.26.04.07.04-.07,13.93,24.13.04.07-.04.07,37.87,65.59h-17.05l-14.47,25.05ZM117.11,276.84l17.14,29.97,13.44-23.27-.04-.07-.04.07-13.44-23.27-.04-.07.04-.07-36.52-63.25h46.31l13.47-23.34H57.23l59.79,103.56.09-.26ZM169.93,371.18h-72.57l22.95-39.75-13.34-23.1-1.45,2.79.34-.99-48.62,84.21h126.07l-12.22-23.17h-1.16ZM264.1,274.93c-10.25-11.49-24.73-16.49-30.33-17.91-1.44-.37-1.92-56.89,13.77-86.14,14.98,19.76,16.55,104.06,16.55,104.06ZM278.13,387.8h-58.39c8.52-11.74,17.6-3.77,28.02-3.38,10.64.4,20.89-6.32,30.36,3.38ZM234.61,297.95c-1.85-1.38-1.15-15.82-2.26-19.07l31.56,18.22-.66,20.24c-7.79-12.72-28.64-19.4-28.64-19.4ZM255.02,380.62s-17.4.81-21.56-3.68l.03-53.25c1.8,1.51,29.17,20.52,29.72,23.5.83,4.4.25,23.81.09,28.65-.17,4.97-8.28,4.78-8.28,4.78ZM278.14,277.89,274.69,245.84,283.48,335.34c-3.17,11.85-2.94,28.52-8.21,39.87-.62,1.34-1.17,3.14-2.85,3.43,14.86-42.24-42.44-45.97-51.52-80.13,20.19,1.62,33.4,6.21,43.71,24.4,0,0,10.09,23.19,9.86,17.17-.15-3.76-1.68-21.69-3.41-24.77-1.78-3.16-6.35-2.42-5.54-8.16.75-5.32,8.8-5.55,10.14-.97,1.22,4.17-2.1,6.4-2.14,10.01-.04,3.61,1.84,9.76,2.31,13.79.12,1.03-.73,13.7,2.3,9.71l.39-34.07c-15.79-15.91-38.27-15.93-50.98-36.11-.77-1.23-9.3-17.84-6.08-16.81,9.51,6.19,21.64,8.28,30.92,14.88,4.3,3.06,11.82,10.74,14.52,15.25,0.7,1.17,3.34,6.8,6.01,11.16,1.63,2.65,1.34,7.47,4.07,9.08-1.81-28.8-7.96-27.78-12.55-41.04l-.33-3.74s14.04,23.02,15.6,43.16l4.5-28.14c-1.67-4.83,1.08-7.27,1.08-7.27,6.02-2.59,8.3,5.74,5.54,9.96-1.13,1.73-3.75.68-5.04,3.33-2.87,5.88-5.49,27.67-5.44,34.64.03,4.21,1.14,12.87,2.95,16.58,1.01-11.69,3.61-23.1,6.86-34.34.11-.39,2.26-8.89,2.86-4.04-2.24,10.86-5.9,21.39-7.77,32.35-.41,2.43.68,1.36,2.04,1.46M280.87,215.69s13.77,38.06-4.01,67.55c0,0-4.33-10.01-8.63-19.33,0,0-2.46-39.09,12.64-48.22ZM284.1,326.52s-5.07-30.36,8.9-53.74c13.97-23.38,13.31-23.8,13.31-23.8,0,0-5.96,66.51-19.96,78.2l-2.25-.67ZM279.62,382.55s-5.6-38.61,37.02-59.46c0,0-2.47,36.83-37.02,59.46ZM268.84,64.2c0,11.65-9.44,21.09-21.09,21.09-11.65,0-21.09-9.44-21.09-21.09,0-11.65,9.44-21.09,21.09-21.09,11.65,0,21.09,9.44,21.09,21.09ZM295.76,148.05h-27.26l-20.95-36.29-34.58,59.89h-.15s-13.63,23.61-13.63,23.61h-26.95l13.63-23.61h-.15l47.52-82.31c3.82,3.81,9.08,6.16,14.9,6.16,5.45,0,10.39-2.08,14.13-5.47l33.49,58.01ZM352.89,370.53c-18.48,32.52-61.15,100.4-106.31,130.72l-.25-.31c-30.53-15.38-55.01-61.31-75.24-90.25h20.78c12.11,16.96,21.89,31.55,26.98,34.26.87.46,1.74.8,2.62,1.04.07.02.13.03.2.04.13.03.26.05.39.08,1.26.23,2.49.28,3.65.15,4.48-.6,8.96-3.94,9.56-9.23,1.63-14.42,3.79-44.25,3.79-44.25,10.8,0,9.07,0,17.5,0,1.09,27.15.31,42.41,3.98,48.65s10.41,5.44,13.82,3.62c11.7-6.22,37.25-30.03,47.87-50.09-8.12,0-23.09,0-27.98,0,35.03-14.87,22.53-9.58,58.65-24.43Z"/>'
     });
-    // Full SVG content from taaz.txt, ensuring it's correctly escaped within the template literal
-    taazLogo.innerHTML = `<defs><style>.cls-1{fill:url(#New_Gradient_Swatch_3);}</style><linearGradient id="New_Gradient_Swatch_3" data-name="New Gradient Swatch 3" x1="419.87" y1="414.45" x2="118.1" y2="112.68" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#50b8ee"/><stop offset=".75" stop-color="#0a4a7a"/></linearGradient></defs><path class="cls-1" d="M279.38,165.52s94.58-21.59,232.28-1.82c-32.91,37.96-83.84,21.5-126.51,20.23-21.16-.63-34.45-2.86-93.06,3.6-9.59-16.59-12.71-22-12.71-22ZM491.28,192.8c-20.38-1.2-63.93,6.68-78.36,4.74-51.04-6.86-115.63-1.29-115.63-1.29l11.84,21.1c56.62-2.27,85.83,8.48,122.15,4.22,19.75-2.31,45.86-14.8,59.99-28.77ZM384.91,230.74c-34.54-4.59-52.58-7.49-71.28-5.94l14.02,24.27c32.88,1.5,64.99,6.68,79.97,4.15,13.57-2.29,36.07-15.44,45.81-25.48-22.92,1.18-45.62,6.05-68.53,3ZM365.88,395h73.44l-65.81-113.98-2.58-4.6c10.71-3.17,23.37-8.11,29.35-14.01,0,0-17.42,1.64-35.82-1.4-10.22-1.69-21.34-2.9-32-3.63l12.96,22.43c.12,0,.24,0,.36.01l-.28.26.04.07.04-.07,13.93,24.13.04.07-.04.07,37.87,65.59h-17.05l-14.47,25.05ZM117.11,276.84l17.14,29.97,13.44-23.27-.04-.07-.04.07-13.44-23.27-.04-.07.04-.07-36.52-63.25h46.31l13.47-23.34H57.23l59.79,103.56.09-.26ZM169.93,371.18h-72.57l22.95-39.75-13.34-23.1-1.45,2.79.34-.99-48.62,84.21h126.07l-12.22-23.17h-1.16ZM264.1,274.93c-10.25-11.49-24.73-16.49-30.33-17.91-1.44-.37-1.92-56.89,13.77-86.14,14.98,19.76,16.55,104.06,16.55,104.06ZM278.13,387.8h-58.39c8.52-11.74,17.6-3.77,28.02-3.38,10.64.4,20.89-6.32,30.36,3.38ZM234.61,297.95c-1.85-1.38-1.15-15.82-2.26-19.07l31.56,18.22-.66,20.24c-7.79-12.72-28.64-19.4-28.64-19.4ZM255.02,380.62s-17.4.81-21.56-3.68l.03-53.25c1.8,1.51,29.17,20.52,29.72,23.5.83,4.4.25,23.81.09,28.65-.17,4.97-8.28,4.78-8.28,4.78ZM278.14,277.89,274.69,245.84,283.48,335.34c-3.17,11.85-2.94,28.52-8.21,39.87-.62,1.34-1.17,3.14-2.85,3.43,14.86-42.24-42.44-45.97-51.52-80.13,20.19,1.62,33.4,6.21,43.71,24.4,0,0,10.09,23.19,9.86,17.17-.15-3.76-1.68-21.69-3.41-24.77-1.78-3.16-6.35-2.42-5.54-8.16.75-5.32,8.8-5.55,10.14-.97,1.22,4.17-2.1,6.4-2.14,10.01-.04,3.61,1.84,9.76,2.31,13.79.12,1.03-.73,13.7,2.3,9.71l.39-34.07c-15.79-15.91-38.27-15.93-50.98-36.11-.77-1.23-9.3-17.84-6.08-16.81,9.51,6.19,21.64,8.28,30.92,14.88,4.3,3.06,11.82,10.74,14.52,15.25,0.7,1.17,3.34,6.8,6.01,11.16,1.63,2.65,1.34,7.47,4.07,9.08-1.81-28.8-7.96-27.78-12.55-41.04l-.33-3.74s14.04,23.02,15.6,43.16l4.5-28.14c-1.67-4.83,1.08-7.27,1.08-7.27,6.02-2.59,8.3,5.74,5.54,9.96-1.13,1.73-3.75.68-5.04,3.33-2.87,5.88-5.49,27.67-5.44,34.64.03,4.21,1.14,12.87,2.95,16.58,1.01-11.69,3.61-23.1,6.86-34.34.11-.39,2.26-8.89,2.86-4.04-2.24,10.86-5.9,21.39-7.77,32.35-.41,2.43.68,1.36,2.04,1.46M280.87,215.69s13.77,38.06-4.01,67.55c0,0-4.33-10.01-8.63-19.33,0,0-2.46-39.09,12.64-48.22ZM284.1,326.52s-5.07-30.36,8.9-53.74c13.97-23.38,13.31-23.8,13.31-23.8,0,0-5.96,66.51-19.96,78.2l-2.25-.67ZM279.62,382.55s-5.6-38.61,37.02-59.46c0,0-2.47,36.83-37.02,59.46ZM268.84,64.2c0,11.65-9.44,21.09-21.09,21.09-11.65,0-21.09-9.44-21.09-21.09,0-11.65,9.44-21.09,21.09-21.09,11.65,0,21.09,9.44,21.09,21.09ZM295.76,148.05h-27.26l-20.95-36.29-34.58,59.89h-.15s-13.63,23.61-13.63,23.61h-26.95l13.63-23.61h-.15l47.52-82.31c3.82,3.81,9.08,6.16,14.9,6.16,5.45,0,10.39-2.08,14.13-5.47l33.49,58.01ZM352.89,370.53c-18.48,32.52-61.15,100.4-106.31,130.72l-.25-.31c-30.53-15.38-55.01-61.31-75.24-90.25h20.78c12.11,16.96,21.89,31.55,26.98,34.26.87.46,1.74.8,2.62,1.04.07.02.13.03.2.04.13.03.26.05.39.08,1.26.23,2.49.28,3.65.15,4.48-.6,8.96-3.94,9.56-9.23,1.63-14.42,3.79-44.25,3.79-44.25,10.8,0,9.07,0,17.5,0,1.09,27.15.31,42.41,3.98,48.65s10.41,5.44,13.82,3.62c11.7-6.22,37.25-30.03,47.87-50.09-8.12,0-23.09,0-27.98,0,35.03-14.87,22.53-9.58,58.65-24.43Z"/>`;
     logoContainer.appendChild(taazLogo);
     mainContainer.appendChild(logoContainer);
 
     // Main Title
     const mainTitle = document.createElement('h1');
-    mainTitle.className = 'main-title';
-    mainTitle.textContent = contentData.mainTitle;
+    mainTitle.textContent = data.mainTitle;
     mainContainer.appendChild(mainTitle);
 
     // Intro Paragraphs
-    contentData.introParagraphs.forEach(paragraphText => {
+    data.introParagraphs.forEach(paragraphText => {
         const p = document.createElement('p');
         p.className = 'intro-paragraph-text';
         p.textContent = paragraphText;
@@ -197,14 +141,15 @@ function App(contentData) {
     // Motto
     const motto = document.createElement('p');
     motto.className = 'motto-text';
-    motto.textContent = contentData.motto;
+    motto.textContent = data.motto;
     mainContainer.appendChild(motto);
 
-    // Search Input (if needed, otherwise remove)
+    // Search Input
     const searchInput = document.createElement('input');
     searchInput.type = 'text';
-    searchInput.className = 'search-input';
     searchInput.placeholder = 'חיפוש...';
+    searchInput.className = 'search-input';
+    searchInput.setAttribute('aria-label', 'חיפוש בתוכן');
     mainContainer.appendChild(searchInput);
 
     // Accordion Container
@@ -212,115 +157,277 @@ function App(contentData) {
     accordionContainer.className = 'accordion-container';
     mainContainer.appendChild(accordionContainer);
 
-    // Render Accordion Items
-    contentData.sections.forEach(section => {
-        const accordionItem = AccordionItem(section, (subItem) => {
-            // Logic to open modal with subItem content
-            const modal = InfoModal(true, () => {
-                modal.remove(); // Remove modal from DOM when closed
-            }, subItem.content);
-            document.body.appendChild(modal);
-        });
-        accordionContainer.appendChild(accordionItem);
+    data.sections.forEach(section => {
+        const accordionItemContainer = document.createElement('div');
+        accordionItemContainer.className = 'accordion-item-container';
+
+        const accordionHeaderButton = document.createElement('button');
+        accordionHeaderButton.className = 'accordion-header-button';
+        accordionHeaderButton.setAttribute('aria-expanded', 'false');
+        accordionHeaderButton.setAttribute('aria-controls', section.id + '-collapse');
+
+        const accordionTitleText = document.createElement('span');
+        accordionTitleText.className = 'accordion-title-text';
+        accordionTitleText.textContent = section.title;
+        accordionHeaderButton.appendChild(accordionTitleText);
+
+        const arrowIcon = document.createElement('span');
+        arrowIcon.className = 'arrow-icon';
+        arrowIcon.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+            </svg>
+        `;
+        accordionHeaderButton.appendChild(arrowIcon);
+
+        const collapseGrid = document.createElement('div');
+        collapseGrid.id = section.id + '-collapse';
+        collapseGrid.className = 'collapse-grid';
+
+        if (section.isDirectContent) {
+            // Direct content section
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'content-section';
+            contentDiv.innerHTML = section.contentHtml;
+            collapseGrid.appendChild(contentDiv);
+        } else {
+            // Sub-items (nested accordion)
+            const subCardContainer = document.createElement('div');
+            subCardContainer.className = 'sub-card-container';
+            section.subItems.forEach(subItem => {
+                const subCardButton = document.createElement('button');
+                subCardButton.className = 'subcard-button';
+                subCardButton.textContent = subItem.title;
+                subCardButton.onclick = () => openInfoModal(subItem.content);
+                subCardContainer.appendChild(subCardButton);
+            });
+            collapseGrid.appendChild(subCardContainer);
+        }
+
+        accordionHeaderButton.onclick = () => {
+            const isOpen = accordionItemContainer.classList.toggle('open');
+            collapseGrid.classList.toggle('show', isOpen);
+            accordionHeaderButton.setAttribute('aria-expanded', isOpen);
+        };
+
+        accordionItemContainer.appendChild(accordionHeaderButton);
+        accordionItemContainer.appendChild(collapseGrid);
+        accordionContainer.appendChild(accordionItemContainer);
     });
 
-    // Footer
+    // Footer Card
     const footerCard = document.createElement('div');
     footerCard.className = 'footer-card';
-    mainContainer.appendChild(footerCard);
 
-    const footerTitle = document.createElement('span');
+    const footerTitle = document.createElement('div');
     footerTitle.className = 'footer-title';
-    footerTitle.textContent = 'מרכז תע"ץ';
-    footerCard.appendChild(footerTitle);
+    footerTitle.textContent = 'קישורים שימושיים'; // Updated footer title
 
     const footerLinksContainer = document.createElement('div');
     footerLinksContainer.className = 'footer-links-container';
-    footerCard.appendChild(footerLinksContainer);
 
-    contentData.footerLinks.forEach(link => {
-        const linkSquare = document.createElement('a');
-        linkSquare.className = 'footer-link-square';
-        linkSquare.href = link.href;
-        linkSquare.target = '_blank';
-        linkSquare.rel = 'noopener noreferrer';
-        linkSquare.setAttribute('aria-label', link.alt);
+    data.footerLinks.forEach(linkData => {
+        const linkAnchor = document.createElement('a');
+        linkAnchor.href = linkData.href;
+        linkAnchor.target = "_blank";
+        linkAnchor.rel = "noopener noreferrer";
+        linkAnchor.className = 'footer-link-square';
+        linkAnchor.setAttribute('aria-label', linkData.alt);
 
-        const svgIcon = document.createElement('div');
-        svgIcon.className = 'footer-svg-icon';
-        svgIcon.innerHTML = link.svgContent; // Insert SVG directly
-        linkSquare.appendChild(svgIcon);
-        footerLinksContainer.appendChild(linkSquare);
+        const iconContainer = document.createElement('div');
+        iconContainer.className = 'footer-svg-icon'; // Class for styling the icon/image
+
+        if (linkData.imgSrc) {
+            const img = document.createElement('img');
+            img.src = linkData.imgSrc;
+            img.alt = linkData.alt;
+            img.onerror = function() { this.src = 'https://placehold.co/32x32/cccccc/000000?text=Error'; }; // Fallback image
+            iconContainer.appendChild(img);
+        } else if (linkData.svgContent) {
+            // Fallback for SVG content if imgSrc is not provided
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = linkData.svgContent;
+            if (tempDiv.firstChild) {
+                iconContainer.appendChild(tempDiv.firstChild);
+            }
+        }
+        
+        linkAnchor.appendChild(iconContainer);
+        footerLinksContainer.appendChild(linkAnchor);
     });
+
+    footerCard.appendChild(footerTitle);
+    footerCard.appendChild(footerLinksContainer);
+    mainContainer.appendChild(footerCard);
+
+
+    appRoot.appendChild(mainContainer);
+
+    // Handle search functionality
+    searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        data.sections.forEach(section => {
+            const accordionItem = document.getElementById(section.id + '-collapse').closest('.accordion-item-container');
+            let sectionMatches = false;
+
+            // Check if section title matches
+            if (section.title.toLowerCase().includes(searchTerm)) {
+                sectionMatches = true;
+            }
+
+            // Check sub-items if not direct content
+            if (!section.isDirectContent) {
+                const subItemsMatching = section.subItems.filter(subItem =>
+                    subItem.title.toLowerCase().includes(searchTerm) ||
+                    subItem.content.toLowerCase().includes(searchTerm)
+                );
+                if (subItemsMatching.length > 0) {
+                    sectionMatches = true;
+                }
+                // Toggle visibility of sub-item buttons
+                const subCardButtons = accordionItem.querySelectorAll('.subcard-button');
+                subCardButtons.forEach(button => {
+                    const subItemData = section.subItems.find(item => item.title === button.textContent);
+                    if (subItemData && (subItemData.title.toLowerCase().includes(searchTerm) || subItemData.content.toLowerCase().includes(searchTerm))) {
+                        button.style.display = 'block'; // Show matching sub-items
+                    } else {
+                        button.style.display = 'none'; // Hide non-matching sub-items
+                    }
+                });
+            } else {
+                // For direct content, check contentHtml
+                if (section.contentHtml.toLowerCase().includes(searchTerm)) {
+                    sectionMatches = true;
+                }
+            }
+
+            // Show/hide accordion item based on match
+            if (searchTerm === '') {
+                accordionItem.style.display = 'block'; // Show all when search is empty
+                accordionItem.classList.remove('open'); // Close accordion
+                document.getElementById(section.id + '-collapse').classList.remove('show');
+                // Show all sub-item buttons when search is empty
+                const subCardButtons = accordionItem.querySelectorAll('.subcard-button');
+                subCardButtons.forEach(button => {
+                    button.style.display = 'block';
+                });
+            } else if (sectionMatches) {
+                accordionItem.style.display = 'block';
+                accordionItem.classList.add('open'); // Open matching accordion
+                document.getElementById(section.id + '-collapse').classList.add('show');
+            } else {
+                accordionItem.style.display = 'none';
+            }
+        });
+    });
+
+    // Handle modal display
+    let currentModal = null;
+
+    function openInfoModal(content) {
+        if (currentModal) {
+            document.body.removeChild(currentModal);
+            currentModal = null;
+        }
+        currentModal = InfoModal(true, closeInfoModal, content);
+        document.body.appendChild(currentModal);
+    }
+
+    function closeInfoModal() {
+        if (currentModal) {
+            currentModal.classList.remove('show'); // Start fade-out
+            currentModal.querySelector('.custom-modal-content').classList.remove('show'); // Start content fade-out
+            currentModal.addEventListener('transitionend', () => {
+                if (currentModal && !currentModal.classList.contains('show')) { // Ensure it's fully faded out
+                    document.body.removeChild(currentModal);
+                    currentModal = null;
+                    document.body.classList.remove('modal-open'); // Re-enable scroll
+                }
+            }, { once: true });
+        }
+    }
 
     // Scroll-to-Top Button Logic
     const scrollToTopBtn = document.getElementById('scroll-to-top-btn');
-    if (scrollToTopBtn) {
-        // Use the mainContainer for scroll events since it has overflow-y: auto
-        mainContainer.addEventListener('scroll', () => {
-            if (mainContainer.scrollTop > 300) { // Show button after scrolling 300px
-                scrollToTopBtn.classList.add('show');
-            } else {
-                scrollToTopBtn.classList.remove('show');
-            }
+    mainContainer.addEventListener('scroll', () => {
+        if (mainContainer.scrollTop > 300) {
+            scrollToTopBtn.classList.add('show');
+        } else {
+            scrollToTopBtn.classList.remove('show');
+        }
+    });
+
+    scrollToTopBtn.addEventListener('click', () => {
+        mainContainer.scrollTo({
+            top: 0,
+            behavior: 'smooth'
         });
+    });
 
-        scrollToTopBtn.addEventListener('click', () => {
-            mainContainer.scrollTo({
-                top: 0,
-                behavior: 'smooth' // Smooth scroll to top
-            });
-        });
-    }
-
-    // Initialize search functionality
-    searchInput.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        const accordionItems = accordionContainer.querySelectorAll('.accordion-item-container');
-
-        accordionItems.forEach(item => {
-            const title = item.querySelector('.accordion-title-text').textContent.toLowerCase();
-            const subItems = item.querySelectorAll('.subcard-button');
-            let hasVisibleSubItem = false;
-            let itemMatches = false;
-
-            // Check if the main accordion title matches
-            if (title.includes(searchTerm)) {
-                itemMatches = true;
+    // Copy to clipboard functionality
+    document.addEventListener('click', function(event) {
+        let textToCopy = '';
+        if (event.target.classList.contains('copy-button')) {
+            const contentSection = event.target.closest('.content-section');
+            if (contentSection) {
+                // Get all text content from paragraphs and list items within the content section
+                const paragraphs = contentSection.querySelectorAll('p');
+                const listItems = contentSection.querySelectorAll('li');
+                
+                paragraphs.forEach(p => {
+                    textToCopy += p.textContent + '\n';
+                });
+                listItems.forEach(li => {
+                    // Prepend bullet point for list items
+                    textToCopy += '- ' + li.textContent + '\n';
+                });
             }
+        }
 
-            // Check sub-items
-            subItems.forEach(subItem => {
-                const subItemTitle = subItem.textContent.toLowerCase();
-                if (subItemTitle.includes(searchTerm)) {
-                    subItem.style.display = 'block'; // Show matching sub-item
-                    hasVisibleSubItem = true;
-                    itemMatches = true; // If any sub-item matches, the main item should be visible
-                } else {
-                    subItem.style.display = 'none'; // Hide non-matching sub-item
-                }
-            });
+        if (textToCopy) {
+            try {
+                const textarea = document.createElement('textarea');
+                textarea.value = textToCopy;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
 
-            // If the main item title matches, or any of its sub-items match, show the main item
-            if (itemMatches || hasVisibleSubItem) {
-                item.style.display = 'block';
-                // If a sub-item matches, automatically open its parent accordion
-                if (hasVisibleSubItem && !item.classList.contains('open')) {
-                    item.querySelector('.accordion-header-button').click();
-                }
-            } else {
-                item.style.display = 'none';
+                const feedbackDiv = document.createElement('div');
+                feedbackDiv.textContent = 'הועתק!';
+                feedbackDiv.style.cssText = `
+                    position: fixed;
+                    bottom: 80px;
+                    right: 20px;
+                    background-color: #28a745;
+                    color: white;
+                    padding: 10px 15px;
+                    border-radius: 8px;
+                    z-index: 1060;
+                    opacity: 0;
+                    transition: opacity 0.3s ease-out;
+                `;
+                document.body.appendChild(feedbackDiv);
+                setTimeout(() => {
+                    feedbackDiv.style.opacity = '1';
+                }, 10);
+                setTimeout(() => {
+                    feedbackDiv.style.opacity = '0';
+                    feedbackDiv.addEventListener('transitionend', () => feedbackDiv.remove());
+                }, 1500);
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
             }
-        });
+        }
     });
 }
 
 // Initialize the app with the specific content data for this page
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOMContentLoaded - Initializing app for sal_kelim.html'); // Debugging
-    if (typeof window.salKelimContentData !== 'undefined') {
-        App(window.salKelimContentData);
+    if (window.salKelimContentData) {
+        renderApp(window.salKelimContentData);
     } else {
-        console.error('salKelimContentData is not defined. Cannot initialize app.');
+        console.error('salKelimContentData is not defined.');
     }
 });
