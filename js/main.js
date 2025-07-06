@@ -22,6 +22,27 @@ function createSvgElement(tagName, attributes) {
 
 // Global variable to hold the single modal instance
 let currentModalElement = null;
+let lastScrollY = 0; // Global variable to store scroll position
+let scrollbarWidth = 0; // Global variable to store scrollbar width
+
+/**
+ * Calculates the width of the scrollbar.
+ * @returns {number} The width of the scrollbar in pixels.
+ */
+function getScrollbarWidth() {
+    // Create a temporary div to measure scrollbar
+    const outer = document.createElement('div');
+    outer.style.visibility = 'hidden';
+    outer.style.overflow = 'scroll'; // Force scrollbar
+    document.body.appendChild(outer);
+
+    const inner = document.createElement('div');
+    outer.appendChild(inner);
+
+    const scrollbarWidth = (outer.offsetWidth - inner.offsetWidth);
+    outer.parentNode.removeChild(outer); // Clean up
+    return scrollbarWidth;
+}
 
 /**
  * InfoModal component: Creates a custom modal for displaying detailed content.
@@ -106,6 +127,14 @@ function openInfoModal(content) {
         currentModalElement = null;
     }
 
+    // Store current scroll position
+    lastScrollY = window.scrollY;
+
+    // Calculate scrollbar width once
+    if (scrollbarWidth === 0) { // Only calculate if not already calculated
+        scrollbarWidth = getScrollbarWidth();
+    }
+
     // Create a new modal structure
     currentModalElement = createInfoModalStructure(closeInfoModal, content);
     document.body.appendChild(currentModalElement);
@@ -117,6 +146,13 @@ function openInfoModal(content) {
     });
 
     // Disable main page scroll when modal is open
+    document.body.style.position = 'fixed';
+    document.body.style.top = -lastScrollY + 'px';
+    document.body.style.width = '100%';
+    // Only apply padding-right if a scrollbar is present
+    if (scrollbarWidth > 0) {
+        document.body.style.paddingRight = scrollbarWidth + 'px';
+    }
     document.body.classList.add('modal-open');
     document.documentElement.classList.add('modal-open'); // Add to html element
     const mainContainer = document.querySelector('.main-container-border');
@@ -147,12 +183,22 @@ function closeInfoModal() {
             if (currentModalElement && !currentModalElement.classList.contains('show')) { // Ensure it's fully faded out
                 document.body.removeChild(currentModalElement);
                 currentModalElement = null; // Clear reference
+
+                // Restore body scroll properties
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.width = '';
+                document.body.style.paddingRight = ''; // Remove padding-right
                 document.body.classList.remove('modal-open'); // Re-enable body scroll
                 document.documentElement.classList.remove('modal-open'); // Re-enable html scroll
+                
                 const mainContainer = document.querySelector('.main-container-border');
                 if (mainContainer) {
                     mainContainer.classList.remove('modal-open'); // Re-enable main container scroll
                 }
+
+                // Restore scroll position
+                window.scrollTo(0, lastScrollY);
             }
         }, { once: true }); // Ensure listener runs only once
     }
