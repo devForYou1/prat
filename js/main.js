@@ -253,13 +253,27 @@ function renderApp(data) {
     // Debugging log: Check what mainContainer is right before adding classes
     console.log('mainContainer before adding classes:', mainContainer);
     
+    // Line 292 in the current version:
     mainContainer.classList.add('main-container-border');
     mainContainer.classList.add('animate-main-container');
 
     // Add shimmer effect (kept for consistency with CSS, though display:none)
     const shimmer = document.createElement('div');
     shimmer.className = 'shimmer-effect';
-    mainContainer.appendChild(shimmer);
+    
+    // Debugging: Check shimmer before appending
+    console.log('shimmer element:', shimmer);
+    console.log('mainContainer element before appending shimmer:', mainContainer);
+
+    try {
+        mainContainer.appendChild(shimmer); 
+    } catch (e) {
+        console.error('Error appending shimmer:', e);
+        console.error('mainContainer at error:', mainContainer);
+        console.error('shimmer at error:', shimmer);
+        return; // Stop execution to prevent further errors
+    }
+    
 
     // Logo - Main TAAZ Logo (now an SVG)
     const logoContainer = document.createElement('div');
