@@ -301,7 +301,7 @@ function renderApp(data) {
     // Update content for "דבר ראש מרכז תע״ץ" section
     data.sections.forEach(section => {
         if (section.id === "head-of-taatz-message") {
-            // Replace image URLs and add loading="lazy"
+            // Revert to original content structure, update image URLs and add loading="lazy"
             section.contentHtml = `
                 <h2>דבר ראש מרכז תע״ץ</h2>
                 <p>מפקדים ומפקדות יקרים,</p>
