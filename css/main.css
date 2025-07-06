@@ -273,7 +273,7 @@ body.modal-open {
 .subcard-button {
     display: block;
     width: 100%;
-    padding: 0.75rem 1rem;
+    padding: 1rem 1.25rem; /* Increased padding for more spacing */
     background: linear-gradient(to right, rgba(80, 184, 238, 0.1), rgba(80, 184, 238, 0.05)); /* Light blue gradient for sub-cards */
     backdrop-filter: blur(5px); /* Subtle blur */
     border: 1px solid #B5D0E8; /* Precise light blue border */
