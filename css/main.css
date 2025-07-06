@@ -20,11 +20,17 @@ body {
 }
 
 /* Feature 2: Disable main page scroll when modal is open */
-/* We will manage position: fixed and top via JavaScript for better scroll restoration */
 html.modal-open, body.modal-open {
     overflow: hidden; /* Prevents scrolling of the main body and html */
-    /* position: fixed, top, left, right, bottom are managed by JS for scroll restoration */
 }
+
+body.modal-open {
+    position: fixed; /* Lock body position */
+    width: 100%;
+    /* top property will be set by JavaScript to maintain scroll position */
+    /* padding-right will be set by JavaScript to compensate for scrollbar */
+}
+
 
 /* New rule: Prevent scrolling of the main content container when modal is open */
 .main-container-border.modal-open {
@@ -898,7 +904,7 @@ html.modal-open, body.modal-open {
     }
 
     .motto-text {
-        font-size: 1.1rem; /* Even smaller font for motto */
+        font-size: 1rem; /* Even smaller font for motto */
     }
 
     .search-input {
