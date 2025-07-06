@@ -146,15 +146,13 @@ function openInfoModal(content) {
     });
 
     // Disable main page scroll when modal is open
-    document.body.style.position = 'fixed';
-    document.body.style.top = -lastScrollY + 'px';
-    document.body.style.width = '100%';
-    // Only apply padding-right if a scrollbar is present
-    if (scrollbarWidth > 0) {
-        document.body.style.paddingRight = scrollbarWidth + 'px';
-    }
     document.body.classList.add('modal-open');
     document.documentElement.classList.add('modal-open'); // Add to html element
+    document.body.style.top = -lastScrollY + 'px'; // Set top to maintain scroll position
+    if (scrollbarWidth > 0) {
+        document.body.style.paddingRight = scrollbarWidth + 'px'; // Compensate for scrollbar
+    }
+    
     const mainContainer = document.querySelector('.main-container-border');
     if (mainContainer) {
         mainContainer.classList.add('modal-open');
@@ -185,12 +183,10 @@ function closeInfoModal() {
                 currentModalElement = null; // Clear reference
 
                 // Restore body scroll properties
-                document.body.style.position = '';
-                document.body.style.top = '';
-                document.body.style.width = '';
-                document.body.style.paddingRight = ''; // Remove padding-right
                 document.body.classList.remove('modal-open'); // Re-enable body scroll
                 document.documentElement.classList.remove('modal-open'); // Re-enable html scroll
+                document.body.style.top = ''; // Remove fixed top
+                document.body.style.paddingRight = ''; // Remove padding-right
                 
                 const mainContainer = document.querySelector('.main-container-border');
                 if (mainContainer) {
