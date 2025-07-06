@@ -113,7 +113,7 @@ body.modal-open {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 60px; /* Adjusted min height for smaller logo */
+    /* min-height: 60px; Removed as SVG handles its own size */
 }
 
 .taaz-main-logo {
@@ -200,18 +200,19 @@ body.modal-open {
 
 /* Accordion item container - Glassmorphism */
 .accordion-item-container {
-    background-color: rgba(255, 255, 255, 0.9); /* More opaque white when closed to avoid box-in-box */
-    backdrop-filter: blur(8px); /* Blur effect */
-    border: 1px solid #B5D0E8; /* Precise light blue border for contrast */
+    background-color: transparent; /* Changed to transparent to remove "box in box" look */
+    border: none; /* Removed outer border */
     border-radius: 1rem; /* Rounded corners */
     overflow: hidden; /* Hide overflowing content during collapse */
     transition: all 0.2s ease-in-out, transform 0.2s ease-in-out, opacity 0.2s ease-in-out; /* Faster transition for open/close */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+    box-shadow: none; /* Removed outer shadow */
 }
 
 .accordion-item-container.open {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); /* Stronger shadow when open */
     transform: scale(1.005); /* Subtle scale effect when open */
+    background-color: rgba(255, 255, 255, 0.9); /* Add background when open */
+    border: 1px solid rgba(10, 74, 122, 0.3); /* Add border when open */
 }
 
 /* Accordion header button */
@@ -222,19 +223,20 @@ body.modal-open {
     width: 100%;
     padding: 1.5rem 1.5rem; /* Increased vertical padding */
     background: #F8FCFF; /* Very light, almost white blue */
-    border: 1px solid #0A4A7A; /* Clear border */
+    border: 1px solid #B5D0E8; /* Precise light blue border */
     cursor: pointer;
     text-align: right;
     font-size: 1.1rem;
     font-weight: 700;
     color: #0A4A7A; /* Dark blue text */
     border-radius: 1rem; /* Match container border-radius */
-    transition: background-color 0.2s ease, color 0.2s ease; /* Faster transition */
+    transition: background-color 0.2s ease, color 0.2s ease, border-radius 0.2s ease; /* Faster transition */
 }
 
-.accordion-header-button.open {
+.accordion-item-container.open .accordion-header-button {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    border-bottom: none; /* Remove bottom border when open */
 }
 
 /* Accordion title text */
@@ -461,7 +463,22 @@ body.modal-open {
     border-radius: 0.5rem;
     border: 1px solid rgba(150, 190, 220, 0.5); /* Subtle border */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03); /* Subtle shadow */
+    position: relative; /* For custom bullet */
+    padding-right: 1.5rem; /* Space for custom bullet */
 }
+
+.list-container-box ul li::before {
+    content: ''; /* Custom bullet */
+    position: absolute;
+    right: 0.5rem; /* Position of the bullet */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px; /* Size of the bullet */
+    height: 8px;
+    background-color: #50B8EE; /* Color of the bullet */
+    border-radius: 50%; /* Round bullet */
+}
+
 
 .list-container-box ul li:last-child {
     margin-bottom: 0; /* No margin after the last list item */
@@ -615,6 +632,7 @@ body.modal-open {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0; /* Prevent shrinking */
     transition: all 0.15s ease; /* Faster transition */
 }
 
