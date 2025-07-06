@@ -117,6 +117,7 @@ function renderApp(data) {
     // Logo
     const logoContainer = document.createElement('div');
     logoContainer.className = 'logo-container';
+    // Revert TAAZ logo to SVG
     const taazLogo = createSvgElement('svg', {
         class: 'taaz-main-logo',
         viewBox: '0 0 568.89 544.35',
