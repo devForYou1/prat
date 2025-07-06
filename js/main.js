@@ -137,14 +137,22 @@ function openInfoModal(content) {
         scrollbarWidth = getScrollbarWidth();
     }
 
-    // Create a new modal structure
-    currentModalElement = createInfoModalStructure(closeInfoModal, content);
+    // Create a new modal structure and get a direct reference to the modal content element
+    const modalBackdrop = createInfoModalStructure(closeInfoModal, content);
+    const modalContentElement = modalBackdrop.querySelector('.custom-modal-content'); // Get direct reference here
+
+    if (!modalContentElement) {
+        console.error('Error: custom-modal-content element not found within the modal backdrop.');
+        return; // Prevent further errors if the structure is not as expected
+    }
+
+    currentModalElement = modalBackdrop; // Assign the backdrop to the global variable
     document.body.appendChild(currentModalElement);
 
     // Add 'show' classes for fade-in effect
     requestAnimationFrame(() => { // Use rAF for smoother animation start
-        currentModalElement.classList.add('show');
-        currentModalElement.querySelector('.custom-modal-content').classList.add('show');
+        currentModalElement.classList.add('show'); // backdrop
+        modalContentElement.classList.add('show'); // modal content
     });
 
     // Disable main page scroll when modal is open
@@ -163,7 +171,7 @@ function openInfoModal(content) {
     document.addEventListener('keydown', handleEscapeKey);
 
     // Focus on the modal for accessibility
-    currentModalElement.querySelector('.custom-modal-content').focus();
+    modalContentElement.focus(); // Focus on the content element directly
 }
 
 /**
@@ -341,14 +349,9 @@ function renderApp(data) {
         if (section.isDirectContent) {
             // Direct content section
             const contentDiv = document.createElement('div');
-            // Special handling for "דבר ראש מרכז תע״ץ" to remove the inner box
-            if (section.id === "head-of-taatz-message") {
-                // For this specific section, do not add 'content-section' class
-                contentDiv.innerHTML = section.contentHtml; 
-            } else {
-                contentDiv.className = 'content-section'; // Apply default content-section styles
-                contentDiv.innerHTML = section.contentHtml;
-            }
+            // Now all direct content sections (including "דבר ראש מרכז תע״ץ") get the 'content-section' class.
+            contentDiv.className = 'content-section'; 
+            contentDiv.innerHTML = section.contentHtml;
             collapseGrid.appendChild(contentDiv);
         } else {
             // Sub-items (nested accordion)
