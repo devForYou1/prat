@@ -20,8 +20,15 @@ body {
 }
 
 /* Feature 2: Disable main page scroll when modal is open */
-body.modal-open {
-    overflow: hidden; /* Prevents scrolling of the main body */
+html.modal-open, body.modal-open {
+    overflow: hidden; /* Prevents scrolling of the main body and html */
+    position: fixed; /* Lock body position */
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 /* New rule: Prevent scrolling of the main content container when modal is open */
