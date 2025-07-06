@@ -3,7 +3,7 @@ html, body {
     height: 100%; /* Ensure html and body take full height */
     width: 100%; /* Ensure html and body take full width */
     overflow-x: hidden; /* Prevent horizontal scrolling */
-    /* Removed overscroll-behavior-y: contain; to allow native pull-to-refresh */
+    overscroll-behavior-y: none; /* Prevent bounce scroll on Y-axis for the entire page */
 }
 
 body {
@@ -12,10 +12,8 @@ body {
     margin: 0;
     padding: 0; /* No padding on body */
     min-height: 100vh;
-    display: flex; /* Use flexbox for centering */
+    display: flex; /* Use flexbox for main layout */
     flex-direction: column; /* Stack children vertically */
-    align-items: center; /* Center horizontally */
-    justify-content: center;
     color: #0A4A7A; /* Default text color for the entire body - dark blue */
 }
 
@@ -73,12 +71,13 @@ body.modal-open {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Stronger shadow */
     max-width: 800px; /* Max width for larger screens */
     width: 90%; /* Fluid width for responsiveness */
-    height: 90vh; /* Fixed height relative to viewport */
-    margin: auto; /* Center horizontally within flex container */
-    overflow-y: auto; /* Allow internal scrolling */
+    height: auto; /* Allow height to be determined by content and flex-grow */
+    flex-grow: 1; /* Allow it to grow and take available space */
+    margin: 1rem auto; /* Add margin to separate from top/bottom of viewport */
+    overflow-y: auto; /* Keep internal scrolling for the main content area */
     overflow-x: hidden; /* Prevent horizontal scrolling inside */
     direction: rtl; /* Ensure RTL for the entire content area */
-    /* Removed overscroll-behavior-y: contain; to allow native pull-to-refresh */
+    overscroll-behavior-y: contain; /* Prevent bounce scroll for this specific scrollable area */
 }
 
 /* Shimmer effect for main container */
@@ -113,7 +112,6 @@ body.modal-open {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* min-height: 60px; Removed as SVG handles its own size */
 }
 
 .taaz-main-logo {
@@ -466,11 +464,9 @@ body.modal-open {
     border: 1px solid rgba(150, 190, 220, 0.5); /* Subtle border */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03); /* Subtle shadow */
     position: relative; /* For custom bullet */
-    /* Removed padding-right for custom bullet as bullet is removed */
 }
 
 .list-container-box ul li::before {
-    /* Removed custom bullet styling */
     content: none; /* Explicitly remove the custom bullet */
 }
 
@@ -570,7 +566,8 @@ body.modal-open {
 
 /* Footer Card Styling - Glassmorphism */
 .footer-card {
-    margin-top: 2rem; /* Space above footer */
+    margin-top: 1rem; /* Adjust margin to be consistent with main-container-border's bottom margin */
+    margin-bottom: 1rem; /* Ensure some space at the bottom */
     background-color: rgba(245, 250, 255, 0.7); /* Semi-transparent light background */
     backdrop-filter: blur(8px); /* Blur effect */
     border: 1px solid rgba(181, 208, 232, 0.5); /* Light, partially transparent border */
@@ -579,14 +576,14 @@ body.modal-open {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
-    /* Removed justify-content: flex-end; */
     justify-content: center; /* Center the content now that title is gone */
     gap: 1rem; /* Space between title and links */
     flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    max-width: 800px; /* Match max-width of main-container-border */
+    width: 90%; /* Match width of main-container-border */
 }
 
 .footer-title {
-    /* Removed this entire block as per request */
     display: none; /* Hide the title */
 }
 
@@ -773,12 +770,11 @@ body.modal-open {
     .main-container-border {
         padding: 1rem; /* More compact padding on smaller screens */
         width: 98%; /* Take more width on small screens */
-        height: 98vh; /* Take more height on small screens */
+        height: auto; /* Changed to auto for better responsiveness with flex-grow */
     }
 
     .main-container-border h1 {
         font-size: 1.8rem; /* Smaller font size for main title on mobile */
-        /* white-space, overflow, text-overflow already applied */
     }
 
     .intro-paragraph-text {
