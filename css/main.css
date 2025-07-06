@@ -1,4 +1,9 @@
 /* Custom CSS for animations and scrollbar */
+html, body {
+    height: 100%; /* Ensure html and body take full height */
+    width: 100%; /* Ensure html and body take full width */
+}
+
 body {
     background-color: #FFFFFF; /* Solid white background */
     font-family: 'Assistant', sans-serif;
