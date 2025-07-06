@@ -24,6 +24,12 @@ body.modal-open {
     overflow: hidden; /* Prevents scrolling of the main body */
 }
 
+/* New rule: Prevent scrolling of the main content container when modal is open */
+.main-container-border.modal-open {
+    overflow: hidden;
+}
+
+
 @keyframes fadeInScale {
     from {
         opacity: 0;
@@ -76,9 +82,10 @@ body.modal-open {
     height: auto; /* Allow height to be determined by content and flex-grow */
     flex-grow: 1; /* Allow it to grow and take available space */
     margin: 1rem auto; /* Add margin to separate from top/bottom of viewport */
-    /* Removed overflow-y: auto; and overscroll-behavior-y: contain; */
+    overflow-y: auto; /* Keep internal scrolling for the main content area */
     overflow-x: hidden; /* Prevent horizontal scrolling inside */
     direction: rtl; /* Ensure RTL for the entire content area */
+    overscroll-behavior-y: contain; /* Prevent bounce scroll for this specific scrollable area */
 }
 
 /* Shimmer effect for main container */
