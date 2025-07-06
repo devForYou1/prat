@@ -24,9 +24,8 @@ html.modal-open, body.modal-open {
 }
 
 body.modal-open {
-    position: fixed; /* Lock body position */
+    /* Removed position: fixed; and top: var(--scroll-top); */
     width: 100%;
-    top: var(--scroll-top); /* Use CSS variable for top */
     /* padding-right will be set by JavaScript to compensate for scrollbar */
 }
 
@@ -921,5 +920,44 @@ body.modal-open {
     .custom-modal-scrollable-body p,
     .custom-modal-scrollable-body ul li {
         font-size: 0.85rem; /* Smallest general text size */
+    }
+}
+
+/* Responsive adjustments for desktop (larger screens) */
+@media (min-width: 769px) { /* Apply to screens wider than mobile/tablet breakpoint */
+    .accordion-item-container {
+        /* On desktop, accordions are always "open" visually */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); /* Keep consistent shadow */
+        transform: none; /* No scale effect */
+        background-color: transparent; /* Ensure no outer box */
+        border: none; /* Ensure no outer border */
+    }
+
+    .accordion-item-container.open { /* Ensure it's always open on desktop */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); /* Keep shadow */
+        transform: none; /* No scale */
+    }
+
+    .accordion-header-button {
+        cursor: default; /* Not clickable on desktop */
+        border-bottom-left-radius: 0; /* Always flat bottom */
+        border-bottom-right-radius: 0; /* Always flat bottom */
+        border-bottom: 1px solid rgba(10, 74, 122, 0.3); /* Always has bottom border */
+    }
+
+    .accordion-header-button .arrow-icon {
+        display: none; /* Hide arrow on desktop as it's not collapsible */
+    }
+
+    .collapse-grid {
+        max-height: 3000px !important; /* Force content to always be visible (open) */
+        padding: 1rem 1.5rem !important; /* Ensure padding is always applied */
+        opacity: 1 !important; /* Ensure content is always visible */
+        transform: none !important; /* No scale effect */
+        background-color: rgba(255, 255, 255, 0.9); /* Content background */
+        border-bottom-left-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+        border: 1px solid rgba(10, 74, 122, 0.3);
+        border-top: 1px solid rgba(10, 74, 122, 0.3);
     }
 }
