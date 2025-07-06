@@ -20,16 +20,17 @@ function createSvgElement(tagName, attributes) {
     return svg;
 }
 
+// Global variable to hold the single modal instance
+let currentModalElement = null;
+
 /**
- * InfoModal component: Renders a custom modal for displaying detailed content.
- * @param {boolean} isOpen - Whether the modal should be open or closed.
+ * InfoModal component: Creates a custom modal for displaying detailed content.
+ * This function now only creates the modal structure, it doesn't open/close it.
  * @param {function} onClose - Callback function to close the modal.
  * @param {string} content - The HTML content to display inside the modal.
- * @returns {HTMLElement|string} The modal backdrop element if open, otherwise an empty string.
+ * @returns {HTMLElement} The created modal backdrop element.
  */
-function InfoModal(isOpen, onClose, content) {
-    if (!isOpen) return '';
-
+function createInfoModalStructure(onClose, content) {
     // Create a temporary div to parse the content string and extract the title
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = content;
@@ -38,7 +39,8 @@ function InfoModal(isOpen, onClose, content) {
 
     const backdrop = document.createElement('div');
     backdrop.className = 'custom-modal-backdrop';
-    backdrop.classList.add('show'); // Add 'show' class for fade-in effect
+    backdrop.setAttribute('aria-modal', 'true');
+    backdrop.setAttribute('role', 'dialog');
 
     const modalContent = document.createElement('div');
     modalContent.className = 'custom-modal-content';
@@ -49,6 +51,7 @@ function InfoModal(isOpen, onClose, content) {
     const title = document.createElement('h2');
     title.className = 'custom-modal-title';
     title.textContent = modalTitle;
+    title.id = 'modal-title'; // Add ID for accessibility
 
     const closeButton = document.createElement('button');
     closeButton.className = 'custom-modal-close-button';
@@ -61,6 +64,7 @@ function InfoModal(isOpen, onClose, content) {
 
     const modalBody = document.createElement('div');
     modalBody.className = 'custom-modal-scrollable-body';
+    modalBody.setAttribute('tabindex', '0'); // Make scrollable body focusable
     // Remove the h2 from the content before appending to body, as it's already in the header
     if (titleElement) {
         titleElement.remove();
@@ -70,9 +74,6 @@ function InfoModal(isOpen, onClose, content) {
     modalContent.appendChild(modalHeader);
     modalContent.appendChild(modalBody);
     backdrop.appendChild(modalContent);
-
-    // Disable main page scroll when modal is open
-    document.body.classList.add('modal-open');
 
     // Add event listener to close modal when clicking outside content
     backdrop.addEventListener('click', (e) => {
@@ -85,12 +86,91 @@ function InfoModal(isOpen, onClose, content) {
     const handleEscape = (e) => {
         if (e.key === 'Escape') {
             onClose();
-            document.removeEventListener('keydown', handleEscape);
         }
     };
-    document.addEventListener('keydown', handleEscape);
+    // Attach and detach this listener when modal opens/closes
+    backdrop.dataset.escapeListener = handleEscape; // Store reference to remove later
 
     return backdrop;
+}
+
+/**
+ * Opens the info modal with provided content.
+ * @param {string} content - The HTML content to display inside the modal.
+ */
+function openInfoModal(content) {
+    // If modal already exists, remove it first to ensure a clean state
+    if (currentModalElement && document.body.contains(currentModalElement)) {
+        document.body.removeChild(currentModalElement);
+        document.removeEventListener('keydown', currentModalElement.dataset.escapeListener);
+        currentModalElement = null;
+    }
+
+    // Create a new modal structure
+    currentModalElement = createInfoModalStructure(closeInfoModal, content);
+    document.body.appendChild(currentModalElement);
+
+    // Add 'show' classes for fade-in effect
+    requestAnimationFrame(() => { // Use rAF for smoother animation start
+        currentModalElement.classList.add('show');
+        currentModalElement.querySelector('.custom-modal-content').classList.add('show');
+    });
+
+    // Disable main page scroll when modal is open
+    document.body.classList.add('modal-open');
+    document.documentElement.classList.add('modal-open'); // Add to html element
+    const mainContainer = document.querySelector('.main-container-border');
+    if (mainContainer) {
+        mainContainer.classList.add('modal-open');
+    }
+
+    // Attach escape listener
+    document.addEventListener('keydown', currentModalElement.dataset.escapeListener);
+
+    // Focus on the modal for accessibility
+    currentModalElement.querySelector('.custom-modal-content').focus();
+}
+
+/**
+ * Closes the info modal.
+ */
+function closeInfoModal() {
+    if (currentModalElement) {
+        currentModalElement.classList.remove('show'); // Start fade-out
+        currentModalElement.querySelector('.custom-modal-content').classList.remove('show'); // Start content fade-out
+
+        // Remove escape listener immediately
+        document.removeEventListener('keydown', currentModalElement.dataset.escapeListener);
+
+        // Re-enable scroll after transition ends
+        currentModalElement.addEventListener('transitionend', () => {
+            if (currentModalElement && !currentModalElement.classList.contains('show')) { // Ensure it's fully faded out
+                document.body.removeChild(currentModalElement);
+                currentModalElement = null; // Clear reference
+                document.body.classList.remove('modal-open'); // Re-enable body scroll
+                document.documentElement.classList.remove('modal-open'); // Re-enable html scroll
+                const mainContainer = document.querySelector('.main-container-border');
+                if (mainContainer) {
+                    mainContainer.classList.remove('modal-open'); // Re-enable main container scroll
+                }
+            }
+        }, { once: true }); // Ensure listener runs only once
+    }
+}
+
+/**
+ * Debounce function to limit how often a function can run.
+ * @param {function} func - The function to debounce.
+ * @param {number} delay - The delay in milliseconds.
+ * @returns {function} The debounced function.
+ */
+function debounce(func, delay) {
+    let timeout;
+    return function(...args) {
+        const context = this;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), delay);
+    };
 }
 
 
@@ -240,11 +320,6 @@ function renderApp(data) {
     const footerCard = document.createElement('div');
     footerCard.className = 'footer-card';
 
-    // Removed footerTitle as per request
-    // const footerTitle = document.createElement('div');
-    // footerTitle.className = 'footer-title';
-    // footerTitle.textContent = 'קישורים שימושיים'; // Updated footer title
-
     const footerLinksContainer = document.createElement('div');
     footerLinksContainer.className = 'footer-links-container';
 
@@ -278,15 +353,13 @@ function renderApp(data) {
         footerLinksContainer.appendChild(linkAnchor);
     });
 
-    // footerCard.appendChild(footerTitle); // Removed footerTitle
     footerCard.appendChild(footerLinksContainer);
-    mainContainer.appendChild(footerCard);
+    appRoot.appendChild(mainContainer); // Append mainContainer to appRoot
+    appRoot.appendChild(footerCard); // Append footerCard to appRoot, outside mainContainer
 
 
-    appRoot.appendChild(mainContainer);
-
-    // Handle search functionality
-    searchInput.addEventListener('input', (e) => {
+    // Handle search functionality with debounce
+    const debouncedSearch = debounce((e) => {
         const searchTerm = e.target.value.toLowerCase();
         data.sections.forEach(section => {
             const accordionItem = document.getElementById(section.id + '-collapse').closest('.accordion-item-container');
@@ -341,38 +414,16 @@ function renderApp(data) {
                 accordionItem.style.display = 'none';
             }
         });
-    });
+    }, 300); // Debounce delay of 300ms
 
-    // Handle modal display
-    let currentModal = null;
+    searchInput.addEventListener('input', debouncedSearch);
 
-    function openInfoModal(content) {
-        if (currentModal) {
-            document.body.removeChild(currentModal);
-            currentModal = null;
-        }
-        currentModal = InfoModal(true, closeInfoModal, content);
-        document.body.appendChild(currentModal);
-    }
-
-    function closeInfoModal() {
-        if (currentModal) {
-            currentModal.classList.remove('show'); // Start fade-out
-            currentModal.querySelector('.custom-modal-content').classList.remove('show'); // Start content fade-out
-            currentModal.addEventListener('transitionend', () => {
-                if (currentModal && !currentModal.classList.contains('show')) { // Ensure it's fully faded out
-                    document.body.removeChild(currentModal);
-                    currentModal = null;
-                    document.body.classList.remove('modal-open'); // Re-enable scroll
-                }
-            }, { once: true });
-        }
-    }
 
     // Scroll-to-Top Button Logic
     const scrollToTopBtn = document.getElementById('scroll-to-top-btn');
-    mainContainer.addEventListener('scroll', () => {
-        if (mainContainer.scrollTop > 300) {
+    // Listen for scroll events on the window, not the mainContainer
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
             scrollToTopBtn.classList.add('show');
         } else {
             scrollToTopBtn.classList.remove('show');
@@ -380,7 +431,7 @@ function renderApp(data) {
     });
 
     scrollToTopBtn.addEventListener('click', () => {
-        mainContainer.scrollTo({
+        window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
