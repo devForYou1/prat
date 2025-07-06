@@ -77,14 +77,11 @@ body.modal-open {
 
 /* Main container styling - Glassmorphism */
 .main-container-border {
-    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white, more opaque */
-    backdrop-filter: blur(15px); /* Stronger blur effect */
-    border: 1px solid rgba(10, 74, 122, 0.3); /* Dark blue with transparency */
-    border-radius: 1.5rem; /* More rounded corners */
-    padding: 2rem; /* Increased padding */
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Stronger shadow */
-    max-width: 800px; /* Max width for larger screens */
-    width: 90%; /* Fluid width for responsiveness */
+    /* Removed background-color, backdrop-filter, border, box-shadow to remove the "outer box" visual */
+    border-radius: 1.5rem; /* Keep rounded corners for consistency if elements inside have them */
+    padding: 2rem; /* Keep padding */
+    max-width: 800px; /* Keep max width for larger screens */
+    width: 90%; /* Keep fluid width for responsiveness */
     height: auto; /* Allow height to be determined by content */
     flex-grow: 1; /* Re-added flex-grow */
     margin: 1rem auto; /* Add margin to separate from top/bottom of viewport */
@@ -92,20 +89,9 @@ body.modal-open {
     direction: rtl; /* Ensure RTL for the entire content area */
 }
 
-/* Shimmer effect for main container */
+/* Shimmer effect for main container - Removed as it's tied to the box visual */
 .shimmer-effect {
-    position: absolute; /* Positioned relative to .main-container-border */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.2) 100%);
-    mask-image: radial-gradient(ellipse at center, transparent 0%, transparent 70%, black 100%);
-    -webkit-mask-image: radial-gradient(ellipse at center, transparent 0%, transparent 70%, black 100%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite linear;
-    border-radius: 1.5rem; /* Match container border-radius */
-    pointer-events: none; /* Allow clicks to pass through */
+    display: none; /* Hide shimmer effect */
 }
 
 @keyframes shimmer {
