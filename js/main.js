@@ -188,8 +188,20 @@ function renderApp(data) {
         if (section.isDirectContent) {
             // Direct content section
             const contentDiv = document.createElement('div');
-            contentDiv.className = 'content-section';
+            contentDiv.className = 'content-section'; // Apply default content-section styles first
             contentDiv.innerHTML = section.contentHtml;
+
+            // Special handling for "דבר ראש מרכז תע״ץ" to remove the inner box
+            if (section.id === "head-of-taatz-message") {
+                contentDiv.classList.remove('content-section'); // Remove the class
+                // Explicitly reset styles that might come from .content-section
+                contentDiv.style.border = 'none';
+                contentDiv.style.boxShadow = 'none';
+                contentDiv.style.backgroundColor = 'transparent';
+                contentDiv.style.backdropFilter = 'none';
+                contentDiv.style.padding = '0';
+                contentDiv.style.marginBottom = '0';
+            }
             collapseGrid.appendChild(contentDiv);
         } else {
             // Sub-items (nested accordion)
@@ -245,7 +257,7 @@ function renderApp(data) {
             img.onerror = function() { this.src = 'https://placehold.co/32x32/cccccc/000000?text=Error'; }; // Fallback image
             iconContainer.appendChild(img);
         } else if (linkData.svgContent) {
-            // Fallback for SVG content if imgSrc is not provided
+            // Use SVG content directly
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = linkData.svgContent;
             if (tempDiv.firstChild) {
