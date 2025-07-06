@@ -13,7 +13,7 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Main CSS -->
-    <link rel="stylesheet" href="./css/main.css?v=1.3"> <!-- Updated version parameter to bypass cache -->
+    <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
     <!-- Background overlay for dynamic opacity -->
@@ -28,47 +28,35 @@
         </svg>
     </button>
 
-    <!-- Page-specific content data defined globally - MUST be before main.js -->
+    <!-- Bootstrap JS CDN (bundle includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    <!-- Page-specific content data defined globally -->
     <script>
         // Define salKelimContentData globally so main.js can access it
         window.salKelimContentData = {
             mainTitle: "סל הכלים למפקד/ת",
             introParagraphs: [
-                "בעידן שבו ההון האנושי הוא המפתח להצלחה ארגונית, צה\"ל מציב את עובדיו בראש סדר העדיפויות. חוברת זו, 'סל הכלים למפקד/ת', מרכזת עבורכם את המענים והכלים המתקדמים ביותר לשימור, ניהול ופיתוח עובדות ועובדי צה\"ל. אנו מאמינים כי השקעה באנשינו היא השקעה בעתיד הביטחוני של מדינת ישראל.",
+                "לשימור ולניהול עובדי צה\"ל - מרכז תעסוקת עובדי צה\"ל 2025. החוברת נועדה לרכז את הכלים הקיימים לשימור, לניהול ולטיפול בעובדות ועובדי צה\"ל. המפקדים נמצאים בהתמודדות יומיומית עם אתגרים מבצעיים, מקצועיים ואישיים, והתקופה הנוכחית דורשת גיוס והכשרה מיידית של כוח אדם איכותי, כמו גם ניהול והשגת מחויבות גבוהה לעובדים קיימים. האנשים הם הלב הפועם של צה\"ל, ושימורם, טיפוחם והתפתחותם האישית והמקצועית הם המפתח להצלחה. העובדים מבצעים משימות, דוגלים בערכים, פועלים מתוך תחושת שליחות ומחויבות, וחשוב להעריך ולתמוך בהם. שימור כוח האדם האיכותי הוא מפתח להצלחת המשימות המבצעיות וההישגים הלאומיים של צה\"ל.",
             ],
             motto: "הגיע הזמן לשמור על המעצמה של צה\"ל!",
             signature: [], // Removed as per user request
             sections: [
                 {
-                    id: "introduction",
-                    title: "הקדמה",
-                    summary: "הקדמה לסל הכלים למפקד/ת.",
-                    isDirectContent: true,
-                    contentHtml: `
-                        <h2 class="fs-4 fw-bold mb-3 text-center">סל הכלים למפקד/ת</h2>
-                        <img src="https://placehold.co/400x200/E0F2F7/0A4A7A?text=הקדמה" alt="הקדמה" class="head-of-taatz-image">
-                        <p class="text-sm lh-base mb-3">בעידן שבו ההון האנושי הוא המפתח להצלחה ארגונית, צה"ל מציב את עובדיו בראש סדר העדיפויות. חוברת זו, 'סל הכלים למפקד/ת', מרכזת עבורכם את המענים והכלים המתקדמים ביותר לשימור, ניהול ופיתוח עובדות ועובדי צה"ל. אנו מאמינים כי השקעה באנשינו היא השקעה בעתיד הביטחוני של מדינת ישראל.</p>
-                        <p class="text-sm lh-base mb-3 text-center fw-bold">הגיע הזמן לשמור על המעצמה של צה"ל!</p>
-                    `,
-                    subItems: []
-                },
-                {
-                    id: "head-of-taatz-message",
+                    id: "head-of-taatz-message", // Changed ID to reflect it's a direct content accordion
                     title: "דבר ראש מרכז תע\"ץ",
                     summary: "מסר אישי מראש מרכז תע\"ץ על חשיבות שימור וניהול עובדי צה\"ל.",
-                    isDirectContent: true,
+                    isDirectContent: true, // Set to true for direct content
                     contentHtml: `
                         <h2 class="fs-4 fw-bold mb-3 text-center">דבר ראש מרכז תע"ץ</h2>
-                        <img src="https://placehold.co/400x200/E0F2F7/0A4A7A?text=ראש+מרכז+תע%22ץ" alt="ראש מרכז תעץ" class="head-of-taatz-image">
-                        <p class="text-sm lh-base mb-3">האנשים שלנו – החיילים, המפקדים והעובדים – הם הלב הפועם של צה"ל. השימור שלהם, השקעה בטיפוחם ובהתפתחותם האישית והמקצועית, הם המפתח להצלחתנו.</p>
-                        <p class="text-sm lh-base mb-3">זכרו, העובדים שלנו לא רק מבצעים משימות, הם דוגלים בערכים, פועלים מתוך תחושת שליחות ומחויבות, וחשוב שנדע להעריך ולתמוך בהם גם בזמנים קשים אלה. השימור של כוח האדם האיכותי והמסור הוא לא רק עניין של "שימור עובדים", אלא מפתח להצלחת המשימות המבצעיות וההישגים הלאומיים של צה"ל.</p>
-                        <p class="text-sm lh-base mb-3">אני מאחל לכם הצלחה רבה ומאמין כי יחד, בשיתוף פעולה ובניהול נכון, נוכל להמשיך ולהוביל את צה"ל אל עבר עתיד טוב יותר, גם בתקופה זו.</p>
-                        <p class="text-sm lh-base mb-3">החוברת שלפניכם נועדה לרכז את הכלים הקיימים לשימור, לניהול ולטיפול בעובדות ועובדי צה”ל.</p>
-                        <p class="text-sm lh-base mb-3">אנו מבינים כי אתם, המפקדות והמפקדים, נמצאים בהתמודדות יומיומית עם אתגרים מבצעיים, מקצועיים ואישיים, בטח בתקופה זו, המציבה בפנינו דרישות גבוהות ומשימות לא פשוטות.</p>
+                        <img src="https://www.dropbox.com/scl/fi/qkhvwkm7x8to9yq0d92k1/2025-07-03-145742.png?rlkey=ptg5ybb6jj4t32hdiyiz6vs3u&st=4i8nxt7t&dl=0" alt="ראש מרכז תעץ" class="head-of-taatz-image">
+                        <p class="text-sm lh-base mb-3">החוברת שלפניכם נועדה לרכז את הכלים הקיימים לשימור, לניהול ולטיפול בעובדות ועובדי צה"ל. אנו מבינים כי אתם, המפקדות והמפקדים, נמצאים בהתמודדות יומיומית עם אתגרים מבצעיים, מקצועיים ואישיים, בטח בתקופה זו, המציבה בפנינו דרישות גבוהות ומשימות לא פשוטות.</p>
                         <p class="text-sm lh-base mb-3">התקופה הנוכחית דורשת לא רק גיוס והכשרה מיידית של כוח אדם איכותי, אלא גם ניהול והשגת מחויבות גבוהה לעובדים שכבר נמצאים בשורותינו.</p>
-                        <p class="text-sm lh-base mb-3 text-end fw-bold">אל"ם מישאל מרדכי , ראש מרכז תע"ץ</p>
+                        <p class="text-sm lh-base mb-3">האנשים שלנו – החיילים, המפקדים והעובדים – הם הלב הפועם של צה"ל. השימור שלהם, השקעה בטיפוחם ובהתפתחותם האישית והמקצועית, הם המפתח להצלחתנו.</p>
+                        <p class="text-sm lh-base mb-3">זכרו, העובדים שלנו לא רק מבצעים משימות, הם דוגלים בערכים, פועלים מתוך תחושת שליחות ומחויבות, וחשוב שנדע להעריך ולתמוך בהם גם בזמנים קשים אלה.</p>
+                        <img src="https://www.dropbox.com/scl/fi/mvfjcjwrcaug7ltag36qb/2025-07-06-095446.png?rlkey=gccovykpdrwi903dvu2xm7z9i&st=iroivgl5&dl=0" alt="חתימת ראש מרכז תעץ" class="signature-image">
                     `,
-                    subItems: []
+                    subItems: [] // No sub-items for direct content
                 },
                 {
                     id: "flexibility",
@@ -82,11 +70,19 @@
                             content: `
                                 <h2 class="fs-4 fw-bold mb-3 text-center">שעון גמיש</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">מהות ההטבה</h3>
-                                    <p class="text-sm lh-base mb-3">אישור פרטני המאפשר לעובדים להגמיש את שעות ההתחלה והסיום של יום עבודתם, כל עוד הם עומדים במסגרת השעות היומיות שנקבעה בבסיס היום שלהם.</p>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-clock section-icon"></i> שעות העסקה - כללי</h3>
+                                    <p class="text-sm lh-base mb-3">חודש עבודה במשרה מלאה מונה 173.33 שעות בממוצע עבודה חודשיות, למעט אוכלוסיות ייחודיות (שעות העבודה לא כוללות הפסקות).</p>
+                                    <ul class="list-disc ps-4 text-sm lh-base mb-3">
+                                        <li>עובדים המועסקים 5 ימים בשבוע יעבדו 8 שעות עבודה ביום, לא כולל הפסקות.</li>
+                                        <li>עובדים המועסקים 6 ימים בשבוע יעבדו 7 שעות בימים א'-ה' ו-5 שעות עבודה ביום ו', לא כולל הפסקות.</li>
+                                    </ul>
                                 </div>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">אופן אישור ההטבה</h3>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-info-circle section-icon"></i> מהות ההטבה</h3>
+                                    <p class="text-sm lh-base mb-3">אישור פרטני המאפשר לעובדים להגמיש את שעות ההתחלה והסיום של יום העבודה, כל עוד הם עומדים במסגרת השעות היומיות שנקבעה בבסיס היום שלהם.</p>
+                                </div>
+                                <div class="content-section">
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-check-circle section-icon"></i> אופן אישור ההטבה</h3>
                                     <p class="text-sm lh-base mb-3">הטבה זו אינה קבועה, ונבחנת מדי שנה קלנדרית בכפוף להגשת בקשה ואישור מפקד. בקשה זו מאושרת ברמת היחידה.</p>
                                 </div>
                             `,
@@ -97,30 +93,9 @@
                             content: `
                                 <h2 class="fs-4 fw-bold mb-3 text-center">עובד גמיש</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">מהות ההטבה</h3>
-                                    <p class="text-sm lh-base mb-3">אישור פרטני המאפשר לעובדים להגמיש את שעות עבודתם ברמה החודשית, כלומר סך שעות העבודה יספרו ברמה החודשית. בכל מקרה לעובד גמיש תהיה מגבלת שעות של 12 שעות עבודה.</p>
-                                    <p class="text-sm lh-base mb-3">הטבה זו אינה קבועה, ונבחנת מדי שנה קלנדרית בכפוף להגשת בקשה ואישור מפקד.</p>
-                                </div>
-                                <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">הטבה אוטומטית עבור</h3>
-                                    <p class="text-sm lh-base mb-3">עובדים בהסכם הקיבוצי המועסקים במשרה חלקית, עובדים בחוזה אישי, סטודנטים ועובדים בהעסקה ארעית.</p>
-                                </div>
-                            `,
-                        },
-                        {
-                            id: "general-employment-hours",
-                            title: "שעות העסקה - כללי",
-                            content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">שעות העסקה - כללי</h2>
-                                <div class="content-section">
-                                    <p class="text-sm lh-base mb-3">חודש עבודה במשרה מלאה מונה 173.33 שעות בממוצע עבודה חודשיות, למעט אוכלוסיות ייחודיות (שעות העבודה לא כוללות הפסקות).</p>
-                                    <p class="text-sm lh-base mb-3">עובדים המועסקים במשרה מלאה יועסקו באופן הבא:</p>
-                                    <div class="list-section-box">
-                                        <ul class="list-disc ps-4 text-sm lh-base mb-3">
-                                            <li>עובדים המועסקים 5 ימים בשבוע יעבדו 8 שעות עבודה ביום, לא כולל הפסקות.</li>
-                                            <li>עובדים המועסקים 6 ימים בשבוע יעבדו 7 שעות בימים א'-ה' ו-5 שעות עבודה ביום ו', לא כולל הפסקות.</li>
-                                        </ul>
-                                    </div>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-user-tie section-icon"></i> מהות ההטבה</h3>
+                                    <p class="text-sm lh-base mb-3">אישור פרטני המאפשר לעובדים להגמיש את שעות עבודתם ברמה החודשית, כלומר סך שעות העבודה יספרו ברמה החודשית. בכל מקרה לעובד גמיש תהיה מגבלת שעות של 12 שעות עבודה. הטבה זו אינה קבועה, ונבחנת מדי שנה קלנדרית בכפוף להגשת בקשה ואישור מפקד.</p>
+                                    <p class="text-sm lh-base mb-3">הטבה אוטומטית עבור: עובדים בהסכם הקיבוצי המועסקים במשרה חלקית, עובדים בחוזה אישי, סטודנטים ועובדים בהעסקה ארעית.</p>
                                 </div>
                             `,
                         },
@@ -130,45 +105,29 @@
                             content: `
                                 <h2 class="fs-4 fw-bold mb-3 text-center">שעות נוספות</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">הגדרת שעות נוספות ותשלום</h3>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-hourglass-half section-icon"></i> הגדרת שעות נוספות ותשלום</h3>
                                     <p class="text-sm lh-base mb-3">שעות המבוצעות בפועל מעבר למכסת השעות היומית המלאה. ביצוע השעות מותנה באישור מפקד/ת היחידה והסמכות.</p>
-                                    <p class="text-sm lh-base mb-3">התשלום: שעתיים ראשונות - 125%, שעתיים הבאות ברצף - 150% ומהשעה החמישית ואילך - 175%.</p>
-                                    <p class="text-sm lh-base mb-3">יודגש כי שעות נוספות ניתנות למול אישור תקציבי בסמכות!</p>
-                                    <p class="text-sm lh-base mb-3">יש לשים לב כי שעות נוספות לעובדים גמישים מחושבות ברמה החודשית ולא ברמה יומית.</p>
+                                    <p class="text-sm lh-base mb-3">התשלום: שעתיים ראשונות - 125%, שעתיים הבאות ברצף - 150%, ומהשעה החמישית ואילך - 175%. יודגש כי שעות נוספות ניתנות למול אישור תקציבי בסמכות! יש לשים לב כי שעות נוספות לעובדים גמישים מחושבות ברמה החודשית ולא ברמה יומית.</p>
                                 </div>
                                 <div class="tip-gold">
                                     <p class="gradient-text-bold"><strong>טיפ זהב!</strong></p>
-                                    <p class="text-sm">לא ניתן להעסיק ע"צ מעבר ל - 12 שעות עבודה ביום. במקרים חריגים יהיה ניתן לחרוג מהגבלה בכפוף לאישור מרכז תע”ץ.</p>
+                                    <p class="text-sm">לא ניתן להעסיק עובד צה"ל מעבר ל-12 שעות עבודה ביום. במקרים חריגים יהיה ניתן לחרוג מההגבלה בכפוף לאישור מרכז תע"ץ.</p>
                                 </div>
                             `,
                         },
                         {
-                            id: "work-from-home",
-                            title: "עבודה מהבית",
+                            id: "annual-vacations",
+                            title: "חופשות שנתיות",
                             content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">עבודה מהבית</h2>
+                                <h2 class="fs-4 fw-bold mb-3 text-center">חופשות שנתיות</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">אישור עבודה מהבית</h3>
-                                    <p class="text-sm lh-base mb-3">בסמכות מפקד יחידה סא”ל/ אע”ב לאשר לעובד/ת צה”ל לעבוד מהבית, עד 4 ימים בחודש ולא יותר מפעם בשבוע, במידה ועומד בקריטריונים:</p>
-                                    <div class="list-section-box">
-                                        <ul class="list-disc ps-4 text-sm lh-base mb-3">
-                                            <li>העובד מסכים וחתם על טופס ייעודי.</li>
-                                            <li>לעובד תוספת חילית 10% בלבד.</li>
-                                            <li>עיקר תפקידו אינו כרוך במתן שירות פרונטלי.</li>
-                                            <li>הוגדרו משימות בהן יעסוק לטובת בקרה.</li>
-                                            <li>קיימת תשתית טכנולוגית מאפשרת.</li>
-                                            <li>יש אישור ב”ם.</li>
-                                        </ul>
-                                    </div>
-                                    <p class="text-sm lh-base mb-3">עבודה מהבית תתאפשר עבור ימים שלמים בלבד וללא שעות נוספות.</p>
-                                    <p class="text-sm lh-base mb-3">למען הסר הספק, לא ניתן להעסיק בשעות נוספות מהבית.</p>
-                                </div>
-                                <div class="tip-gold">
-                                    <p class="gradient-text-bold"><strong>טיפ זהב!</strong></p>
-                                    <p class="text-sm">עבודה מהבית מהווה כלי משמעותי לשימור עובדים ולמתן האפשרות לאזן בין הבית לעבודה! אל תהססו להשתמש בכלי זה.</p>
-                                </div>
-                                <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">הערה</h3>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-plane-departure section-icon"></i> ימי חופשה לעובדים</h3>
+                                    <p class="text-sm lh-base mb-3">ניתן לצבור עד 59 ימי חופשה לעובדים המועסקים 5 ימים בשבוע, ו-66 ימי חופשה לעובדים המועסקים 6 ימים בשבוע. מספר ימי החופשה ניתנים מראש בכל שנה קלנדרית ומותנים בהיקף ימי עבודה מינימליים בשנה.</p>
+                                    <h3 class="fs-5 fw-semibold mt-4">דירוג האקדמאים לרבות עובדים בדירוג מנהלי ודירוג מחסנאים:</h3>
+                                    <p class="text-sm lh-base mb-3">
+                                        5 ימי עבודה בשבוע: 24 ימי חופשה<br>
+                                        6 ימי עבודה בשבוע: 27 ימי חופשה
+                                    </p>
                                     <p class="text-sm lh-base mb-3">הנ"ל לא חל על עובדות ועובדי הוראה ולא על סטודנטים.</p>
                                 </div>
                             `,
@@ -179,10 +138,9 @@
                             content: `
                                 <h2 class="fs-4 fw-bold mb-3 text-center">משרת הורה</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">זכאות לקיצור יום עבודה</h3>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-child section-icon"></i> זכאות לקיצור יום עבודה</h3>
                                     <p class="text-sm lh-base mb-3">זכאות לקיצור יום עבודה בחצי שעה אחת ללא ניכוי מהשכר עבור הורים לילדים מתחת לגיל 12.</p>
-                                    <p class="text-sm lh-base mb-3">זכאים להטבה עובדים במשרה מלאה שהינם הורים לילדים אשר גילם נמוך מ- 12 שנים, ובלבד שבני/בנות זוגם/ן עובדים ב-100% משרה ולא מקבלים או לא מנצלים הטבה זו במקום עבודתם.</p>
-                                    <p class="text-sm lh-base mb-3">עובדות זכאיות להטבה באופן אוטומטי. עובדים נדרשים להגיש בקשה לבחינה במדור פרט במרכז תע"ץ.</p>
+                                    <p class="text-sm lh-base mb-3">זכאים להטבה עובדים במשרה מלאה שהינם הורים לילדים אשר גילם נמוך מ-12 שנים, ובלבד שבני/בנות זוגם/ן עובדים ב-100% משרה ולא מקבלים או לא מנצלים הטבה זו במקום עבודתם. עובדות זכאיות להטבה באופן אוטומטי. עובדים נדרשים להגיש בקשה לבחינה במדור פרט במרכז תע"ץ.</p>
                                 </div>
                             `,
                         },
@@ -192,43 +150,49 @@
                             content: `
                                 <h2 class="fs-4 fw-bold mb-3 text-center">אם מניקה</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">זכאות לקיצור יום עבודה לצורך הנקה</h3>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-baby section-icon"></i> זכאות לקיצור יום עבודה לצורך הנקה</h3>
                                     <p class="text-sm lh-base mb-3">אם מניקה זכאית לקיצור יום עבודתה בשעה וחצי לכל היותר לצורך הנקה עד מלאת שנה לילד/ה שלה. זאת בכפוף לכך שהעובדת אינה גמישה ושבסיס היום לאחר הקיצור הוא 6 שעות לפחות.</p>
+                                </div>
+                                <div class="content-section">
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-exclamation-circle section-icon"></i> הערה</h3>
+                                    <p class="text-sm lh-base mb-3">הנ"ל לא חל על עובדות ועובדי הוראה ולא על סטודנטים.</p>
                                 </div>
                             `,
                         },
                         {
-                            id: "annual-vacations",
-                            title: "חופשות שנתיות",
+                            id: "work-from-home",
+                            title: "עבודה מהבית",
                             content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">חופשות שנתיות</h2>
+                                <h2 class="fs-4 fw-bold mb-3 text-center">עבודה מהבית</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">ימי חופשה לעובדים</h3>
-                                    <p class="text-sm lh-base mb-3">ניתן לצבור עד 59 ימי חופשה לעובדים המועסקים 5 ימים בשבוע, ו- 66 ימי חופשה לעובדים המועסקים 6 ימים בשבוע.</p>
-                                    <p class="text-sm lh-base mb-3">מספר ימי החופשה ניתנים מראש בכל שנה קלנדרית ומותנים בהיקף ימי עבודה מינימליים בשנה.</p>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-home section-icon"></i> אישור עבודה מהבית</h3>
+                                    <p class="text-sm lh-base mb-3">בסמכות מפקד יחידה סא"ל/אע"ב לאשר לעובד/ת צה"ל לעבוד מהבית, עד 4 ימים בחודש ולא יותר מפעם בשבוע, במידה ועומד בקריטריונים:</p>
+                                    <ul class="list-disc ps-4 text-sm lh-base mb-3">
+                                        <li>העובד מסכים וחתם על טופס ייעודי</li>
+                                        <li>למעובד תוספת חילית 10% בלבד</li>
+                                        <li>עיקר תפקידו אינו כרוך במתן שירות פרונטלי</li>
+                                        <li>הוגדרו משימות בהן יעסוק לטובת בקרה</li>
+                                        <li>קיימת תשתית טכנולוגית מאפשרת</li>
+                                        <li>יש אישור ב"ם</li>
+                                    </ul>
+                                    <p class="text-sm lh-base mb-3">עבודה מהבית תתאפשר עבור ימים שלמים בלבד וללא שעות נוספות. למען הסר הספק, לא ניתן להעסיק בשעות נוספות מהבית.</p>
+                                </div>
+                                <div class="tip-gold">
+                                    <p class="gradient-text-bold"><strong>טיפ זהב!</strong></p>
+                                    <p class="text-sm">עבודה מהבית מהווה כלי משמעותי לשימור עובדים ולמתן האפשרות לאזן בין הבית לעבודה! אל תהססו להשתמש בכלי זה.</p>
                                 </div>
                             `,
                         },
-                    ],
-                },
-                {
-                    id: "compensation-days-section",
-                    title: "ימי תמורה",
-                    summary: "מידע על ימי תמורה.",
-                    isDirectContent: false,
-                    subItems: [
                         {
                             id: "compensation-days",
                             title: "ימי תמורה",
                             content: `
                                 <h2 class="fs-4 fw-bold mb-3 text-center">ימי תמורה</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">הגדרת ימי תמורה</h3>
-                                    <p class="text-sm lh-base mb-3">חופשת תמורה הינה יום מנוחה בשכר (בסיס בלבד) על חשבון המערכת.</p>
-                                    <p class="text-sm lh-base mb-3">המקרים עבורם מזכים בחופשת תמורה מפורטים בהוראה 24-12 ובמסמך מדיניות ימי תמורה בגין פעילויות רווחה, המתעדכן מידי שנה ובתיאום עם ארגון ע״צ.</p>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-calendar-alt section-icon"></i> הגדרת ימי תמורה</h3>
+                                    <p class="text-sm lh-base mb-3">חופשת תמורה הינה יום מנוחה בשכר (בסיס בלבד) על חשבון המערכת. המקרים עבורם מזכים בחופשת תמורה מפורטים בהוראה 24-12 ובמסמך מדיניות ימי תמורה בגין פעילויות רווחה, המתעדכן מדי שנה ובתיאום עם ארגון ע"צ.</p>
                                     <p class="text-sm lh-base mb-3">לרשות מפקד יחידה שני ימי תמורה בשנה עבור פעילות חברתית של היחידה.</p>
-                                    <p class="text-sm lh-base mb-3">למרכז תע״צ הסמכות לאשר תמורה באופן חריג במקרה ייחודי כל עוד אין מענה חוקי אחר למצב זה.</p>
-                                    <p class="text-sm lh-base mb-3">בהתאם, מפקד יוכל לפנות למרכז תע״צ לבחינה ואישור של חופשת תמורה שאיננה במסגרת המקרים המפורטים לעיל.</p>
+                                    <p class="text-sm lh-base mb-3">למרכז תע"ץ הסמכות לאשר תמורה באופן חריג במקרה ייחודי כל עוד אין מענה חוקי אחר למצב זה. בהתאם, מפקד יוכל לפנות למרכז תע"ץ לבחינה ואישור של חופשת תמורה שאיננה במסגרת המקרים המפורטים לעיל.</p>
                                 </div>
                             `,
                         },
@@ -238,10 +202,8 @@
                             content: `
                                 <h2 class="fs-4 fw-bold mb-3 text-center">יום בחירה</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">זכאות ליום בחירה</h3>
-                                    <p class="text-sm lh-base mb-3">עובדים זכאים ליום בחירה אחד בשנה מתוך רשימת ימי בחירה אפשריים אשר מופצת מדי שנה ע"י מרכז תע"ץ.</p>
-                                    <p class="text-sm lh-base mb-3">הזכאות ניתנת לאחר ותק של 68 ימי העסקה רצופים.</p>
-                                    <p class="text-sm lh-base mb-3">ימי הבחירה אינם נצברים.</p>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-calendar-check section-icon"></i> זכאות ליום בחירה</h3>
+                                    <p class="text-sm lh-base mb-3">עובדים זכאים ליום בחירה אחד בשנה מתוך רשימת ימי בחירה אפשריים אשר מופצת מדי שנה ע"י מרכז תע"ץ. הזכאות ניתנת לאחר ותק של 68 ימי העסקה רצופים. ימי הבחירה אינם נצברים.</p>
                                 </div>
                             `,
                         },
@@ -254,43 +216,38 @@
                     isDirectContent: false,
                     subItems: [
                         {
-                            id: "salary-grade-promotion",
-                            title: "קידום בדרגת שכר לדרגה סגורה/בכירה",
-                            content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">קידום בדרגת שכר לדרגה סגורה/בכירה</h2>
-                                <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">תהליך הקידום</h3>
-                                    <p class="text-sm lh-base mb-3">ככלל, עובדי צה"ל מקודמים בדרגות בהתאם למתח הדרגות לקידום שוטף, בהתאם למדיניות הפז"ם והקיצורים הקבועה לעובדי צה"ל (עובדי דור ההמשך מקודמים בנוסף בהתאם למתח הדרגות לתקן).</p>
-                                    <p class="text-sm lh-base mb-3">קידום עובד לדרגה סגורה/בכירה אשר סיים את טווח קידומי הדרגות יתאפשר במסגרת ועדה צה"לית, בראשות ראש המרכז ויו"ר ארגון ע"צ, אשר מתקיימת אחת לשנה.</p>
-                                    <p class="text-sm lh-base mb-3">שמות המועמדים לוועדה מועברים על ידי הסמכות בהתאם להקצאות ועמידה בקריטריונים כפי שמתפרסמים ע”י מרכז תע”ץ.</p>
-                                </div>
-                            `,
-                        },
-                        {
                             id: "incentives",
                             title: "תמריצים",
                             content: `
                                 <h2 class="fs-4 fw-bold mb-3 text-center">תמריצים</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">סוגי תמריצים וקריטריונים</h3>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-gift section-icon"></i> סוגי תמריצים וקריטריונים</h3>
                                     <p class="text-sm lh-base mb-3">התמריצים מיועדים לעובדי צה"ל בהסכם קיבוצי (ללא סטודנטים, חניכים ועובדים בחוזה אישי). התמריצים מחולקים ל-2 קטגוריות:</p>
-                                    <p class="text-sm lh-base mb-3"><strong class="font-bold text-blue-800 text-base">תמריצי שימור הון אנושי:</strong> מיועדים לשימור עובדים/ות אשר כוללים חתימה להתחייבות על תקופת העסקה.</p>
-                                    <div class="list-section-box">
-                                        <ul class="list-disc ps-4 text-sm lh-base mb-3">
-                                            <li>25,000/50,000 ש”ח חתימה ל 24/36 חודשים העומדים בקריטריונים:</li>
-                                            <li>ותק של שנה עד 15 שנות עבודה.</li>
-                                            <li>ציון חוו"ד 1 או 2 בשלוש השנים האחרונות.</li>
-                                        </ul>
-                                    </div>
-                                    <p class="text-sm lh-base mb-3"><strong class="font-bold text-blue-800 text-base">תמריצי הוקרה:</strong> מיועדים לעובדים/ות המצטיינים בעשייה המקצועית בסכום 8,000/10,000 ש”ח ללא צורך בהתחייבות, העומדים בקריטריונים:</p>
-                                    <div class="list-section-box">
-                                        <ul class="list-disc ps-4 text-sm lh-base mb-3">
-                                            <li>ותק של שלוש שנים ומעלה.</li>
-                                            <li>ציון חוו"ד 1 או 2 בשלוש השנים האחרונות כאשר הציון חייב להיות 1 באחת מהן.</li>
-                                        </ul>
-                                    </div>
-                                    <p class="text-sm lh-base mt-3">המענקים יינתנו לעובדים המועסקים ב- 100% משרה בלבד.</p>
-                                    <p class="text-sm lh-base mb-3">מקרים חריגים ייבחנו על ידי ראש מרכז תע”ץ.</p>
+                                    <p class="text-sm lh-base mb-3"><strong class="font-bold text-blue-800 text-base">תמריצי שימור הון אנושי:</strong> מיועדים לשימור עובדים/ות אשר כוללים חתימה להתחייבות על תקופת העסקה. סכומים של 25,000/50,000 ש"ח לחתימה ל-24/36 חודשים.
+                                    <br>קריטריונים:
+                                    <ul class="list-disc ps-4 text-sm lh-base mb-3">
+                                        <li>ותק של שנה עד 15 שנות עבודה.</li>
+                                        <li>ציון חוו"ד 1 או 2 בשלוש השנים האחרונות.</li>
+                                    </ul>
+                                    <p class="text-sm lh-base mb-3"><strong class="font-bold text-blue-800 text-base">תמריצי הוקרה:</strong> מיועדים לעובדים/ות המצטיינים בעשייה המקצועית בסכום 8,000/10,000 ש"ח ללא צורך בהתחייבות.
+                                    <br>קריטריונים:
+                                    <ul class="list-disc ps-4 text-sm lh-base mb-3">
+                                        <li>ותק של שלוש שנים ומעלה.</li>
+                                        <li>ציון חוו"ד 1 או 2 בשלוש השנים האחרונות כאשר הציון חייב להיות 1 באחת מהן.</li>
+                                    </ul>
+                                    <p class="text-sm lh-base mt-3">המענקים יינתנו לעובדים המועסקים ב-100% משרה בלבד. מקרים חריגים ייבחנו על ידי ראש מרכז תע"ץ.</p>
+                                </div>
+                            `,
+                        },
+                        {
+                            id: "salary-grade-promotion",
+                            title: "קידום בדרגת שכר לדרגה סגורה/בכירה",
+                            content: `
+                                <h2 class="fs-4 fw-bold mb-3 text-center">קידום בדרגת שכר לדרגה סגורה/בכירה</h2>
+                                <div class="content-section">
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-chart-line section-icon"></i> תהליך הקידום</h3>
+                                    <p class="text-sm lh-base mb-3">ככלל, עובדי צה"ל מקודמים בדרגות בהתאם למתח הדרגות לקידום שוטף, בהתאם למדיניות הפז"ם והקיצורים הקבועה לעובדי צה"ל (עובדי דור ההמשך מקודמים בנוסף בהתאם למתח הדרגות לתקן).</p>
+                                    <p class="text-sm lh-base mb-3">קידום עובד לדרגה סגורה/בכירה אשר סיים את טווח קידומי הדרגות יתאפשר במסגרת ועדה צה"לית, בראשות ראש המרכז ויו"ר ארגון ע"צ, אשר מתקיימת אחת לשנה. שמות המועמדים לוועדה מועברים על ידי הסמכות בהתאם להקצאות ועמידה בקריטריונים כפי שמתפרסמים ע"י מרכז תע"ץ.</p>
                                 </div>
                             `,
                         },
@@ -300,28 +257,14 @@
                             content: `
                                 <h2 class="fs-4 fw-bold mb-3 text-center">הצטיינות</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">סוגי הצטיינות</h3>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-medal section-icon"></i> סוגי הצטיינות</h3>
                                     <p class="text-sm lh-base mb-3">בחירת עובד/ת כמצטיין/ת מהווה הזדמנות ייחודית להערכה והוקרה משמעותית על עשייה בולטת במקצועיות, במסירות ובתרומה עבור צה"ל. קיימים שלושה סוגי הצטיינות עבור עובדות ועובדי צה"ל כדלקמן:</p>
-                                    <div class="list-section-box">
-                                        <ul class="list-disc ps-4 text-sm lh-base mb-3">
-                                            <li><strong class="gradient-text-bold">מצטיינות ומצטייני רמטכ"ל:</strong> ותק מינימלי של חמש שנים וציון חוות דעת 1 (מצוין) בשנתיים האחרונות.</li>
-                                            <li><strong class="gradient-text-bold">מצטיינות ומצטייני אלוף:</strong> ותק מינימלי של שנתיים לפחות וציון חוות דעת 1 (מצוין) באחת מהשנתיים האחרונות.</li>
-                                            <li><strong class="gradient-text-bold">מצטיינות ומצטייני תא"ל:</strong> ציון חוות דעת 1 (מצוין) באחת מהשנתיים האחרונות.</li>
-                                        </ul>
-                                    </div>
+                                    <ul class="list-disc ps-4 text-sm lh-base mb-3">
+                                        <li><strong class="gradient-text-bold">מצטיינות ומצטייני רמטכ"ל:</strong> ותק מינימלי של חמש שנים וציון חוות דעת 1 (מצוין) בשנתיים האחרונות.</li>
+                                        <li><strong class="gradient-text-bold">מצטיינות ומצטייני אלוף:</strong> ותק מינימלי של שנתיים לפחות וציון חוות דעת 1 (מצוין) באחת מהשנתיים האחרונות.</li>
+                                        <li><strong class="gradient-text-bold">מצטיינות ומצטייני תא"ל:</strong> ציון חוות דעת 1 (מצוין) באחת מהשנתיים האחרונות.</li>
+                                    </ul>
                                     <p class="text-sm lh-base mb-3">השנה, תינתן גם הצטיינות במעמד שר הביטחון. הקריטריונים יפורסמו בהמשך.</p>
-                                </div>
-                            `,
-                        },
-                        {
-                            id: "friend-brings-friend",
-                            title: "\"חבר מביא חבר\"",
-                            content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">"חבר מביא חבר"</h2>
-                                <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">שיטת גיוס עובדים</h3>
-                                    <p class="text-sm lh-base mb-3">שיטת “חבר מביא חבר” היא דרך מצוינת לגייס עובדים איכותיים באמצעות המלצות של עובדים קיימים. כל עובד שימליץ על מועמד שיתקבל ויישאר בתפקידו לפחות 4 חודשים יקבל שובר מתנה.</p>
-                                    <p class="text-sm lh-base mb-3">על מנת לקבל את טופס הגשת המועמדים ניתן לפנות ל-WhatsApp של מדור איתור והשמה <span class="fw-bold gradient-text-bold">052-3869136</span>.</p>
                                 </div>
                             `,
                         },
@@ -331,12 +274,22 @@
                             content: `
                                 <h2 class="fs-4 fw-bold mb-3 text-center">שכר עידוד</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">הגדרת שכר עידוד</h3>
-                                    <p class="text-sm lh-base mb-3">שכר עידוד הוא תוספת שכר המשולמת למי שתפוקת עבודתו גבוהה מעבר ליעדים שנקבעו.</p>
-                                    <p class="text-sm lh-base mb-3">שכר העידוד מקובל כאמצעי ארגוני ליצירת הנעה, להגדלת תפוקות ולתגמול עובדים. שכר עידוד מחושב ברמה קבוצתית ולא בהכרח לכל היחידה באותה השיטה.</p>
-                                    <p class="text-sm lh-base mb-3">גובה הפרמיה לקבוצת תעסוקה מסוימת נקבע ע״פ שיטת החישוב שאושרה על ידי הועדה לקשירת השכר לתפוקה במשהב״ט.</p>
-                                    <p class="text-sm lh-base mb-3">ועדה זו קובעת לכל קבוצת עובדים שיטת חישוב נפרדת. לאחר אישור הועדה יש לפנות למרכז תע״צ לפתיחת קבוצת תעסוקה ולהזנה.</p>
-                                    <p class="text-sm lh-base mb-3">התשלום יכול להתבצע ברמה חודשית/רבעונית/חציונית בהתאם להחלטת הועדה ובהתאם לעמידת העובדים ביעדים שהוגדרו להם.</p>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-money-bill-wave section-icon"></i> הגדרת שכר עידוד</h3>
+                                    <p class="text-sm lh-base mb-3">שכר עידוד הוא תוספת שכר המשולמת למי שתפוקת עבודתו גבוהה מעבר ליעדים שנקבעו. שכר העידוד מקובל כאמצעי ארגוני ליצירת הנעה, להגדלת תפוקות ולתגמול עובדים.</p>
+                                    <p class="text-sm lh-base mb-3">שכר עידוד מחושב ברמה קבוצתית ולא בהכרח לכל היחידה באותה השיטה. גובה הפרמיה לקבוצת תעסוקה מסוימת נקבע ע"פ שיטת החישוב שאושרה על ידי הוועדה לקשירת השכר לתפוקה במשהב"ט. ועדה זו קובעת לכל קבוצת עובדים שיטת חישוב נפרדת.</p>
+                                    <p class="text-sm lh-base mb-3">לאחר אישור הוועדה יש לפנות למרכז תע"ץ לפתיחת קבוצת תעסוקה ולהזנה. התשלום יכול להתבצע ברמה חודשית/רבעונית/חציונית בהתאם להחלטת הוועדה ובהתאם לעמידת העובדים ביעדים שהוגדרו להם.</p>
+                                </div>
+                            `,
+                        },
+                        {
+                            id: "friend-brings-friend",
+                            title: "\"חבר מביא חבר\"",
+                            content: `
+                                <h2 class="fs-4 fw-bold mb-3 text-center">"חבר מביא חבר"</h2>
+                                <div class="content-section">
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-user-friends section-icon"></i> שיטת גיוס עובדים</h3>
+                                    <p class="text-sm lh-base mb-3">שיטת "חבר מביא חבר" היא דרך מצוינת לגייס עובדים איכותיים באמצעות המלצות של עובדים קיימים. כל עובד שימליץ על מועמד שיתקבל ויישאר בתפקידו לפחות 4 חודשים יקבל שובר מתנה.</p>
+                                    <p class="text-sm lh-base mb-3">על מנת לקבל את טופס הגשת המועמדים ניתן לפנות ל-WhatsApp של מדור איתור: <span class="fw-bold gradient-text-bold">052-3869136</span></p>
                                 </div>
                             `,
                         },
@@ -350,21 +303,18 @@
                     subItems: [
                         {
                             id: "tuition-studies",
-                            title: "לימודי תוכ\"ש",
+                            title: "לימודי תוכייש",
                             content: `
                                 <h2 class="fs-4 fw-bold mb-3 text-center">לימודים והשכלה</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">אפשרויות לימודים ע"ח שעות העבודה</h3>
-                                    <p class="text-sm lh-base mb-3">עובד/ת צה"ל המעוניין לצאת ללימודים ע"ח שעות העבודה יוכל ללמוד, באישור מפקדיו, לימודי טכנאים/ הנדסאים, לימודים אקדמיים ולימודי הוראה, 4 שעות/ יום לימודים בשבוע.</p>
-                                    <p class="text-sm lh-base mb-3">ההטבה ניתנת על חשבון ימי השתלמות בשכר, או בניכוי עד חמישה ימי חופשה שנתית.</p>
-                                    <h3 class="fs-5 fw-semibold mt-4">בנוסף, קיימים ערוצי מימון לימודים שונים:</h3>
-                                    <div class="list-section-box">
-                                        <ul class="list-disc ps-4 text-sm lh-base mb-3">
-                                            <li>כיתות לימוד במימון צה”ל כפי שיפתחו ויפורסמו מעת לעת.</li>
-                                            <li>מלגות מטעם צה"ל הניתנות באמצעות ארגון עובדי צה"ל.</li>
-                                            <li>מלגות הניתנות על ידי 'קרן ידע'.</li>
-                                        </ul>
-                                    </div>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-book-open section-icon"></i> אפשרויות לימודים ע"ח שעות העבודה</h3>
+                                    <p class="text-sm lh-base mb-3">עובד/ת צה"ל המעוניין לצאת ללימודים ע"ח שעות העבודה יוכל ללמוד, באישור מפקדיו, לימודי טכנאים/הנדסאים, לימודים אקדמיים ולימודי הוראה, 4 שעות/יום לימודים בשבוע. ההטבה ניתנת על חשבון ימי השתלמות בשכר, או בניכוי עד חמישה ימי חופשה שנתית.</p>
+                                    <p class="text-sm lh-base mb-3">בנוסף, קיימים ערוצי מימון לימודים שונים:</p>
+                                    <ul class="list-disc ps-4 text-sm lh-base mb-3">
+                                        <li>כיתות לימוד במימון צה"ל כפי שייפתחו ויפורסמו מעת לעת.</li>
+                                        <li>מלגות מטעם צה"ל הניתנות באמצעות ארגון עובדי צה"ל.</li>
+                                        <li>מלגות הניתנות על ידי 'קרן ידע'.</li>
+                                    </ul>
                                 </div>
                             `,
                         },
@@ -374,15 +324,13 @@
                             content: `
                                 <h2 class="fs-4 fw-bold mb-3 text-center">ימי השתלמות בשכר</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">זכאות לימי השתלמות</h3>
-                                    <p class="text-sm lh-base mb-3">ימים הניתנים על חשבון המערכת עבור השתלמויות הכרוכות לשיפור הרמה המקצועית ונמצאות בזיקה לתפקיד/ קורסים לגמו"ש/ סמינרים וביוזמת העובד.</p>
-                                    <p class="text-sm lh-base mb-3">היקף ימי הזכאות להם זכאים עובדים במהלך השנה ניתנים בהתאם לדירוג ולדרגה. כמו כן, ימים אלו אינם ניתנים לפדיון.</p>
-                                    <p class="text-sm lh-base mb-3">בקשה זו נדרשת בהמלצת מפקד בדרגת סא"ל/תנ”ב לפחות ומאושרת אצל הסמכות. יחידות קטנות וחריגים מטופלים ע"י מדור פרט במרכז תע"ץ.</p>
-                                    <p class="text-sm lh-base mb-3">מפקד אל”ם/תס”ן יכול לעכב את יציאת העובד להשתלמות בחצי שנה במידה ויצא להשתלמות בת 5 ימים לפחות באותה השנה.</p>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-chalkboard-teacher section-icon"></i> זכאות לימי השתלמות</h3>
+                                    <p class="text-sm lh-base mb-3">ימים הניתנים על חשבון המערכת עבור השתלמויות הכרוכות לשיפור הרמה המקצועית ונמצאות בזיקה לתפקיד/קורסים לגמו"ש/סמינרים וביוזמת העובד. היקף ימי הזכאות להם זכאים עובדים במהלך השנה ניתנים בהתאם לדירוג ולדרגה. כמו כן, ימים אלו אינם ניתנים לפדיון.</p>
+                                    <p class="text-sm lh-base mb-3">בקשה זו נדרשת בהמלצת מפקד בדרגת סא"ל/תנ"ב לפחות ומאושרת אצל הסמכות. יחידות קטנות וחריגים מטופלים ע"י מדור פרט במרכז תע"ץ. מפקד אל"ם/תס"ן יכול לעכב את יציאת העובד להשתלמות בחצי שנה במידה ויצא להשתלמות בת 5 ימים לפחות באותה השנה.</p>
                                 </div>
                                 <div class="tip-gold">
                                     <p class="gradient-text-bold"><strong>טיפ זהב!</strong></p>
-                                    <p class="text-sm">ניתן לשלב עובדות ועובדי צה”ל בכיתות מובנות של משרתי קבע בפיקוד/חיל. נדרש לפנות לקצין המשא”ן/ האזרחים על מנת להסדיר את התהליך מול מרכז תע”ץ.</p>
+                                    <p class="text-sm">ניתן לשלב עובדות ועובדי צה"ל בכיתות מובנות של משרתי קבע בפיקוד/חיל. נדרש לפנות לקצין המשא"ן/האזרחים על מנת להסדיר את התהליך מול מרכז תע"ץ.</p>
                                 </div>
                             `,
                         },
@@ -396,51 +344,47 @@
                     subItems: [
                         {
                             id: "social-service-overview",
-                            title: "טיפול, ייעוץ וליווי עובדים במצבי משבר מטעם השירות הסוציאלי",
+                            title: "תפקיד השירות הסוציאלי",
                             content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">טיפול, ייעוץ וליווי עובדים במצבי משבר מטעם השירות הסוציאלי</h2>
+                                <h2 class="fs-4 fw-bold mb-3 text-center">תפקיד השירות הסוציאלי</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">תפקיד השירות הסוציאלי בצה"ל</h3>
-                                    <p class="text-sm lh-base mb-3">השירות הסוציאלי לאזרחים עובדי צה"ל, הינו שירות מקצועי, הנותן טיפול רגשי ונפשי לעובד. הוא כולל בתוכו צוות מטפלות, בעלות תואר שני בעבודה סוציאלית קלינית ובוגרות בה"ס הגבוה לפסיכותרפיה. צוות זה, המורכב מנשות מקצוע מיומנות, מקצועיות ובעלות ניסיון עשיר בטיפול, מספק לאזרחים שירותי טיפול ברמה גבוה ביותר.</p>
-                                    <p class="text-sm lh-base mb-3">מפקד מוזמן לפנות לקבלת ייעוץ מהעו"ס בנושאים שונים הקשורים להתמודדות עם עובדים כמו מצבי משבר שונים, הורים לילדים עם מוגבלויות, תהליכי מישוב וכדומה.</p>
-                                    <h3 class="fs-5 fw-semibold mt-4">הנושאים בהם מטפלת העו"ס</h3>
-                                    <div class="list-section-box">
-                                        <ul class="list-disc ps-4 text-sm lh-base mb-3">
-                                            <li>סיוע בהתמודדות עם משברים אישיים זוגיים, ומשפחתיים.</li>
-                                            <li>טיפול בקשיים הנוגעים למקום העבודה.</li>
-                                            <li>תיווך ומיצוי זכויות בתוך המערכת ובקהילה.</li>
-                                            <li>התמודדות עם משברים כלכליים (כולל מענקי סיוע).</li>
-                                            <li>התמודדות עם חולי של העובד או בן משפחה.</li>
-                                            <li>התמודדות עם אובדנים.</li>
-                                            <li>טיפול נפשי בכל הקשור להטרדה מינית ופגיעה מינית.</li>
-                                            <li>טיפול באוכלוסיות הנדרשות בקשב ייחודי – הורים לילדים עם מוגבלויות, הורים חד- הוריים, משברים רפואיים וכלכליים.</li>
-                                        </ul>
-                                    </div>
-                                    <p class="text-sm lh-base mb-3">אופן הפנייה לעו"ס יכול להיעשות על ידי העובד או המפקד באופן ישיר. הפנייה יכולה להיעשות במייל צבאי, או בטלפון (בעמוד הבא מצורפת רשימת העובדות הסוציאליות). עם קבלת הפנייה, תקבע פגישת הכירות ראשונה להתייעצות. הפגישות הינן על חשבון העבודה. לאורך כל התהליך הטיפולי יש הקפדה על פרטיות וסודיות של העובד.</p>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-hands-helping section-icon"></i> תפקיד השירות הסוציאלי בצה"ל</h3>
+                                    <p class="text-sm lh-base mb-3">השירות הסוציאלי לאזרחי ועובדי צה"ל, הינו שירות מקצועי, הוליסטי, המטפל ברגש ובנפש העובד. צוות המטפלים כולל בעלי תואר שני בעבודה סוציאלית ובוגרי תוכניות טיפוליות יוקרתיות. צוות זה, מיומן ומקצועי, ורוכש התנסויות וכישורים בטיפול פסיכותרפויטי המעניק לאזרחים שירות טיפולי ברמה הגבוהה ביותר.</p>
+                                    <p class="text-sm lh-base mb-3">מפקד מוזמן לפנות אלינו לקבלת ייעוץ והכוונה בנושאים שונים הקשורים בהתמודדות עם עובדים, כגון: מצבי משבר אישיים ומשפחתיים, טיפול בקשיים הנוגעים למקום העבודה, ליווי ומיצוי זכויות במסגרת הקהילה, התמודדות עם משברים כלכליים (כולל מענקי סיוע), התמודדות עם עובד חולה בבית המשפחה, התמודדות עם עובדים נכבים, טיפול נפשי על רקע הטרדה מינית ופגיעה מינית, וטיפול באוכלוסיות הדורשות סיוע מיוחד – הורים לילדים עם מוגבלויות, הורים חד-הוריים, משברים רפואיים וכלכליים.</p>
+                                </div>
+                            `,
+                        },
+                        {
+                            id: "social-service-how-to-apply",
+                            title: "אופן הפנייה",
+                            content: `
+                                <h2 class="fs-4 fw-bold mb-3 text-center">אופן הפנייה</h2>
+                                <div class="content-section">
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-phone-alt section-icon"></i> כיצד ניתן לפנות לשירות הסוציאלי</h3>
+                                    <p class="text-sm lh-base mb-3">אופן הפנייה לשירות הסוציאלי יכול להתבצע ע"י העובד או המפקד באופן ישיר. עם קבלת הפנייה תצורף רשימת העובדות הסוציאליות.</p>
                                 </div>
                             `,
                         },
                         {
                             id: "social-service-contacts",
-                            title: "השירות הסוציאלי לעובדות ועובדי צה\"ל - איתך ובשבילך לאורך כל הדרך",
+                            title: "אנשי קשר במדור עבודה סוציאלית",
                             content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">השירות הסוציאלי לעובדות ועובדי צה"ל - איתך ובשבילך לאורך כל הדרך</h2>
+                                <h2 class="fs-4 fw-bold mb-3 text-center">אנשי קשר במדור עבודה סוציאלית</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">רשימת אנשי קשר</h3>
-                                    <div class="list-section-box">
-                                        <ul class="list-none p-0 text-sm lh-base mb-3">
-                                            <li>ראש מדור עבודה סוציאלית שלי סהר: <span class="fw-bold gradient-text-bold">052-9289469</span></li>
-                                            <li>ע' ראש מדור עבודה סוציאלית קרן עמית: <span class="fw-bold gradient-text-bold">055-6613328</span></li>
-                                            <li>עו"סית מרה"ס ובינוי עירית זקלר: <span class="fw-bold gradient-text-bold">052-9458746</span></li>
-                                            <li>עו"ס מרה"ס ובינוי שחר ברקאי: <span class="fw-bold gradient-text-bold">055-6645054</span></li>
-                                            <li>עו"סית חיל האויר עדי גודלמן: <span class="fw-bold gradient-text-bold">050-8357880</span></li>
-                                            <li>עו"סית חיל הים יונת הלפרין: <span class="fw-bold gradient-text-bold">052-8779826</span></li>
-                                            <li>עו"ס מרת"ח והובלה אורית אפגן: <span class="fw-bold gradient-text-bold">052-9462435</span></li>
-                                            <li>עו"סית מש"א מירב לוי: <span class="fw-bold gradient-text-bold">054-2096111</span></li>
-                                            <li>עו"ס מש"א גיל אוחיון: <span class="fw-bold gradient-text-bold">052-3945810</span></li>
-                                            <li>עו"סית אמ"ן קרן שמש: <span class="fw-bold gradient-text-bold">050-5401848</span></li>
-                                        </ul>
-                                    </div>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-address-book section-icon"></i> רשימת אנשי קשר</h3>
+                                    <p class="text-sm lh-base mb-3">המדור לעבודה סוציאלית בצה"ל, לעובדות ועובדי צה"ל:</p>
+                                    <ul class="list-none p-0 text-sm lh-base mb-3">
+                                        <li>ראש מדור עבודה סוציאלית תשל"ח: <span class="fw-bold gradient-text-bold">052-9289469</span></li>
+                                        <li>ראש מדור עבודה סוציאלית רותם: <span class="fw-bold gradient-text-bold">055-6613328</span></li>
+                                        <li>עו"ס רמ"ה וסביבתו: <span class="fw-bold gradient-text-bold">052-9458746</span></li>
+                                        <li>עו"ס שמ"ש חיבה רקובר: <span class="fw-bold gradient-text-bold">055-6645054</span></li>
+                                        <li>עו"ס יחי אהובה יגודלמן: <span class="fw-bold gradient-text-bold">050-8357880</span></li>
+                                        <li>עו"ס יחי שיווה הפלר: <span class="fw-bold gradient-text-bold">052-8779826</span></li>
+                                        <li>עו"ס רמ"ש והובלת אורטל גפני: <span class="fw-bold gradient-text-bold">052-9462435</span></li>
+                                        <li>עו"ס תמשיך ביל: <span class="fw-bold gradient-text-bold">054-2096111</span></li>
+                                        <li>עו"ס שמש אגא לאוחני: <span class="fw-bold gradient-text-bold">052-3945810</span></li>
+                                        <li>עו"ס מתן קרן שמש: <span class="fw-bold gradient-text-bold">050-5401848</span></li>
+                                    </ul>
                                 </div>
                             `,
                         },
@@ -454,38 +398,35 @@
                     subItems: [
                         {
                             id: "exceptional-financial-grant",
-                            title: "מענקי סיוע כלכלי חריג",
+                            title: "מענק סיוע כלכלי חריג",
                             content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">מענקי סיוע כלכלי חריג</h2>
+                                <h2 class="fs-4 fw-bold mb-3 text-center">מענק סיוע כלכלי חריג</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">הגדרת מענק</h3>
-                                    <p class="text-sm lh-base mb-3">מענק סיוע כלכלי הינו מענק כספי הניתן כסיוע כלכלי חריג, בעקבות צורך אישי או רפואי חריג של העובד או בן משפחה מקרבה ראשונה כגון השתלות, מחלות סופניות, טיפולים שאינם ממונים ע"י קופ"ח, תרופות שאינן בסל התרופות או רכישת ציוד ומכשור רפואי הכרחי.</p>
-                                    <p class="text-sm lh-base mb-3">המענק הינו חד פעמי ולא יעלה על סכום של עד 6,000 ₪. כמו כן קיימת אפשרות לאשר מענק מוגדל בסך של 12,000 ₪.</p>
-                                    <p class="text-sm lh-base mb-3">ניתן לקבל את המענק אחת לשלוש שנים. המענק יינתן בערוצי העו”ס ובאישור מרכז תע”ץ בכפוף לקריטריונים.</p>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-money-check-alt section-icon"></i> הגדרת מענק</h3>
+                                    <p class="text-sm lh-base mb-3">מענק סיוע כלכלי הינו מענק כספי הניתן כסיוע כלכלי חריג בעקבות מצב אישי, רפואי או משפחתי קרב ראשון, כגון: השתלות, מחלות סופניות, טיפולים ותרופה שאין בסל קופ"ח, ותרופה שיש לרכוש אותה.</p>
+                                    <p class="text-sm lh-base mb-3">המענק ניתן פעם אחת על סכום של עד 6,000 ש"ח. ייתכן ויתאפשר מענק מוגדל בסכום של עד 12,000 ש"ח. המענק ניתן בצורת תלושים והינו בתוקף במרכז תע"ץ ואישור העו"ס. לא ניתן לקבל את המענק בחזרה לשלוש שנים.</p>
                                 </div>
                             `,
                         },
                         {
                             id: "emergency-aid",
-                            title: "תווי סיוע חריגים",
+                            title: "סיוע חריג",
                             content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">תווי סיוע חריגים</h2>
+                                <h2 class="fs-4 fw-bold mb-3 text-center">סיוע חריג</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">סיוע כלכלי למתמודדים עם משברים</h3>
-                                    <p class="text-sm lh-base mb-3">סיוע כלכלי לרכישת מוצרי מזון עבור עובדים המתמודדים עם מצבי משבר כלכליים. ההטבה הינה חד- פעמית ותינתן בסכום של עד 2,000 ש”ח.</p>
-                                    <p class="text-sm lh-base mb-3">במקרים חריגים יינתן סיוע נוסף בהתאם להמלצת עו”ס. במסגרת בחינת הבקשה העובד יידרש להציג תדפיסי עו”ש.</p>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-briefcase-medical section-icon"></i> סיוע כלכלי למתמודדים עם משברים</h3>
+                                    <p class="text-sm lh-base mb-3">סיוע כלכלי זה מיועד לעובדים ועובדות המתמודדים עם מצבי משבר כלכליים. ניתנת הטבה חד-פעמית בסכום של עד 2,000 ש"ח. הבקשה תיבחן במסגרת ויידרש העובד להציל אישורים ותלושי שכר.</p>
                                 </div>
                             `,
                         },
                         {
                             id: "humanitarian-service-card",
-                            title: "רכב שירות הומאני",
+                            title: "כרטיס בשירות הומני",
                             content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">רכב שירות הומאני</h2>
+                                <h2 class="fs-4 fw-bold mb-3 text-center">כרטיס בשירות הומני</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">הגדרת רכב שירות הומאני</h3>
-                                    <p class="text-sm lh-base mb-3">מצב הומאני מוגדר כמצב מצוקה בלתי הפיך, המשפיע על חייו של העובד, מצריך הוצאות כלכליות קבועות רבות, גורם למצוקה כלכלית ומצריך ניידות.</p>
-                                    <p class="text-sm lh-base mb-3">הורה לילד עם מוגבלות יהיה רשאי להגיש בקשה לקבלת רכב שירות הומאני באמצעות העו"ס. הבקשה תיבחן בענף פרט במרכז תע"ץ.</p>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-id-card section-icon"></i> הגדרת כרטיס</h3>
+                                    <p class="text-sm lh-base mb-3">כרטיס הומני מוגדר כמצב מצוקה הפוגע באופן עקבי בחייו וביום-יום של העובד, כגון: הוצאות נסיעה, מוגבלות ניידות, מצוקה כלכלית הגורמת לבעיות תרבותיות וחברתיות. הבקשה תיבחן בענף פרט במרכז תע"ץ.</p>
                                 </div>
                             `,
                         },
@@ -495,9 +436,8 @@
                             content: `
                                 <h2 class="fs-4 fw-bold mb-3 text-center">תכנית להבראה כלכלית</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">תמיכה לעובדים</h3>
-                                    <p class="text-sm lh-base mb-3">תוכנית במימון ושיתוף ארגון עובדי צה”ל במסגרתה ניתן ליווי כלכלי עבור עובדים/ות אשר נקלעו למשבר כלכלי בעקבות ניהול לקוי. התוכנית ייחודית היות והיא משלבת ליווי כלכלי עם ליווי רגשי לטיפול הוליסטי בבעיה.</p>
-                                    <p class="text-sm lh-base mb-3">ההשתתפות בתוכנית דורשת אישור וועדה בארגון עובדי צה”ל, בצירוף המלצת עו”ס, התחייבות מצד העובד ובן/ת זוג להשתתפות מלאה ופעילה ובעלות סמלית של 50 ש”ח בלבד.</p>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-wallet section-icon"></i> תמיכה לעובדים</h3>
+                                    <p class="text-sm lh-base mb-3">תוכנית להבראה כלכלית מאפשרת לעובדים/ות המתמודדים עם מצב חריג בבית ובנפש, לקבל סיוע כלכלי.</p>
                                 </div>
                             `,
                         },
@@ -507,55 +447,25 @@
                             content: `
                                 <h2 class="fs-4 fw-bold mb-3 text-center">ימי מחלה חריגים</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">מענה לעובדים המתמודדים עם מצבי מחלה חריגים</h3>
-                                    <p class="text-sm lh-base mb-3">מענה למקרים בהם עובדות ועובדי צה"ל מתמודדים עם מצבי חולי של בנות ובני המשפחה, במקרים בהם נוצלו ימי ההיעדרות להם זכאים על פי חוק ו/או במקרים בהם החוק אינו נותן מענה, וכל זאת על חשבון ימי מחלת העובד/ת.</p>
-                                    <p class="text-sm lh-base mb-3"><strong class="gradient-text-bold">הקריטריונים להגשת הבקשה:</strong></p>
-                                    <div class="list-section-box">
-                                        <ul class="list-disc ps-4 text-sm lh-base mb-3">
-                                            <li>ניצול מלא של ימי החופשה הרלוונטיים (ימי מחלת ילד/ה, חופשה שנתית וצבירה, מחלת הורה, מחלת בן/בת זוג).</li>
-                                            <li>צירוף דו"ח עו"ס.</li>
-                                            <li>קבלת אישורים רפואיים והמלצת רופא/ה.</li>
-                                            <li>סיכום ראיון מפקד/ת.</li>
-                                        </ul>
-                                    </div>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-bed section-icon"></i> מענה לעובדים המתמודדים עם מצבי מחלה חריגים</h3>
+                                    <p class="text-sm lh-base mb-3">מענה למקרים בהם עובדות ועובדי צה"ל מתמודדים עם מצב חולי בנפש ובגוף המשפחה, ובמקרים בהם ימי ההיעדרות מנוצלים והם אינם זכאים לימי חופשה או מחלה על פי החוק, כך שתיגרם פגיעה לעובד/ת ו/או למשפחה.</p>
+                                    <p class="text-sm lh-base mb-3"><strong class="gradient-text-bold">קריטריונים להגשת הבקשה:</strong></p>
+                                    <ul class="list-disc ps-4 text-sm lh-base mb-3">
+                                        <li>ניצול ימי החופשה השנתית הצבורה, ימי מחלה (ימי מחלת ילד/ה, מחלת בן/בת זוג, מחלת הורה, מחלת בן משפחה קרוב).</li>
+                                        <li>צירוף חוות דעת רפואית.</li>
+                                        <li>אישור מפקד/ת.</li>
+                                    </ul>
                                 </div>
                             `,
                         },
                         {
                             id: "disabled-children-parents-benefit",
-                            title: "מעטפת הולמ”ת - הורים לילדים עם מוגבלות",
+                            title: "הטבה להורים לילדים עם מוגבלויות",
                             content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">מעטפת הולמ”ת - הורים לילדים עם מוגבלות</h2>
+                                <h2 class="fs-4 fw-bold mb-3 text-center">הטבה להורים לילדים עם מוגבלויות</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">הטבות להורים עובדי צה”ל עם ילדים בעלי מוגבלויות</h3>
-                                    <div class="list-section-box">
-                                        <ul class="list-disc ps-4 text-sm lh-base mb-3">
-                                            <li>זכאות ל-52 שעות היעדרות על חשבון המערכת, עובד/ת במשרה חלקית זכאי/ת לחלק היחסי. הזכאות מתחדשת בכל שנה קלנדרית.</li>
-                                            <li>ימי מחלה מוגדלים. 18 ימי מחלת ילד/ת בשנה על חשבון ימי המחלה הצבורה. במידה וימי המחלה נוצלו והמצב של הילד/ה מצריך ימי מחלה נוספים, העובד/ת יכול/ה להגיש בקשה למימוש ימי מחלה נוספים.</li>
-                                            <li>רכב שירות הומאני במקרי מצוקה בלתי הפיכים.</li>
-                                            <li>ליווי ותמיכה דרך השירות הסוציאלי לעובדות ועובדי צה”ל. הטיפול ניתן במסגרת שעות העבודה וכולל מרכיבים וכלים אשר נועדו לסייע לעובד/ת.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            `,
-                        },
-                        {
-                            id: "family-caregiver-envelope",
-                            title: "מעטפת עבור בן/ת משפחה מטפל/ת",
-                            content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">מעטפת עבור בן/ת משפחה מטפל/ת</h2>
-                                <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">מענה למקרים בהם עובדות ועובדי צה"ל מתמודדים עם מצבי חולי של בנות ובני המשפחה</h3>
-                                    <p class="text-sm lh-base mb-3">מענה למקרים בהם עובדות ועובדי צה"ל מתמודדים עם מצבי חולי של בנות ובני המשפחה, במקרים בהם נוצלו ימי ההיעדרות להם זכאים על פי חוק ו/או במקרים בהם החוק אינו נותן מענה, וכל זאת על חשבון ימי מחלת העובד/ת.</p>
-                                    <p class="text-sm lh-base mb-3"><strong class="gradient-text-bold">הקריטריונים להגשת הבקשה:</strong></p>
-                                    <div class="list-section-box">
-                                        <ul class="list-disc ps-4 text-sm lh-base mb-3">
-                                            <li>ניצול מלא של ימי החופשה הרלוונטיים (ימי מחלת ילד/ה, חופשה שנתית וצבירה, מחלת הורה, מחלת בן/בת זוג).</li>
-                                            <li>צירוף דו"ח עו"ס.</li>
-                                            <li>קבלת אישורים רפואיים והמלצת רופא/ה.</li>
-                                            <li>סיכום ראיון מפקד/ת.</li>
-                                        </ul>
-                                    </div>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-wheelchair section-icon"></i> זכאות להטבה</h3>
+                                    <p class="text-sm lh-base mb-3">ההטבה כוללת: זכאות ל-52 שעות היעדרות על חשבון המערכת, עובד/ת במשרה חלקית/אחראי/ת לילדים בעלי מוגבלויות. הזכאות מתחדשת בכל שנה קלנדרית. ההטבה ניתנת במסגרת שעות עבודה מהבית במקרים של מצוקה חריגה.</p>
                                 </div>
                             `,
                         },
@@ -568,31 +478,18 @@
                     isDirectContent: false,
                     subItems: [
                         {
-                            id: "annual-review",
-                            title: "חוות הדעת השנתית",
+                            id: "evaluation-process",
+                            title: "כלי הערכה ומשוב",
                             content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">חוות הדעת השנתית</h2>
+                                <h2 class="fs-4 fw-bold mb-3 text-center">כלי הערכה ומשוב</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">תהליך הערכת עובדים</h3>
-                                    <p class="text-sm lh-base mb-3">תהליך הערכת עובדים הוא הרבה יותר מסיכום שנתי – הוא הזדמנות אסטרטגית להשפיע, לכוון ולחזק את ההון האנושי בארגון.</p>
-                                    <p class="text-sm lh-base mb-3">אחת לשנה מתבצעת תהליך הערכת עובדים.</p>
-                                    <p class="text-sm lh-base mb-3">פעימת חוות הדעת השנתית אינה רק חובה מנהלית, אלא כלי משמעותי שמאפשר לנו לשקף לעובדים את ביצועיהם, לזהות חוזקות, לטפל באתגרים ולבנות תוכנית להתפתחות מקצועית ואישית.</p>
-                                    <p class="text-sm lh-base mb-3">כאשר התהליך מתבצע נכון, הוא הופך למנוף להצלחה – מחזק את המוטיבציה, משפר את המחויבות הארגונית ומסייע לכל עובדת ועובד להבין כיצד הוא יכול להצטיין ולתרום יותר.</p>
-                                    <p class="text-sm lh-base mb-3">זהו רגע שבו אנו כמנהלים יכולים להעצים את הקיים ולחזק את החלש, לתת לעובדים הכרה על הישגיהם ולהציב עבורם את היעדים הבאים.</p>
-                                    <p class="text-sm lh-base mb-3">הערכת עובדים אינה רק על העבר – היא השקעה בעתיד. מנהל שמשקיע במשוב איכותי ובשיח פתוח יוצר סביבת עבודה מקצועית, הוגנת ומקדמת מצוינות.</p>
-                                    <p class="text-sm lh-base mb-3">זה הזמן לקחת את התהליך הזה ברצינות, כי עובדים שמרגישים שרואים אותם – נותנים יותר, מתקדמים יותר, ומובילים את הארגון להישגים גדולים יותר.</p>
-                                    <p class="text-sm lh-base mb-3">כל שנה מתחילה הפעילה בחודש אוגוסט ומסתיימת בדצמבר, במסגרתה מקבלים כלל העובדים הערכה. הערכה זו משקפת תפקוד העובד בשנה החולפת ומאפשרת תמרוץ, הוקרה, קיצורי פז״מ בדרגות ואף סיומי העסקה ומשכך חשיבותה.</p>
-                                </div>
-                            `,
-                        },
-                        {
-                            id: "special-review",
-                            title: "חוות דעת מיוחדת",
-                            content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">חוות דעת מיוחדת</h2>
-                                <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">אפשרות למשוב מיוחד</h3>
-                                    <p class="text-sm lh-base mb-3">קיימת אפשרות לתת לעובד חוו"ד מיוחדת שלא במסגרת פעימת חוות הדעת, לאור שינוי משמעותי בהתנהלותו ובתפקודו.</p>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-clipboard-check section-icon"></i> תהליך הערכת עובדים</h3>
+                                    <p class="text-sm lh-base mb-3">תהליך הערכת עובדים והערכה זו משקפת את תפוקת העובד בשנה החולפת, הוא הרה להיות מכיס מרכז סיכום שנתי – והאמנו שאזמדנו אסטרטגיה חוות דעת השנתית.</p>
+                                    <p class="text-sm lh-base mb-3">המרכיבים הכוללים והמובילים של שירות זה נועדו לסייע לעובד/ת ולמשפחתו/ה, המטפלת/המטפל בעבודה וכוללים רכיבים כלים ראשיים שנועדו.</p>
+                                    <p class="text-sm lh-base mb-3">הערכת עובדים אינה רק חובה ניהולית, אלא גם כלי שכשיר מאפשר אחת לשנה לבצע את תהליך הערכת עובדים, ולתת קשובים לעובדים על ביצועיהם, לזהות חזקות ולטפל באתגרים, ולשקף להם את תרומתם. תהליך המתבצע נכון, הוא האפך לכלי מנף להצלחה – מהווה חזק את המוטיבציה.</p>
+                                    <p class="text-sm lh-base mb-3">תהליך זה גורם לנו כמנהלים וככלים עוצמתיים להציע את הקיים לחיזוק את הון האנושי בארגון. עובדים שמקבלים משוב והערכה, מודעים להישגיהם ועבור היעדים הבאים. הערכת עובדים אינה רק השקעה בעבר – היא השקעה בעתיד.</p>
+                                    <p class="text-sm lh-base mb-3">הזמן הזה לקחת את התהליך הזה ברצינות, כי עובדים שמרגישים ראויים להערכה באיכות, בישוב, ובתפחית יוצר סביבת עבודה מקצועית, נוהגים מקודמים ביונייב, ומובילים את הארגון להישגים גדולים יותר.</p>
+                                    <p class="text-sm lh-base mb-3">הערכה זו משקפת את תפוקת העובד בשנה החולפת ומתבצעת בד בבד עם אוגוסט מסתיים בדצמבר, במסגרת קבלת.</p>
                                 </div>
                             `,
                         },
@@ -600,70 +497,25 @@
                 },
                 {
                     id: "discipline-management",
-                    title: "סמכויות המפקד בניהול משמעת",
+                    title: "ניהול משמעת",
                     summary: "בחירת יחב העסקה העובד ניתנים אמצעים לנהל בירורים משמעתיים, המתחייבים לסייע לכוח אדם צבאי.",
                     isDirectContent: false,
                     subItems: [
                         {
-                            id: "clarification-and-response",
-                            title: "בירור ותגובה",
+                            id: "discipline-tools",
+                            title: "ניהול משמעת",
                             content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">בירור ותגובה</h2>
+                                <h2 class="fs-4 fw-bold mb-3 text-center">ניהול משמעת</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">כלים לניהול בירורים משמעתיים</h3>
-                                    <p class="text-sm lh-base mb-3">כלי זה מאפשר למפקד לנהל בירור משמעתי בהתאם לנוהל "בירור תגובה" כאשר עובד מואשם באחת העבירות כדוגמת אי קיום פקודה, איום ועלבונות כלפי מפקד וקיום פקודה או הוראה ברשלנות.</p>
-                                </div>
-                            `,
-                        },
-                        {
-                            id: "tenure-at-work",
-                            title: "קביעות בעבודה",
-                            content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">קביעות בעבודה</h2>
-                                <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">תהליך קבלת קביעות</h3>
-                                    <p class="text-sm lh-base mb-3">בארגון פועלת ועדה לבחינת זכאות לקביעות, אשר מתכנסת לקראת תום חמש שנות עבודה. ועדה זו בוחנת את תפקוד העובד לאורך שנות העסקתו, עמידתו בדרישות התפקיד, והתאמתו לערכי הארגון.</p>
-                                    <p class="text-sm lh-base mb-3">בכפוף להחלטת הוועדה, עובדים אשר עומדים בקריטריונים הנדרשים יקבלו מעמד של קביעות, המבטיח המשך העסקה בארגון.</p>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-gavel section-icon"></i> כלים לניהול בירורים משמעתיים</h3>
+                                    <p class="text-sm lh-base mb-3">בחירת יחב העסקה העובד ניתנים אמצעים לנהל בירורים משמעתיים, המתחייבים לסייע לכוח אדם צבאי.</p>
+                                    <p class="text-sm lh-base mb-3">עליכם להשתמש בכלים המשמעתיים בזהירות, מתוך מטרה לשמור על כבוד העובדים וגם על הסדר המשמעתי. מומלץ לפנות לייעוץ מקצועי למען לוודא שאכן הפעולה מבוצעת בהתאם לסדר המשמעתי, וגם בהתאם להנהלות והמדיניות הארגונית.</p>
+                                    <h3 class="fs-5 fw-semibold mt-4">הכלים המקלחים (אירוע תגובה, אירוע תגובה):</h3>
+                                    <p class="text-sm lh-base mb-3"><strong class="gradient-text-bold">אירוע תגובה:</strong> זהו כלי המאפשר למפקד להעניש אירוע משמעתי, כאשר העובד מאושר באחת מתעבות אי קיום הפקודה, וגם העבירה כמודגש את קיומו של הפקודה והוראות רלוונטיות. הדוע זה בוחן את תפוקת העובד לאורך שנת העסקתו, עמידתו בקריטריונים הנדרשים ומקבלים דרישות התפקיד, והתאמה לערכי הארגון. בכפוף להחלטת הוועדה, עובדים העומדים בקריטריונים הנדרשים ומקבלים דרישות התפקיד, והתאמה לערכי הארגון, יהיו זכאים להיקבע המשך העסקה בארגון.</p>
                                 </div>
                                 <div class="tip-gold">
                                     <p class="gradient-text-bold"><strong>טיפ זהב!</strong></p>
-                                    <p class="text-sm">ההמלצה בדבר קביעות העובד/ת היא אחת ההחלטות החשובות הנמצאת בידכם המפקדים! ועדת הקביעות היא שתקבע את איכות האנשים שישארו עימנו לאורך שנים.</p>
-                                </div>
-                            `,
-                        },
-                        {
-                            id: "termination-and-dismissal",
-                            title: "סיומי העסקה ופיטורים",
-                            content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">סיומי העסקה ופיטורים</h2>
-                                <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">תהליך סיום העסקה</h3>
-                                    <p class="text-sm lh-base mb-3">סיום העסקתו של עובד הוא שלב משמעותי הן עבורו והן עבור הארגון. מדובר בתהליך שדורש ניהול מקצועי ורגיש. הדרך שבה אנו מסיימים את העסקת העובדים מחייבת התייעצות מקדימה עם רמד פרישה במרכז תע״צ שכן קיימים הסכמי עבודה והסכמי סיומי העסקה שנקבעו הן בהסכם הקיבוצי והן בהסכמי השכר.</p>
-                                    <p class="text-sm lh-base mb-3">בכל תהליך סיום העסקה נדרש תהליך ארגוני שראשיתו זימון לשימוע ועד לפרסום ההחלטה הסופית.</p>
-                                    <h3 class="fs-5 fw-semibold mt-4">כבוד והוגנות</h3>
-                                    <p class="text-sm lh-base mb-3">יש לנהל את התהליך בצורה מכבדת ומכילה, תוך מתן מענה לכל הצרכים האישיים והמקצועיים של העובד.</p>
-                                    <p class="text-sm lh-base mb-3">תהליכי סיום העסקה מחייבים תום לב ונפש חפצה.</p>
-                                    <h3 class="fs-5 fw-semibold mt-4">מדוע זה חשוב?</h3>
-                                    <div class="list-section-box">
-                                        <ul class="list-disc ps-4 text-sm lh-base mb-3">
-                                            <li>מניעת חשיפה משפטית. אירוע הפיטורים מחייב עילה, שימוע והודעה מוקדמת כחוק.</li>
-                                            <li>שמירה על מחוברות ארגונית – עובד שעוזב מרצונו או בשל צורך ארגוני יכול להישאר שגריר חיובי של הארגון, אם התהליך יתבצע נכון.</li>
-                                            <li>למידה ושיפור – תהליך מסודר מאפשר לנו ללמוד, לזהות דפוסים ולשפר את חוויית העובדים בארגון.</li>
-                                        </ul>
-                                    </div>
-                                    <p class="text-sm lh-base mb-3">מרכז תע”ץ ילווה אותכם לאורך כל הדרך.</p>
-                                </div>
-                            `,
-                        },
-                        {
-                            id: "disciplinary-law",
-                            title: "דין משמעתי",
-                            content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">דין משמעתי</h2>
-                                <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">כלי נוסף לניהול משמעת</h3>
-                                    <p class="text-sm lh-base mb-3">כלי נוסף לניהול משמעת, המתייחס לעבירות שחלות תחת חוק השיפוט הצבאי (חש"ץ).</p>
-                                    <p class="text-sm lh-base mb-3">יש לשים לב כי ישנן עבירות צבאיות מסוימות שעליהן לא ניתן להביא עובד לדין משמעתי, כגון עבירות הנוגעות להתנהגות מחפירה נוכח האויב, התעללות, או התנהגות מבישה.</p>
+                                    <p class="text-sm">מדובר כי קבעתם את איכות ההמלצה בדבר קביעת העובד/ת יהיה אחד ההחלטות החשובות. היא משמעותית עבור רובן של העובד והארגון. הדרך בשנה שבה מסיימים את העסקת העובדים, נהוג לעסוק בתהליך של שדרוג מקצועי והכשרה. חייבים להתייעץ מקדימה עם מרום שברפי במרכז תע"ץ כשצריך ליישם הסכם עבודה קיים בהסכם השכר. בכל תהליך סיום העסקה נדרש תהליך ארגוני ראשוני ומוזמן לפרסם הסכם סיום העסקה, והזמנה לועדות. ובכך, הנחיות וכבוד התהליך בצורה מכובדת וכוללת. הצרכים האישיים והמקצועיים של העובד. התהליך סיום העסקה מחייבים אותם לוותר על חשיפתם. למה זה חשוב? מניעת חשיפה משפטית ✔ שמירה על חובת ניהול תקין ועדות מקדמות כחוק. אירוע פיטורים מחייב בעיה, שימוש וקבלת הודעה מקדימה. למידה ושיפור – תהליך מסודר מאפשר לנו ללמוד ולזהות את הפערים, ולשפר את חווית העובדים בארגון. מרכז תע"ץ ילווה אתכם לאורך הדרך.</p>
                                 </div>
                             `,
                         },
@@ -671,45 +523,28 @@
                 },
                 {
                     id: "staffing-gaps",
-                    title: "מענים לפערי כ”א",
+                    title: "מענים לפערי כוח אדם",
                     summary: "מענים לפערי כוח אדם, כולל העסקה ארעית של סטודנטים.",
                     isDirectContent: false,
                     subItems: [
                         {
-                            id: "temporary-employment",
-                            title: "העסקה ארעית",
-                            content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">העסקה ארעית</h2>
-                                <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">תנאי העסקה</h3>
-                                    <p class="text-sm lh-base mb-3">ניתן להעסיק עובדים/ות לתקופה קצובה בזמן של עד שנה, אל מול פערי כ"א כמו בזמן תלי"ה (חופשת לידה), מחלה ממושכת ועוד. השכר נקבע לפי הקטגוריות הבאות:</p>
-                                    <div class="list-section-box">
-                                        <ul class="list-disc ps-4 text-sm lh-base mb-3">
-                                            <li>זוטר (ע’ רמ”ד): סרן, רס”ב ותב”מ ומטה. שכר עד 8K ואחזקת רכב.</li>
-                                            <li>ניהול (רמ”ד): רס”ן, רנ”ג ותמ”ן. שכר עד 12K ורכב שירות.</li>
-                                            <li>ניהול (רע”ן): סא”ל, תנ”ב ומעלה. שכר עד 17K ורכב שירות.</li>
-                                            <li>מומחיות: השכלה/ ניסיון ייחודי. שכר עד 18K ורכב שירות.</li>
-                                        </ul>
-                                    </div>
-                                    <p class="text-sm lh-base mb-3">העסקה בקטגוריה של מומחיות מחייבת ועדה במשהב"ט.</p>
-                                    <p class="text-sm lh-base mb-3">מעבר לשכר היסוד, ישולמו רכיבים נוספים כמו ביגוד, הבראה והחזרי הוצאות נסיעה. בנוסף, מוצעים תנאים והטבות כדוגמת ימי חופשה, ימי מחלה, קרן פנסיה, קופת גמל ועוד. תהליך הקליטה במסלול זה מקוצר ומהיר.</p>
-                                </div>
-                            `,
-                        },
-                        {
                             id: "temporary-student-employment",
-                            title: "סטודנטים",
+                            title: "העסקה ארעית סטודנטים",
                             content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">סטודנטים</h2>
-                                <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">תנאי העסקה</h3>
-                                    <p class="text-sm lh-base mb-3">ניתן להעסיק סטודנט ככח עזר במעמד זמני לתקופה של עד 6 שנים בתנאי שלומד בישראל לתואר ראשון, שני או שלישי במוסד המוכר ע”י המל”ג, או אדם הלומד בישראל במוסד להכשרת הנדסאים וטכנאים שבפיקוח משרד העבודה והרווחה.</p>
-                                    <p class="text-sm lh-base mb-3">השכר השעתי משולם בהתאם לתעריף הסטודנט, תוך התאמה לתפקיד והשכלת הסטודנט.</p>
-                                    <p class="text-sm lh-base mb-3">מעבר לשכר היסוד ישולמו רכיבי שכר נוספים כמו ביגוד, הבראה ואחזקת רכב בהתאם לזכאות. בנוסף, הסטודנטים זכאים לימי מחלה, ימי חופשה, קרן פנסיה, קופת גמל, חברות בארגון עובדי צה”ל ושי לחג.</p>
-                                </div>
+                                <h2 class="fs-4 fw-bold mb-3 text-center">העסקה ארעית סטודנטים</h2>
                                 <div class="tip-gold">
                                     <p class="gradient-text-bold"><strong>טיפ זהב!</strong></p>
-                                    <p class="text-sm">סטודנטים רבים מחפשים עבודה במשרה חלקית או זמנית, מה שהופך אותם למקור מצוין לכוח אדם איכותי וגמיש שניתן להתאים לצרכים משתנים.</p>
+                                    <p class="text-sm">סטודנטים רבים שמחפשים עבודה במשרה חלקית וזמנית, מהווים אדח מאיכות הגמישה ותפוקה מצויינת ומהווים כמקום לשמש כהפוך את אותם לצרכים משתנים.</p>
+                                </div>
+                                <div class="content-section">
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-user-graduate section-icon"></i> תנאי העסקה</h3>
+                                    <p class="text-sm lh-base mb-3">ניתן להעסיק עובדים/קבוצה בתקופה קבועה שמונה חודשים על השנה, למען רעפל א"כ כמו גם זמן להשתלמות או ו/או, לפי קטגוריות הבאות:</p>
+                                    <ul class="list-disc ps-4 text-sm lh-base mb-3">
+                                        <li>חמץ המושכ וכדו' (חופשת לידה).</li>
+                                        <li>העסקה בקטגוריה שהמומחיות בייחוד מחייבת דעות במשהב"ט.</li>
+                                    </ul>
+                                    <p class="text-sm lh-base mb-3">בנוסף, מעבר לשכר היסוד, יכללו רכיבים נוספים כגון ביגוד, הבראה והחזר הוצאות נסיעה.</p>
+                                    <p class="text-sm lh-base mb-3">תהליך קליטה בזמן קצר ומהיר. ניתן להעסיק סטודנטים בכוח חודשי עד 6 שנים בתנאי שילומים בישראל במוסד ו/או תואר ראשון, שני ו/או שלישי במוסד הכרה ע"ר הגל"מ, או גם דואם בישראל במוסד להכשרה הנדסאית וטכנאית שביצע חיפוש עבודה והרווחה. השכר השעתי וקבוצת ההשכלה בהתאם להתאמה לתפקיד הסטודנט, וכן, מעבר לשכר היסוד יכללו רכיבים נוספים כגון ביגוד, הבראה וחיזוק כרטיס בתורות. בנוסף, סטודנטים זכאים לימי מחלה, חופשה, רק פנסיה, קופת גמל, חברות בת, חופשת לידה, ימי מחלה, רק פנסיה, וזכאות נוספות. ארגון עובדי צה"ל ושושל גח.</p>
                                 </div>
                             `,
                         },
@@ -717,22 +552,24 @@
                 },
                 {
                     id: "idf-employees-organization",
-                    title: "הטבות נוספות - ארגון עובדי צה\"ל",
+                    title: "ארגון עובדי צה\"ל",
                     summary: "מידע על ארגון עובדי צה\"ל והטבות הניתנות לחברים.",
                     isDirectContent: false,
                     subItems: [
                         {
                             id: "organization-overview",
-                            title: "הטבות נוספות - ארגון עובדי צה\"ל",
+                            title: "ארגון עובדי צה\"ל",
                             content: `
-                                <h2 class="fs-4 fw-bold mb-3 text-center">הטבות נוספות - ארגון עובדי צה"ל</h2>
+                                <h2 class="fs-4 fw-bold mb-3 text-center">ארגון עובדי צה"ל</h2>
                                 <div class="content-section">
-                                    <h3 class="fs-5 fw-semibold mt-4">תפקיד הארגון</h3>
-                                    <p class="text-sm lh-base mb-3">עובדי צה"ל מאוגדים תחת ההסתדרות, כאשר ארגון עובדי צה"ל הוא הגוף המייצג את העובדים במסגרת זו.</p>
-                                    <p class="text-sm lh-base mb-3">קיימות הטבות שונות הניתנות לעובדים במסגרת זו ובהן - הנחות משמעותיות, נופש מסובסד, מלגות לימוד לעובד ולילדיו, סיוע רפואי ועוד.</p>
-                                    <p class="text-sm lh-base mb-3">הטבות אלו ניתנות למול קריטריונים המפורטים באתר הארגון בכתובת: <a href="https://www.ovdayzahal.org.il/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">https://www.ovdayzahal.org.il/</a>.</p>
-                                    <p class="text-sm lh-base mb-3">בנוסף, העובדים זכאים להטבות נוספות מעצם היותם חברי הסתדרות (רלוונטי לחלק מהעובדים) הטבות אלו מפורטות באתר ביחד בשבילך.</p>
+                                    <h3 class="fs-5 fw-semibold mt-4"><i class="fas fa-users section-icon"></i> תפקיד הארגון</h3>
+                                    <p class="text-sm lh-base mb-3">ארגון עובדי צה"ל, כאשר ראש ארגון עובדי צה"ל הוא הגוף המייצג את עובדי אגודות העובדים תחת ההסתדרות.</p>
+                                    <p class="text-sm lh-base mb-3">במסגרת זו ניתנות הטבות מיוחדות ונהנות משמעותיות, ובמסגרת זו העובדים זכאים להטבה הקיימת. הטבה זו ניתנת ותלויה במילוי הקריטריונים המפורטים באתר:</p>
+                                    <p class="text-sm lh-base mb-3"><a href="https://www.ovdayzahal.org.il" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">https://www.ovdayzahal.org.il</a></p>
+                                    <p class="text-sm lh-base mb-3">(רלוונטי לחלק מהחברים בהסתדרות).</p>
+                                    <p class="text-sm lh-base mb-3">בנוסף, העובדים זכאים להטבה זו באתר ופרט בתרחיש כי הדרך.</p>
                                 </div>
+                                <p class="text-sm lh-base mb-3 text-center fw-bold gradient-text-bold">מרכז תעסוקת עובדי צה"ל - המשימה שלנו, העת שלך.</p>
                             `,
                         },
                     ],
@@ -747,6 +584,13 @@
                     svgContent: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="#0A4A7A" d="M50 0L0 25v50l50 25 50-25V25zm0 8.2L91.8 25 50 41.8 8.2 25zm-41.8 25L50 58.2 91.8 41.8v33.6L50 91.8 8.2 75.4z"/></svg>`
                 },
                 {
+                    name: "צ360.svg",
+                    alt: "לוגו צהל 360",
+                    href: "https://www.home.idf.il/",
+                    // Generic SVG for צ360 - replace with actual SVG if available
+                    svgContent: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#0A4A7A" stroke-width="8"/><path d="M50 10 L65 35 L50 90 L35 35 Z" fill="#50B8EE"/><text x="50" y="55" font-family="Arial" font-size="20" fill="#0A4A7A" text-anchor="middle" alignment-baseline="middle">360</text></svg>`
+                },
+                {
                     name: "taaz.svg",
                     alt: "לוגו מרכז תע\"ץ",
                     href: "https://www.idf.il/%D7%90%D7%AA%D7%A8%D7%99-%D7%99%D7%97%D7%99%D7%93%D7%95%D7%AA/%D7%AA%D7%A2%D7%A5",
@@ -757,9 +601,6 @@
         };
     </script>
 
-    <!-- Bootstrap JS CDN (bundle includes Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    
     <!-- Main JS - Contains shared logic and components -->
     <script src="./js/main.js"></script>
 </body>
