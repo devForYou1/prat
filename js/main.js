@@ -236,14 +236,23 @@ function renderApp(data) {
     }
     appRoot.innerHTML = ''; // Clear existing content
 
-    const mainContainer = document.createElement('div');
-    // Add an explicit check for mainContainer after creation
-    if (!mainContainer) {
-        console.error('Failed to create mainContainer element. document.createElement returned null or undefined.');
+    let mainContainer = null; // Initialize to null for robust error handling
+    try {
+        mainContainer = document.createElement('div');
+    } catch (e) {
+        console.error('Error creating mainContainer div:', e);
+        return; // Exit if element creation fails
+    }
+
+    // Explicitly check if mainContainer is a valid HTMLElement before adding classes
+    if (!(mainContainer instanceof HTMLElement)) {
+        console.error('mainContainer is not a valid HTMLElement after creation. Value:', mainContainer);
         return;
     }
     
-    // Use classList.add for robustness
+    // Debugging log: Check what mainContainer is right before adding classes
+    console.log('mainContainer before adding classes:', mainContainer);
+    
     mainContainer.classList.add('main-container-border');
     mainContainer.classList.add('animate-main-container');
 
@@ -543,13 +552,13 @@ function renderApp(data) {
                     position: fixed;
                     bottom: 80px;
                     right: 20px;
-                    background-color: #28a745;
-                    color: white;
-                    padding: 10px 15px;
-                    border-radius: 8px;
-                    z-index: 1060;
-                    opacity: 0;
-                    transition: opacity 0.3s ease-out;
+                    background-color: #28a745;\r
+                    color: white;\r
+                    padding: 10px 15px;\r
+                    border-radius: 8px;\r
+                    z-index: 1060;\r
+                    opacity: 0;\r
+                    transition: opacity 0.3s ease-out;\r
                 `;
                 document.body.appendChild(feedbackDiv);
                 setTimeout(() => {
