@@ -2,6 +2,8 @@
 html, body {
     height: 100%; /* Ensure html and body take full height */
     width: 100%; /* Ensure html and body take full width */
+    overflow: hidden; /* Prevent any body scrolling, handled by main-container-border */
+    overscroll-behavior-y: contain; /* Prevent bounce scroll on Y-axis for both html and body */
 }
 
 body {
@@ -14,8 +16,6 @@ body {
     flex-direction: column; /* Stack children vertically */
     align-items: center; /* Center horizontally */
     justify-content: center; /* Center vertically */
-    overflow: hidden; /* Prevent any body scrolling */
-    overscroll-behavior-y: contain; /* Prevent bounce scroll on Y-axis */
     color: #0A4A7A; /* Default text color for the entire body - dark blue */
 }
 
@@ -137,6 +137,9 @@ body.modal-open {
     text-align: center;
     font-weight: 800; /* Extra bold */
     animation: fadeInScale 0.5s ease-out forwards;
+    white-space: nowrap; /* Keep text on one line */
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Add ellipsis for overflow */
 }
 
 /* Intro paragraphs styling */
@@ -145,7 +148,7 @@ body.modal-open {
     font-size: 1.1rem; /* Slightly larger font */
     line-height: 1.8; /* Increased line height for readability */
     margin-bottom: 1rem;
-    text-align: justify; /* Justify text */
+    text-align: center; /* Centered text as requested */
     animation: fadeInScale 0.5s ease-out forwards;
 }
 
@@ -612,6 +615,69 @@ body.modal-open {
     outline: none;
 }
 
+/* Image styling within content */
+.head-of-taatz-image {
+    max-width: 100%; /* Ensure image is responsive */
+    height: auto;
+    border-radius: 0.75rem; /* Rounded corners for images */
+    margin-bottom: 1rem;
+    display: block; /* Center image */
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-height: 200px; /* Limit height for reasonable size */
+    object-fit: contain; /* Ensure the image fits within its bounds without cropping */
+}
+
+.signature-image {
+    max-width: 200px; /* Set a reasonable max-width for the signature */
+    height: auto;
+    display: block; /* Center the image */
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1.5rem; /* Space above signature */
+    margin-bottom: 0.5rem; /* Space below signature */
+}
+
+/* Content section styling within modal/sub-cards */
+.content-section {
+    background-color: rgba(255, 255, 255, 0.6); /* Slightly transparent white */
+    border: 1px solid rgba(224, 242, 247, 0.7); /* Light blue border with transparency */
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-bottom: 1rem; /* Space between sections */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(3px); /* Light blur for content sections */
+}
+
+/* Copy button styling */
+.copy-button {
+    background-color: #50B8EE; /* Light blue */
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.15s ease; /* Faster transition */
+    margin-top: 1rem;
+    display: inline-flex; /* Use flex to align icon and text */
+    align-items: center;
+    gap: 0.5rem; /* Space between icon and text */
+    float: left; /* Align to the left */
+}
+
+.copy-button:hover {
+    background-color: #0A4A7A; /* Darker blue on hover */
+    transform: translateY(-1px);
+}
+
+.copy-button svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor; /* Inherit color from button text */
+}
+
 /* Content section with copyable functionality */
 .content-section-copyable {
     position: relative; /* Needed for absolute positioning of copy button */
@@ -622,4 +688,135 @@ body.modal-open {
     position: absolute;
     bottom: 0;
     left: 0; /* Position at bottom-left */
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+    .main-container-border {
+        padding: 1rem; /* More compact padding on smaller screens */
+        width: 98%; /* Take more width on small screens */
+        height: 98vh; /* Take more height on small screens */
+    }
+
+    .main-container-border h1 {
+        font-size: 1.8rem; /* Smaller font size for main title on mobile */
+        /* white-space, overflow, text-overflow already applied */
+    }
+
+    .intro-paragraph-text {
+        font-size: 0.95rem; /* Slightly smaller font for intro paragraphs */
+    }
+
+    .motto-text {
+        font-size: 1.1rem; /* Slightly smaller font for motto */
+    }
+
+    .accordion-header-button {
+        font-size: 1rem;
+        padding: 0.8rem 1rem; /* More compact padding */
+    }
+
+    .subcard-button {
+        font-size: 0.9rem;
+        padding: 0.7rem 1rem; /* More compact padding */
+    }
+
+    .custom-modal-content {
+        width: 95%;
+        max-height: 95vh; /* Allow modal to take more height */
+    }
+
+    .custom-modal-title {
+        font-size: 1.3rem;
+    }
+
+    .custom-modal-close-button {
+        font-size: 1.8rem;
+    }
+
+    .custom-modal-scrollable-body {
+        padding: 1rem;
+    }
+
+    .custom-modal-scrollable-body h2 {
+        font-size: 1.4rem;
+    }
+
+    .custom-modal-scrollable-body h3 {
+        font-size: 1.1rem;
+    }
+
+    .custom-modal-scrollable-body p,
+    .custom-modal-scrollable-body ul li {
+        font-size: 0.9rem; /* General text size reduction for mobile */
+    }
+
+    .footer-card {
+        flex-direction: column;
+        align-items: flex-end; /* Keep content aligned right */
+        padding: 0.75rem; /* More compact padding */
+    }
+
+    .footer-title {
+        margin-inline-end: 0; /* Remove auto margin for column layout */
+        margin-bottom: 0.5rem; /* Add some space below title */
+    }
+
+    .footer-links-container {
+        justify-content: flex-end; /* Keep links aligned right */
+        width: 100%; /* Take full width */
+    }
+
+    .footer-link-square {
+        width: 40px; /* Slightly smaller icons on mobile */
+        height: 40px;
+    }
+
+    .footer-svg-icon svg {
+        width: 28px; /* Adjust SVG size within smaller square */
+        height: 28px;
+    }
+}
+
+/* Even smaller screens (e.g., older/smaller phones) */
+@media (max-width: 480px) {
+    .main-container-border h1 {
+        font-size: 1.5rem; /* Even smaller font for main title */
+    }
+
+    .intro-paragraph-text {
+        font-size: 0.85rem; /* Even smaller font for intro paragraphs */
+    }
+
+    .motto-text {
+        font-size: 1rem; /* Even smaller font for motto */
+    }
+
+    .search-input {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .accordion-header-button {
+        font-size: 0.9rem;
+        padding: 0.7rem 0.9rem;
+    }
+
+    .subcard-button {
+        font-size: 0.85rem;
+        padding: 0.6rem 0.8rem;
+    }
+
+    .custom-modal-title {
+        font-size: 1.1rem;
+    }
+
+    .custom-modal-close-button {
+        font-size: 1.6rem;
+    }
+
+    .custom-modal-scrollable-body p,
+    .custom-modal-scrollable-body ul li {
+        font-size: 0.85rem; /* Smallest general text size */
+    }
 }
