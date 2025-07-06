@@ -219,8 +219,8 @@ body.modal-open {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 1rem 1.5rem;
-    background: linear-gradient(to right, #E0F2F7, #D1EAF4); /* Brighter gradient */
+    padding: 1.25rem 1.5rem; /* Increased vertical padding */
+    background: #F8FCFF; /* Very light, almost white blue */
     border: 1px solid #0A4A7A; /* Clear border */
     cursor: pointer;
     text-align: right;
@@ -283,8 +283,8 @@ body.modal-open {
 .subcard-button {
     display: block;
     width: 100%;
-    padding: 1rem 1.25rem; /* Increased padding for more spacing */
-    background: linear-gradient(to right, rgba(80, 184, 238, 0.1), rgba(80, 184, 238, 0.05)); /* Light blue gradient for sub-cards */
+    padding: 1.15rem 1.25rem; /* Increased vertical padding */
+    background: rgba(235, 245, 250, 0.8); /* Consistent with list-container-box */
     backdrop-filter: blur(5px); /* Subtle blur */
     border: 1px solid #B5D0E8; /* Precise light blue border */
     border-radius: 0.75rem; /* Rounded corners */
@@ -324,7 +324,7 @@ body.modal-open {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25); /* Stronger shadow */
     width: 90%; /* Responsive width */
     max-width: 700px; /* Max width for larger screens */
-    max-height: 90vh; /* Max height to prevent overflow */
+    max-height: 95vh; /* Adjusted for slightly more margin */
     display: flex;
     flex-direction: column;
     transform: scale(0.95);
@@ -572,8 +572,26 @@ body.modal-open {
 .footer-links-container {
     display: flex;
     gap: 0.75rem; /* Space between SVG boxes */
-    flex-wrap: wrap;
-    justify-content: flex-end; /* Align links to the right within their container */
+    flex-wrap: nowrap; /* Changed to nowrap */
+    justify-content: center; /* Center items in the row */
+    overflow-x: auto; /* Allow horizontal scrolling if items overflow */
+    padding-bottom: 5px; /* Add small padding for scrollbar visibility */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #B5D0E8 #F5FAFF; /* Firefox - thumb and track */
+}
+/* Custom scrollbar for Webkit browsers (Chrome, Safari) for footer links */
+.footer-links-container::-webkit-scrollbar {
+    height: 5px; /* Thin scrollbar */
+}
+.footer-links-container::-webkit-scrollbar-track {
+    background: #F5FAFF;
+    border-radius: 10px;
+}
+.footer-links-container::-webkit-scrollbar-thumb {
+    background-color: #B5D0E8;
+    border-radius: 10px;
+    border: 1px solid #F5FAFF;
 }
 
 .footer-link-square {
