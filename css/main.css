@@ -20,10 +20,10 @@ body {
 }
 
 /* Feature 2: Disable main page scroll when modal is open */
+/* We will manage position: fixed and top via JavaScript for better scroll restoration */
 html.modal-open, body.modal-open {
     overflow: hidden; /* Prevents scrolling of the main body and html */
-    /* Removed position: fixed, top, left, right, bottom */
-    /* This should prevent scroll issues after modal closes */
+    /* position: fixed, top, left, right, bottom are managed by JS for scroll restoration */
 }
 
 /* New rule: Prevent scrolling of the main content container when modal is open */
@@ -217,10 +217,9 @@ html.modal-open, body.modal-open {
 }
 
 .accordion-item-container.open {
+    /* Removed background-color and border from here to avoid "box in box" */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); /* Stronger shadow when open */
     transform: scale(1.005); /* Subtle scale effect when open */
-    background-color: rgba(255, 255, 255, 0.9); /* Add background when open */
-    border: 1px solid rgba(10, 74, 122, 0.3); /* Add border when open */
 }
 
 /* Accordion header button */
@@ -274,6 +273,13 @@ html.modal-open, body.modal-open {
     transform: scale(0.99); /* Slightly less scale */
     transition: max-height 0.2s ease-in-out, padding 0.2s ease-in-out, opacity 0.2s ease-in-out, transform 0.2s ease-in-out; /* Faster transition */
     padding: 0 1.5rem; /* Horizontal padding, no vertical padding when collapsed */
+
+    /* New styles for the content area when expanded */
+    background-color: rgba(255, 255, 255, 0.9); /* Add background to the content area */
+    border-bottom-left-radius: 1rem; /* Match outer container radius */
+    border-bottom-right-radius: 1rem; /* Match outer container radius */
+    border: 1px solid rgba(10, 74, 122, 0.3); /* Add border to the content area */
+    border-top: none; /* No top border, connects to header */
 }
 
 .collapse-grid.show {
@@ -586,11 +592,13 @@ html.modal-open, body.modal-open {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
-    justify-content: center; /* Center the content now that title is gone */
+    justify-content: center; /* Center the content */
     gap: 1rem; /* Space between title and links */
     flex-wrap: wrap; /* Allow wrapping on smaller screens */
     max-width: 800px; /* Match max-width of main-container-border */
     width: 90%; /* Match width of main-container-border */
+    margin-left: auto; /* Center horizontally */
+    margin-right: auto; /* Center horizontally */
 }
 
 .footer-title {
@@ -890,7 +898,7 @@ html.modal-open, body.modal-open {
     }
 
     .motto-text {
-        font-size: 1rem; /* Even smaller font for motto */
+        font-size: 1.1rem; /* Even smaller font for motto */
     }
 
     .search-input {
