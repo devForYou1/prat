@@ -350,6 +350,11 @@ function renderApp(data) {
         }
 
         accordionHeaderButton.onclick = () => {
+            // Prevent collapsing on larger screens (desktop)
+            if (window.innerWidth > 768) { // Assuming 768px is the breakpoint for "100% original size"
+                return; // Do nothing if on a large screen
+            }
+
             const isOpen = accordionItemContainer.classList.toggle('open');
             collapseGrid.classList.toggle('show', isOpen);
             accordionHeaderButton.setAttribute('aria-expanded', isOpen);
@@ -443,8 +448,11 @@ function renderApp(data) {
             // Show/hide accordion item based on match
             if (searchTerm === '') {
                 accordionItem.style.display = 'block'; // Show all when search is empty
-                accordionItem.classList.remove('open'); // Close accordion
-                document.getElementById(section.id + '-collapse').classList.remove('show');
+                // On large screens, accordions should remain open even if search is cleared
+                if (window.innerWidth <= 768) { // Only close on smaller screens
+                    accordionItem.classList.remove('open');
+                    document.getElementById(section.id + '-collapse').classList.remove('show');
+                }
                 // Show all sub-item buttons when search is empty
                 const subCardButtons = accordionItem.querySelectorAll('.subcard-button');
                 subCardButtons.forEach(button => {
