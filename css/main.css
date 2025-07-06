@@ -118,8 +118,8 @@ body.modal-open {
 
 .taaz-main-logo {
     width: auto; /* Allow width to adjust based on height */
-    height: 45vh; /* Reverted to original height */
-    max-height: 360px; /* Reverted to original max height */
+    height: 13.5vh; /* 70% reduction from 45vh */
+    max-height: 108px; /* 70% reduction from 360px */
     max-width: 100%; /* Ensure it doesn't overflow container */
     object-fit: contain; /* Maintain aspect ratio */
     display: block; /* Ensure it behaves as a block element for centering */
@@ -328,7 +328,8 @@ body.modal-open {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25); /* Stronger shadow */
     width: 90%; /* Responsive width */
     max-width: 700px; /* Max width for larger screens */
-    height: 90vh; /* Adjusted to 90vh as requested */
+    height: auto; /* Changed to auto to fit content */
+    max-height: 70vh; /* Adjusted to 70vh as requested */
     display: flex;
     flex-direction: column;
     transform: scale(0.95);
@@ -465,19 +466,12 @@ body.modal-open {
     border: 1px solid rgba(150, 190, 220, 0.5); /* Subtle border */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03); /* Subtle shadow */
     position: relative; /* For custom bullet */
-    padding-right: 1.5rem; /* Space for custom bullet */
+    /* Removed padding-right for custom bullet as bullet is removed */
 }
 
 .list-container-box ul li::before {
-    content: ''; /* Custom bullet */
-    position: absolute;
-    right: 0.5rem; /* Position of the bullet */
-    top: 50%;
-    transform: translateY(-50%);
-    width: 8px; /* Size of the bullet */
-    height: 8px;
-    background-color: #50B8EE; /* Color of the bullet */
-    border-radius: 50%; /* Round bullet */
+    /* Removed custom bullet styling */
+    content: none; /* Explicitly remove the custom bullet */
 }
 
 
@@ -585,16 +579,15 @@ body.modal-open {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
-    justify-content: flex-end; /* Align to the right */
+    /* Removed justify-content: flex-end; */
+    justify-content: center; /* Center the content now that title is gone */
     gap: 1rem; /* Space between title and links */
     flex-wrap: wrap; /* Allow wrapping on smaller screens */
 }
 
 .footer-title {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #0A4A7A;
-    margin-inline-end: auto; /* Pushes links to the right */
+    /* Removed this entire block as per request */
+    display: none; /* Hide the title */
 }
 
 .footer-links-container {
@@ -607,6 +600,7 @@ body.modal-open {
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
     scrollbar-width: thin; /* Firefox */
     scrollbar-color: #B5D0E8 #F5FAFF; /* Firefox - thumb and track */
+    width: 100%; /* Ensure it takes full width to allow centering */
 }
 /* Custom scrollbar for Webkit browsers (Chrome, Safari) for footer links */
 .footer-links-container::-webkit-scrollbar {
@@ -812,7 +806,7 @@ body.modal-open {
 
     .custom-modal-content {
         width: 95%;
-        max-height: 90vh; /* Adjusted to 90vh */
+        max-height: 70vh; /* Adjusted to 70vh */
     }
 
     .custom-modal-title {
@@ -841,20 +835,21 @@ body.modal-open {
     }
 
     .footer-card {
-        flex-direction: column;
-        align-items: flex-end; /* Keep content aligned right */
+        flex-direction: row; /* Changed back to row for mobile */
+        align-items: center; /* Center items vertically */
+        justify-content: center; /* Center items horizontally */
         padding: 0.75rem; /* More compact padding */
         gap: 0.5rem; /* Reduced gap for mobile */
     }
 
     .footer-title {
-        margin-inline-end: 0; /* Remove auto margin for column layout */
-        margin-bottom: 0.25rem; /* Add some space below title */
+        display: none; /* Ensure it's hidden on mobile too */
     }
 
     .footer-links-container {
         justify-content: center; /* Center links in the row */
-        width: 100%; /* Take full width */
+        width: auto; /* Allow width to shrink to content */
+        flex-grow: 1; /* Allow it to grow if needed */
     }
 
     .footer-link-square {
