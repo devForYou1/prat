@@ -279,6 +279,7 @@ function renderApp(data) {
     logoContainer.className = 'logo-container';
     
     // The full SVG content, excluding the XML declaration and the outer <svg> tag
+    // Added .trim() to ensure no leading/trailing whitespace which can cause parsing issues
     const mainTaazLogoSvgContent = `
 <svg width="568.89" height="544.35" viewBox="0 0 568.89 544.35" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M279.38 165.52C279.38 165.52 373.96 143.93 511.66 163.7C478.75 201.66 427.82 185.19 385.15 183.92C363.99 183.29 350.7 181.06 292.09 187.5C282.5 170.91 279.38 165.52 279.38 165.52Z" fill="url(#paint0_linear_1_2)"/>
@@ -369,7 +370,7 @@ function renderApp(data) {
 </linearGradient>
 </defs>
 </svg>
-`;
+`.trim(); // Added .trim() here
     
     // Debugging: Check SVG content string
     console.log('mainTaazLogoSvgContent length:', mainTaazLogoSvgContent.length);
