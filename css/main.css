@@ -740,6 +740,15 @@ html.modal-open, body.modal-open {
     backdrop-filter: blur(3px); /* Light blur for content sections */
 }
 
+/* New rule to remove inner box styling when content-section is inside an open accordion */
+.accordion-item-container.open .content-section {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+}
+
+
 /* Copy button styling */
 .copy-button {
     background-color: #50B8EE; /* Light blue */
