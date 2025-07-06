@@ -150,7 +150,7 @@ function openInfoModal(content) {
     // Disable main page scroll when modal is open
     document.body.classList.add('modal-open');
     document.documentElement.classList.add('modal-open'); // Add to html element
-    document.body.style.setProperty('--scroll-top', -lastScrollY + 'px'); // Set top using CSS variable
+    // Removed: document.body.style.setProperty('--scroll-top', -lastScrollY + 'px'); // Set top using CSS variable
     if (scrollbarWidth > 0) {
         document.body.style.paddingRight = scrollbarWidth + 'px'; // Compensate for scrollbar
     }
@@ -187,7 +187,7 @@ function closeInfoModal() {
                 // Restore body scroll properties
                 document.body.classList.remove('modal-open'); // Re-enable body scroll
                 document.documentElement.classList.remove('modal-open'); // Re-enable html scroll
-                document.body.style.removeProperty('--scroll-top'); // Remove the CSS variable
+                // Removed: document.body.style.removeProperty('--scroll-top'); // Remove the CSS variable
                 document.body.style.paddingRight = ''; // Remove padding-right
                 
                 const mainContainer = document.querySelector('.main-container-border');
