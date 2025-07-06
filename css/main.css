@@ -746,7 +746,7 @@ body.modal-open {
 
 /* Also ensure the h2 inside this section is styled correctly */
 .accordion-item-container.open #head-of-taatz-message-collapse .content-section h2 {
-    font-size: 1.5rem; /* Consistent with modal h2 */
+    font-size: 1.5rem;
     font-weight: bold;
     color: #0A4A7A;
     margin-bottom: 1rem;
