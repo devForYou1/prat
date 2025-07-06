@@ -275,7 +275,7 @@ body.modal-open {
 .sub-card-container {
     display: flex; /* Changed to flex */
     flex-direction: column; /* Vertical layout */
-    gap: 0.75rem; /* Reduced space between sub-cards to 12px (from 24px) */
+    gap: 0.5rem; /* Reduced space between sub-cards to 8px (from 12px) */
     padding-top: 0.5rem; /* Small padding at the top of sub-cards */
 }
 
@@ -424,26 +424,36 @@ body.modal-open {
 }
 
 /* Styled box for lists */
-.list-section-box {
-    border: 1px solid #50b8ee; /* Border from TAAZ palette */
+.list-container-box {
+    background-color: rgba(235, 245, 250, 0.8); /* Very light blue, semi-transparent */
+    border: 1px solid #B5D0E8; /* Light blue border */
     border-radius: 0.75rem;
     padding: 1rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    background-color: rgba(255, 255, 255, 0.6); /* Slightly transparent white */
+    margin-top: 1rem; /* Space above the box */
     margin-bottom: 1rem; /* Space below the box */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow */
 }
 
-.list-section-box ul {
+.list-container-box h3 {
+    margin-top: 0.5rem; /* Adjust margin for h3 inside the box */
+    margin-bottom: 0.75rem; /* Adjust margin for h3 inside the box */
+}
+
+.list-container-box p {
+    margin-bottom: 0.75rem; /* Adjust margin for p inside the box */
+}
+
+.list-container-box ul {
     list-style-type: disc;
     padding-right: 1.25rem; /* Adjust for RTL list bullets */
     margin-bottom: 0; /* Remove default ul margin */
 }
 
-.list-section-box ul li {
+.list-container-box ul li {
     font-size: 1rem;
     line-height: 1.6;
     color: #0A4A7A; /* Dark blue for list items */
-    margin-bottom: 0.75rem; /* Ensure new line after each bullet point */
+    margin-bottom: 0.5rem; /* Ensure new line after each bullet point, reduced space */
     text-align: justify; /* Justify text */
 }
 
@@ -617,7 +627,7 @@ body.modal-open {
 
 /* Image styling within content */
 .head-of-taatz-image {
-    max-width: 80%; /* Ensure image is responsive and 80% width */
+    max-width: 90%; /* Increased from 80% */
     height: auto;
     border-radius: 0.75rem; /* Rounded corners for images */
     margin-bottom: 1rem;
@@ -625,7 +635,7 @@ body.modal-open {
     margin-left: auto;
     margin-right: auto;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    max-height: 200px; /* Limit height for reasonable size */
+    max-height: 250px; /* Increased from 200px */
     object-fit: contain; /* Ensure the image fits within its bounds without cropping */
 }
 
