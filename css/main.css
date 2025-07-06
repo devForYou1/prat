@@ -22,13 +22,8 @@ body {
 /* Feature 2: Disable main page scroll when modal is open */
 html.modal-open, body.modal-open {
     overflow: hidden; /* Prevents scrolling of the main body and html */
-    position: fixed; /* Lock body position */
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    /* Removed position: fixed, top, left, right, bottom */
+    /* This should prevent scroll issues after modal closes */
 }
 
 /* New rule: Prevent scrolling of the main content container when modal is open */
@@ -89,10 +84,10 @@ html.modal-open, body.modal-open {
     height: auto; /* Allow height to be determined by content and flex-grow */
     flex-grow: 1; /* Allow it to grow and take available space */
     margin: 1rem auto; /* Add margin to separate from top/bottom of viewport */
-    overflow-y: auto; /* Keep internal scrolling for the main content area */
+    /* Removed overflow-y: auto; to allow body to handle all scrolling */
     overflow-x: hidden; /* Prevent horizontal scrolling inside */
     direction: rtl; /* Ensure RTL for the entire content area */
-    overscroll-behavior-y: contain; /* Prevent bounce scroll for this specific scrollable area */
+    /* Removed overscroll-behavior-y: contain; as it's no longer needed here */
 }
 
 /* Shimmer effect for main container */
