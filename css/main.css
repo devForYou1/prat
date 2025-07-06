@@ -1,16 +1,14 @@
 /* Custom CSS for animations and scrollbar */
 body {
-    background: linear-gradient(to bottom right, #E0F2F7, #FFFFFF); /* Lighter blue to white gradient */
+    background-color: #FFFFFF; /* Solid white background */
     font-family: 'Assistant', sans-serif;
     margin: 0;
-    padding: 1rem; /* Increased padding for better overall spacing */
+    padding: 0; /* No padding on body */
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-    overflow-y: auto; /* Allow vertical scrolling */
-    transition: overflow 0.3s ease-in-out; /* Smooth transition for overflow change */
+    overflow: hidden; /* Prevent any body scrolling */
     overscroll-behavior-y: contain; /* Prevent bounce scroll on Y-axis */
 }
 
@@ -60,17 +58,22 @@ body.modal-open {
 
 /* Main container styling - Glassmorphism */
 .main-container-border {
-    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white */
-    backdrop-filter: blur(10px); /* Blur effect */
-    border: 1px solid rgba(181, 208, 232, 0.5); /* Light, partially transparent border */
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white, more opaque */
+    backdrop-filter: blur(15px); /* Stronger blur effect */
+    border: 1px solid rgba(10, 74, 122, 0.3); /* Dark blue with transparency */
     border-radius: 1.5rem; /* More rounded corners */
     padding: 2rem; /* Increased padding */
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* Stronger shadow */
-    max-width: 900px; /* Max width for larger screens */
-    width: 100%; /* Fluid width */
-    margin: 2rem auto; /* Top/bottom margin for spacing, auto for centering */
-    position: relative; /* For shimmer effect positioning */
-    overflow: hidden; /* Ensure shimmer doesn't overflow */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+    max-width: 800px; /* Max width for larger screens */
+    width: 90%; /* Fluid width for responsiveness */
+    height: 90vh; /* Fixed height relative to viewport */
+    position: fixed; /* Fixed position */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the container */
+    overflow-y: auto; /* Allow internal scrolling */
+    overflow-x: hidden; /* Prevent horizontal scrolling inside */
+    direction: rtl; /* Ensure RTL for the entire content area */
 }
 
 /* Shimmer effect for main container */
@@ -154,7 +157,7 @@ body.modal-open {
     background-color: rgba(245, 250, 255, 0.7); /* Semi-transparent light background */
     backdrop-filter: blur(5px); /* Subtle blur */
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08); /* Inner shadow */
-    transition: all 0.3s ease;
+    transition: all 0.2s ease; /* Faster transition */
     text-align: right; /* Align placeholder text to the right */
 }
 
@@ -178,18 +181,18 @@ body.modal-open {
 
 /* Accordion item container - Glassmorphism */
 .accordion-item-container {
-    background-color: rgba(255, 255, 255, 0.9); /* More opaque white for accordion items */
+    background-color: rgba(255, 255, 255, 0.95); /* Very bright glassy white */
     backdrop-filter: blur(8px); /* Blur effect */
-    border: 1px solid rgba(181, 208, 232, 0.5); /* Light, partially transparent border */
+    border: 1px solid #0A4A7A; /* Dark blue border for contrast */
     border-radius: 1rem; /* Rounded corners */
     overflow: hidden; /* Hide overflowing content during collapse */
-    transition: all 0.3s ease-in-out, transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Smooth transition for open/close */
+    transition: all 0.2s ease-in-out, transform 0.2s ease-in-out, opacity 0.2s ease-in-out; /* Faster transition for open/close */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Subtle shadow */
 }
 
 .accordion-item-container.open {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); /* Stronger shadow when open */
-    transform: scale(1.01); /* Subtle scale effect when open */
+    transform: scale(1.005); /* Subtle scale effect when open */
 }
 
 /* Accordion header button */
@@ -207,7 +210,7 @@ body.modal-open {
     font-weight: 700;
     color: #0A4A7A; /* Dark blue text */
     border-radius: 1rem; /* Match container border-radius */
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.2s ease, color 0.2s ease; /* Faster transition */
 }
 
 .accordion-header-button:hover {
@@ -230,7 +233,7 @@ body.modal-open {
 .arrow-icon {
     display: flex;
     align-items: center;
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.2s ease-in-out; /* Faster transition */
 }
 
 .accordion-item-container.open .arrow-icon {
@@ -242,8 +245,8 @@ body.modal-open {
     max-height: 0;
     overflow: hidden;
     opacity: 0;
-    transform: scale(0.98);
-    transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out, opacity 0.4s ease-in-out, transform 0.4s ease-in-out; /* Smooth transition for max-height and padding */
+    transform: scale(0.99); /* Slightly less scale */
+    transition: max-height 0.2s ease-in-out, padding 0.2s ease-in-out, opacity 0.2s ease-in-out, transform 0.2s ease-in-out; /* Faster transition */
     padding: 0 1.5rem; /* Horizontal padding, no vertical padding when collapsed */
 }
 
@@ -262,28 +265,28 @@ body.modal-open {
     padding-top: 0.5rem; /* Small padding at the top of sub-cards */
 }
 
-/* Sub-card button styling - Glassmorphism */
+/* Sub-card button styling - Glassmorphism with distinction */
 .subcard-button {
     display: block;
     width: 100%;
     padding: 0.75rem 1rem;
-    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white */
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly less opaque white */
     backdrop-filter: blur(5px); /* Subtle blur */
-    border: 1px solid rgba(181, 208, 232, 0.4); /* Light, partially transparent border */
+    border: 1px solid rgba(10, 74, 122, 0.2); /* Lighter, more transparent dark blue border */
     border-radius: 0.75rem; /* Rounded corners */
     text-align: right;
     font-size: 0.95rem;
     color: #333333;
     cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05); /* Lighter shadow */
+    transition: all 0.15s ease; /* Faster transition */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); /* Slightly more pronounced shadow */
 }
 
 .subcard-button:hover {
-    background-color: rgba(240, 248, 255, 0.8); /* Light hover effect, more opaque */
+    background-color: rgba(240, 248, 255, 0.9); /* Light hover effect, more opaque */
     border-color: #50B8EE; /* Highlight border on hover */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.12); /* Stronger shadow on hover */
+    transform: translateY(-3px); /* More noticeable lift effect */
 }
 
 /* Modal Styling - Glassmorphism */
@@ -299,7 +302,7 @@ body.modal-open {
     align-items: center;
     z-index: 1050; /* Above other content */
     opacity: 0;
-    transition: opacity 0.3s ease-out;
+    transition: opacity 0.2s ease-out; /* Faster transition */
 }
 
 .custom-modal-backdrop.show {
@@ -307,11 +310,11 @@ body.modal-open {
 }
 
 .custom-modal-content {
-    background-color: rgba(255, 255, 255, 0.85); /* More opaque white for modal content */
-    backdrop-filter: blur(12px); /* Stronger blur for modal */
-    border: 1px solid rgba(181, 208, 232, 0.6); /* Light, partially transparent border */
+    background-color: rgba(255, 255, 255, 0.9); /* More opaque white for modal content */
+    backdrop-filter: blur(18px); /* Stronger blur for modal */
+    border: 1px solid rgba(181, 208, 232, 0.7); /* Light, partially transparent border */
     border-radius: 1rem;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25); /* Stronger shadow */
     width: 90%; /* Responsive width */
     max-width: 700px; /* Max width for larger screens */
     max-height: 90vh; /* Max height to prevent overflow */
@@ -319,7 +322,7 @@ body.modal-open {
     flex-direction: column;
     transform: scale(0.95);
     opacity: 0;
-    animation: fadeInScale 0.3s ease-out forwards;
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out; /* Faster transition */
 }
 
 .custom-modal-backdrop.show .custom-modal-content {
@@ -423,15 +426,9 @@ body.modal-open {
     font-size: 1rem;
     line-height: 1.6;
     color: #444444;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem; /* Ensure new line after each bullet point */
     text-align: justify; /* Justify text */
 }
-
-/* Ensure new line after each bullet point */
-.custom-modal-scrollable-body ul li:not(:last-child) {
-    margin-bottom: 0.75rem; /* Add more space between list items */
-}
-
 
 /* Icon styling for content sections */
 .section-icon {
@@ -489,7 +486,7 @@ body.modal-open {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, transform 0.2s ease;
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, transform 0.15s ease; /* Faster transition */
     z-index: 1000;
 }
 
@@ -544,7 +541,7 @@ body.modal-open {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease; /* Faster transition */
 }
 
 .footer-link-square:hover {
@@ -563,7 +560,8 @@ body.modal-open {
 @media (max-width: 768px) {
     .main-container-border {
         padding: 1.5rem;
-        margin: 1rem auto;
+        width: 95%; /* More width on small screens */
+        height: 95vh; /* More height on small screens */
     }
 
     .main-container-border h1 {
@@ -666,7 +664,7 @@ body.modal-open {
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    transition: background-color 0.15s ease, transform 0.15s ease; /* Faster transition */
     margin-top: 1rem;
     display: inline-flex; /* Use flex to align icon and text */
     align-items: center;
