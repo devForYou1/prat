@@ -10,9 +10,10 @@ body {
     margin: 0;
     padding: 0; /* No padding on body */
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; /* Use flexbox for centering */
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
     overflow: hidden; /* Prevent any body scrolling */
     overscroll-behavior-y: contain; /* Prevent bounce scroll on Y-axis */
 }
@@ -72,10 +73,8 @@ body.modal-open {
     max-width: 800px; /* Max width for larger screens */
     width: 90%; /* Fluid width for responsiveness */
     height: 90vh; /* Fixed height relative to viewport */
-    position: fixed; /* Fixed position */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Center the container */
+    /* Removed position: fixed, top, left, transform for proper centering within flex body */
+    margin: auto; /* Center horizontally within flex container */
     overflow-y: auto; /* Allow internal scrolling */
     overflow-x: hidden; /* Prevent horizontal scrolling inside */
     direction: rtl; /* Ensure RTL for the entire content area */
@@ -83,7 +82,7 @@ body.modal-open {
 
 /* Shimmer effect for main container */
 .shimmer-effect {
-    position: absolute;
+    position: absolute; /* Positioned relative to .main-container-border */
     top: 0;
     left: 0;
     width: 100%;
