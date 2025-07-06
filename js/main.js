@@ -137,22 +137,14 @@ function openInfoModal(content) {
         scrollbarWidth = getScrollbarWidth();
     }
 
-    // Create a new modal structure and get a direct reference to the modal content element
-    const modalBackdrop = createInfoModalStructure(closeInfoModal, content);
-    const modalContentElement = modalBackdrop.querySelector('.custom-modal-content'); // Get direct reference here
-
-    if (!modalContentElement) {
-        console.error('Error: custom-modal-content element not found within the modal backdrop.');
-        return; // Prevent further errors if the structure is not as expected
-    }
-
-    currentModalElement = modalBackdrop; // Assign the backdrop to the global variable
+    // Create a new modal structure
+    currentModalElement = createInfoModalStructure(closeInfoModal, content);
     document.body.appendChild(currentModalElement);
 
     // Add 'show' classes for fade-in effect
     requestAnimationFrame(() => { // Use rAF for smoother animation start
-        currentModalElement.classList.add('show'); // backdrop
-        modalContentElement.classList.add('show'); // modal content
+        currentModalElement.classList.add('show');
+        currentModalElement.querySelector('.custom-modal-content').classList.add('show');
     });
 
     // Disable main page scroll when modal is open
@@ -171,7 +163,7 @@ function openInfoModal(content) {
     document.addEventListener('keydown', handleEscapeKey);
 
     // Focus on the modal for accessibility
-    modalContentElement.focus(); // Focus on the content element directly
+    currentModalElement.querySelector('.custom-modal-content').focus();
 }
 
 /**
@@ -236,181 +228,46 @@ function renderApp(data) {
     }
     appRoot.innerHTML = ''; // Clear existing content
 
-    let mainContainer = null; // Initialize to null for robust error handling
-    try {
-        mainContainer = document.createElement('div');
-    } catch (e) {
-        console.error('Error creating mainContainer div:', e);
-        return; // Exit if element creation fails
-    }
+    const mainContainer = document.createElement('div');
+    mainContainer.className = 'main-container-border animate-main-container';
 
-    // Explicitly check if mainContainer is a valid HTMLElement before adding classes
-    if (!(mainContainer instanceof HTMLElement)) {
-        console.error('mainContainer is not a valid HTMLElement after creation. Value:', mainContainer);
-        return;
-    }
-    
-    // Debugging log: Check what mainContainer is right before adding classes
-    console.log('mainContainer before adding classes:', mainContainer);
-    
-    mainContainer.classList.add('main-container-border');
-    mainContainer.classList.add('animate-main-container');
-
-    // Add shimmer effect (kept for consistency with CSS, though display:none)
+    // Add shimmer effect
     const shimmer = document.createElement('div');
     shimmer.className = 'shimmer-effect';
-    
-    // Debugging: Check shimmer before appending
-    console.log('shimmer element:', shimmer);
-    console.log('mainContainer element before appending shimmer:', mainContainer);
+    mainContainer.appendChild(shimmer);
 
-    try {
-        mainContainer.appendChild(shimmer); 
-    } catch (e) {
-        console.error('Error appending shimmer:', e);
-        console.error('mainContainer at error:', mainContainer);
-        console.error('shimmer at error:', shimmer);
-        return; // Stop execution to prevent further errors
-    }
-    
-
-    // Logo - Main TAAZ Logo (now an SVG)
+    // Logo - Main TAAZ Logo (SVG content provided by user in taaz.txt)
     const logoContainer = document.createElement('div');
     logoContainer.className = 'logo-container';
     
-    // The full SVG content, excluding the XML declaration and the outer <svg> tag
-    // Added .trim() to ensure no leading/trailing whitespace which can cause parsing issues
-    const mainTaazLogoSvgContent = `
-<svg width="568.89" height="544.35" viewBox="0 0 568.89 544.35" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M279.38 165.52C279.38 165.52 373.96 143.93 511.66 163.7C478.75 201.66 427.82 185.19 385.15 183.92C363.99 183.29 350.7 181.06 292.09 187.5C282.5 170.91 279.38 165.52 279.38 165.52Z" fill="url(#paint0_linear_1_2)"/>
-<path d="M491.28 192.8C470.9 191.6 427.35 199.48 412.92 197.54C361.88 190.68 297.29 196.35 297.29 196.35L309.13 217.45C365.75 215.18 394.96 225.93 431.28 221.67C451.03 219.36 477.14 206.87 491.28 192.8Z" fill="url(#paint1_linear_1_2)"/>
-<path d="M384.91 230.74C350.37 226.15 332.33 223.65 313.03 225.2C313.03 225.2 313.03 225.2 313.03 225.2L327.05 249.47C359.93 250.97 392.04 256.15 407.02 253.62C420.59 251.33 443.59 238.18 453.33 228.14C430.41 229.32 407.71 234.19 384.91 230.74Z" fill="url(#paint2_linear_1_2)"/>
-<path d="M365.88 395H439.32L373.51 281.02L370.93 276.42C381.64 273.25 394.3 268.31 400.28 262.41C400.28 262.41 382.86 264.05 364.46 261.04C354.24 259.35 343.12 258.14 332.4 257.41L345.36 279.84C345.48 279.84 345.6 279.84 345.72 279.85L345.44 280.11L345.48 280.18L345.44 280.11L359.37 304.24L359.41 304.31L359.37 304.24L397.24 369.83H380.19L365.72 395H365.88Z" fill="url(#paint3_linear_1_2)"/>
-<path d="M117.11 276.84L134.25 306.81L147.69 283.54L147.65 283.47L147.61 283.54L134.17 260.27L134.13 260.2L134.17 260.27L97.65 197.02H143.96L157.43 173.68H57.23L117.11 276.84Z" fill="url(#paint4_linear_1_2)"/>
-<path d="M169.93 371.18H97.36L120.31 331.43L106.97 308.33L105.52 311.12L105.86 310.13L57.24 394.34H183.31L171.09 371.18H169.93Z" fill="url(#paint5_linear_1_2)"/>
-<path d="M264.1 274.93C253.85 263.44 239.37 258.44 233.77 257.02C232.33 256.65 231.85 200.13 247.54 170.88C262.52 190.64 264.09 274.93 264.1 274.93Z" fill="url(#paint6_linear_1_2)"/>
-<path d="M278.13 387.8H219.74C228.26 376.06 237.34 384.03 247.76 384.42C258.4 384.82 268.65 378.1 278.13 387.8Z" fill="url(#paint7_linear_1_2)"/>
-<path d="M234.61 297.95C232.76 296.57 233.46 282.13 232.35 278.88L263.91 297.1L263.25 317.34C255.46 304.62 234.61 297.95 234.61 297.95Z" fill="url(#paint8_linear_1_2)"/>
-<path d="M255.02 380.62C255.02 380.62 237.62 381.43 233.46 376.94L233.49 323.69C235.29 325.2 262.66 344.21 263.21 347.19C264.04 351.59 263.46 371 263.3 375.85C263.13 380.82 255.02 380.62 255.02 380.62Z" fill="url(#paint9_linear_1_2)"/>
-<path d="M278.14 277.89L274.69 245.84L283.48 335.34C280.31 347.19 280.54 363.86 275.27 375.11C274.65 376.45 274.1 378.25 272.42 378.54C257.56 336.3 200.08 332.57 190.99 298.41C211.18 300.03 224.4 304.62 234.71 322.84C234.71 322.84 244.8 346.03 244.57 340.01C244.42 336.25 242.89 318.32 241.16 315.25C239.38 312.09 234.81 312.83 235.62 307.09C236.37 301.77 244.42 301.54 245.76 306.12C246.98 310.29 243.6 312.52 243.56 316.13C243.52 319.74 245.4 325.89 245.87 329.92C246.01 330.95 245.16 343.62 248.23 339.63L248.62 305.56C232.83 289.65 210.35 289.63 197.64 269.45C196.87 268.22 188.34 251.61 191.56 252.64C201.07 258.83 213.2 260.92 222.48 267.52C226.78 270.58 234.3 278.26 237 282.77C237.7 283.94 240.34 289.57 243.01 293.93C244.64 296.58 244.35 301.4 247.08 303.01C245.27 274.21 239.12 275.23 234.53 261.97L234.2 258.23C234.2 258.23 248.24 281.25 249.8 301.39L254.3 273.25C252.63 268.42 255.38 265.98 255.38 265.98C261.4 263.39 263.68 271.74 260.92 275.96C259.79 277.69 257.17 276.64 255.88 279.29C253.01 285.17 250.4 306.96 250.45 313.93C250.48 318.14 251.59 326.8 253.4 330.51C252.39 318.82 249.79 307.41 246.54 296.17C246.43 295.78 244.28 287.28 243.68 292.13C241.44 303 237.78 313.53 235.91 324.49C235.5 326.92 236.59 325.85 237.95 325.95Z" fill="url(#paint10_linear_1_2)"/>
-<path d="M280.87 215.69C280.87 215.69 294.64 253.75 276.86 283.24C276.86 283.24 272.53 273.23 268.23 263.91C268.23 263.91 265.77 224.82 280.87 215.69Z" fill="url(#paint11_linear_1_2)"/>
-<path d="M284.1 326.52C284.1 326.52 279.03 296.16 293.03 272.78C307 249.4 306.34 248.98 306.34 248.98C306.34 248.98 300.38 315.49 286.38 327.18L284.13 326.52Z" fill="url(#paint12_linear_1_2)"/>
-<path d="M279.62 382.55C279.62 382.55 274.02 343.94 316.64 323.09C316.64 323.09 314.17 359.92 279.62 382.55Z" fill="url(#paint13_linear_1_2)"/>
-<path d="M268.84 64.2C268.84 75.85 259.4 85.29 247.75 85.29C236.1 85.29 226.66 75.85 226.66 64.2C226.66 52.55 236.1 43.11 247.75 43.11C259.4 43.11 268.84 52.55 268.84 64.2Z" fill="url(#paint14_linear_1_2)"/>
-<path d="M295.76 148.05H268.5L247.55 111.76L212.97 171.65H212.82C199.19 195.26 199.19 195.26 199.19 195.26H172.24L185.87 171.65H185.72L233.24 89.34C237.06 93.15 242.32 95.5 248.14 95.5C253.59 95.5 258.53 93.42 262.27 90.03L295.76 148.05Z" fill="url(#paint15_linear_1_2)"/>
-<path d="M352.89 370.53C334.41 403.05 291.74 470.93 246.58 501.25L246.33 500.94C215.8 485.56 191.32 439.63 171.09 410.69H191.87C203.98 427.65 213.76 442.24 218.85 444.95C219.72 445.41 220.59 445.75 221.47 445.99C221.54 446.01 221.6 446.02 221.67 446.03C221.8 446.06 221.93 446.08 222.06 446.11C223.32 446.34 224.55 446.39 225.71 446.26C230.19 445.66 234.67 442.32 235.27 437.03C236.9 422.61 239.06 392.78 239.06 392.78C249.86 392.78 248.13 392.78 256.66 392.78C257.75 419.93 256.97 435.19 260.64 441.43C264.31 447.67 270.45 447.11 273.86 445.29C285.56 439.07 311.11 415.26 321.73 395.2C313.61 395.2 298.54 395.2 293.65 395.2C328.68 380.33 316.18 385.62 352.89 370.53Z" fill="url(#paint16_linear_1_2)"/>
-<defs>
-<linearGradient id="paint0_linear_1_2" x1="419.87" y1="414.45" x2="118.1" y2="112.68" gradientUnits="userSpaceOnUse">
-<stop stop-color="#50B8EE"/>
-<stop offset="0.75" stop-color="#0A4A7A"/>
-</linearGradient>
-<linearGradient id="paint1_linear_1_2" x1="419.87" y1="414.45" x2="118.1" y2="112.68" gradientUnits="userSpaceOnUse">
-<stop stop-color="#50B8EE"/>
-<stop offset="0.75" stop-color="#0A4A7A"/>
-</linearGradient>
-<linearGradient id="paint2_linear_1_2" x1="419.87" y1="414.45" x2="118.1" y2="112.68" gradientUnits="userSpaceOnUse">
-<stop stop-color="#50B8EE"/>
-<stop offset="0.75" stop-color="#0A4A7A"/>
-</linearGradient>
-<linearGradient id="paint3_linear_1_2" x1="419.87" y1="414.45" x2="118.1" y2="112.68" gradientUnits="userSpaceOnUse">
-<stop stop-color="#50B8EE"/>
-<stop offset="0.75" stop-color="#0A4A7A"/>
-</linearGradient>
-<linearGradient id="paint4_linear_1_2" x1="419.87" y1="414.45" x2="118.1" y2="112.68" gradientUnits="userSpaceOnUse">
-<stop stop-color="#50B8EE"/>
-<stop offset="0.75" stop-color="#0A4A7A"/>
-</linearGradient>
-<linearGradient id="paint5_linear_1_2" x1="419.87" y1="414.45" x2="118.1" y2="112.68" gradientUnits="userSpaceOnUse">
-<stop stop-color="#50B8EE"/>
-<stop offset="0.75" stop-color="#0A4A7A"/>
-</linearGradient>
-<linearGradient id="paint6_linear_1_2" x1="419.87" y1="414.45" x2="118.1" y2="112.68" gradientUnits="userSpaceOnUse">
-<stop stop-color="#50B8EE"/>
-<stop offset="0.75" stop-color="#0A4A7A"/>
-</linearGradient>
-<linearGradient id="paint7_linear_1_2" x1="419.87" y1="414.45" x2="118.1" y2="112.68" gradientUnits="userSpaceOnUse">
-<stop stop-color="#50B8EE"/>
-<stop offset="0.75" stop-color="#0A4A7A"/>
-</linearGradient>
-<linearGradient id="paint8_linear_1_2" x1="419.87" y1="414.45" x2="118.1" y2="112.68" gradientUnits="userSpaceOnUse">
-<stop stop-color="#50B8EE"/>
-<stop offset="0.75" stop-color="#0A4A7A"/>
-</linearGradient>
-<linearGradient id="paint9_linear_1_2" x1="419.87" y1="414.45" x2="118.1" y2="112.68" gradientUnits="userSpaceOnUse">
-<stop stop-color="#50B8EE"/>
-<stop offset="0.75" stop-color="#0A4A7A"/>
-</linearGradient>
-<linearGradient id="paint10_linear_1_2" x1="419.87" y1="414.45" x2="118.1" y2="112.68" gradientUnits="userSpaceOnUse">
-<stop stop-color="#50B8EE"/>
-<stop offset="0.75" stop-color="#0A4A7A"/>
-</linearGradient>
-<linearGradient id="paint11_linear_1_2" x1="419.87" y1="414.45" x2="118.1" y2="112.68" gradientUnits="userSpaceOnUse">
-<stop stop-color="#50B8EE"/>
-<stop offset="0.75" stop-color="#0A4A7A"/>
-</linearGradient>
-<linearGradient id="paint12_linear_1_2" x1="419.87" y1="414.45" x2="118.1" y2="112.68" gradientUnits="userSpaceOnUse">
-<stop stop-color="#50B8EE"/>
-<stop offset="0.75" stop-color="#0A4A7A"/>
-</linearGradient>
-<linearGradient id="paint13_linear_1_2" x1="419.87" y1="414.45" x2="118.1" y2="112.68" gradientUnits="userSpaceOnUse">
-<stop stop-color="#50B8EE"/>
-<stop offset="0.75" stop-color="#0A4A7A"/>
-</linearGradient>
-<linearGradient id="paint14_linear_1_2" x1="419.87" y1="414.45" x2="118.1" y2="112.68" gradientUnits="userSpaceOnUse">
-<stop stop-color="#50B8EE"/>
-<stop offset="0.75" stop-color="#0A4A7A"/>
-</linearGradient>
-<linearGradient id="paint15_linear_1_2" x1="419.87" y1="414.45" x2="118.1" y2="112.68" gradientUnits="userSpaceOnUse">
-<stop stop-color="#50B8EE"/>
-<stop offset="0.75" stop-color="#0A4A7A"/>
-</linearGradient>
-<linearGradient id="paint16_linear_1_2" x1="419.87" y1="414.45" x2="118.1" y2="112.68" gradientUnits="userSpaceOnUse">
-<stop stop-color="#50B8EE"/>
-<stop offset="0.75" stop-color="#0A4A7A"/>
-</linearGradient>
-</defs>
-</svg>
-`.trim(); // Added .trim() here
-    
-    // Debugging: Check SVG content string
-    console.log('mainTaazLogoSvgContent length:', mainTaazLogoSvgContent.length);
-    console.log('mainTaazLogoSvgContent starts with:', mainTaazLogoSvgContent.substring(0, 50));
-
+    // The full SVG content including the <svg> tag
+    const mainTaazLogoSvgContent = `<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 568.89 544.35">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#New_Gradient_Swatch_3);
+      }
+    </style>
+    <linearGradient id="New_Gradient_Swatch_3" data-name="New Gradient Swatch 3" x1="419.87" y1="414.45" x2="118.1" y2="112.68" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#50b8ee"/>
+      <stop offset=".75" stop-color="#0a4a7a"/>
+    </linearGradient>
+  </defs>
+  <path class="cls-1" d="M279.38,165.52s94.58-21.59,232.28-1.82c-32.91,37.96-83.84,21.5-126.51,20.23-21.16-.63-34.45-2.86-93.06,3.6-9.59-16.59-12.71-22-12.71-22ZM491.28,192.8c-20.38-1.2-63.93,6.68-78.36,4.74-51.04-6.86-115.63-1.29-115.63-1.29l11.84,21.1c56.62-2.27,85.83,8.48,122.15,4.22,19.75-2.31,45.86-14.8,59.99-28.77ZM384.91,230.74c-34.54-4.59-52.58-7.49-71.28-5.94l14.02,24.27c32.88,1.5,64.99,6.68,79.97,4.15,13.57-2.29,36.07-15.44,45.81-25.48-22.92,1.18-45.62,6.05-68.53,3ZM365.88,395h73.44l-65.81-113.98-2.58-4.6c10.71-3.17,23.37-8.11,29.35-14.01,0,0-17.42,1.64-35.82-1.4-10.22-1.69-21.34-2.9-32-3.63l12.96,22.43c.12,0,.24,0,.36.01l-.28.26.04.07.04-.07,13.93,24.13.04.07-.04.07,37.87,65.59h-17.05l-14.47,25.05ZM117.11,276.84l17.14,29.97,13.44-23.27-.04-.07-.04.07-13.44-23.27-.04-.07.04-.07-36.52-63.25h46.31l13.47-23.34H57.23l59.79,103.56.09-.26ZM169.93,371.18h-72.57l22.95-39.75-13.34-23.1-1.45,2.79.34-.99-48.62,84.21h126.07l-12.22-23.17h-1.16ZM264.1,274.93c-10.25-11.49-24.73-16.49-30.33-17.91-1.44-.37-1.92-56.89,13.77-86.14,14.98,19.76,16.55,104.06,16.55,104.06ZM278.13,387.8h-58.39c8.52-11.74,17.6-3.77,28.02-3.38,10.64.4,20.89-6.32,30.36,3.38ZM234.61,297.95c-1.85-1.38-1.15-15.82-2.26-19.07l31.56,18.22-.66,20.24c-7.79-12.72-28.64-19.4-28.64-19.4ZM255.02,380.62s-17.4.81-21.56-3.68l.03-53.25c1.8,1.51,29.17,20.52,29.72,23.5.83,4.4.25,23.81.09,28.65-.17,4.97-8.28,4.78-8.28,4.78ZM278.14,277.89,274.69,245.84,283.48,335.34c-3.17,11.85-2.94,28.52-8.21,39.87-.62,1.34-1.17,3.14-2.85,3.43,14.86-42.24-42.44-45.97-51.52-80.13,20.19,1.62,33.4,6.21,43.71,24.4,0,0,10.09,23.19,9.86,17.17-.15-3.76-1.68-21.69-3.41-24.77-1.78-3.16-6.35-2.42-5.54-8.16.75-5.32,8.8-5.55,10.14-.97,1.22,4.17-2.1,6.4-2.14,10.01-.04,3.61,1.84,9.76,2.31,13.79.12,1.03-.73,13.7,2.3,9.71l.39-34.07c-15.79-15.91-38.27-15.93-50.98-36.11-.77-1.23-9.3-17.84-6.08-16.81,9.51,6.19,21.64,8.28,30.92,14.88,4.3,3.06,11.82,10.74,14.52,15.25,0.7,1.17,3.34,6.8,6.01,11.16,1.63,2.65,1.34,7.47,4.07,9.08-1.81-28.8-7.96-27.78-12.55-41.04l-.33-3.74s14.04,23.02,15.6,43.16l4.5-28.14c-1.67-4.83,1.08-7.27,1.08-7.27,6.02-2.59,8.3,5.74,5.54,9.96-1.13,1.73-3.75.68-5.04,3.33-2.87,5.88-5.49,27.67-5.44,34.64.03,4.21,1.14,12.87,2.95,16.58,1.01-11.69,3.61-23.1,6.86-34.34.11-.39,2.26-8.89,2.86-4.04-2.24,10.86-5.9,21.39-7.77,32.35-.41,2.43.68,1.36,2.04,1.46M280.87,215.69s13.77,38.06-4.01,67.55c0,0-4.33-10.01-8.63-19.33,0,0-2.46-39.09,12.64-48.22ZM284.1,326.52s-5.07-30.36,8.9-53.74c13.97-23.38,13.31-23.8,13.31-23.8,0,0-5.96,66.51-19.96,78.2l-2.25-.67ZM279.62,382.55s-5.6-38.61,37.02-59.46c0,0-2.47,36.83-37.02,59.46ZM268.84,64.2c0,11.65-9.44,21.09-21.09,21.09-11.65,0-21.09-9.44-21.09-21.09,0-11.65,9.44-21.09,21.09-21.09,11.65,0,21.09,9.44,21.09,21.09ZM295.76,148.05h-27.26l-20.95-36.29-34.58,59.89h-.15s-13.63,23.61-13.63,23.61h-26.95l13.63-23.61h-.15l47.52-82.31c3.82,3.81,9.08,6.16,14.9,6.16,5.45,0,10.39-2.08,14.13-5.47l33.49,58.01ZM352.89,370.53c-18.48,32.52-61.15,100.4-106.31,130.72l-.25-.31c-30.53-15.38-55.01-61.31-75.24-90.25h20.78c12.11,16.96,21.89,31.55,26.98,34.26.87.46,1.74.8,2.62,1.04.07.02.13.03.2.04.13.03.26.05.39.08,1.26.23,2.49.28,3.65.15,4.48-.6,8.96-3.94,9.56-9.23,1.63-14.42,3.79-44.25,3.79-44.25,10.8,0,9.07,0,17.5,0,1.09,27.15.31,42.41,3.98,48.65s10.41,5.44,13.82,3.62c11.7-6.22,37.25-30.03,47.87-50.09-8.12,0-23.09,0-27.98,0,35.03-14.87,22.53-9.58,58.65-24.43Z"/>
+`;
     // Create a temporary div to parse the SVG string
-    const tempSvgContainer = document.createElement('div');
-    try {
-        tempSvgContainer.innerHTML = mainTaazLogoSvgContent;
-    } catch (e) {
-        console.error('Error setting innerHTML for tempSvgContainer:', e);
-        // Fallback to placeholder if innerHTML assignment fails
-        const fallbackImage = document.createElement('img');
-        fallbackImage.src = "https://placehold.co/108x108/cccccc/000000?text=Logo+Error";
-        fallbackImage.alt = "Logo Error";
-        fallbackImage.classList.add('taaz-main-logo');
-        logoContainer.appendChild(fallbackImage);
-        mainContainer.appendChild(logoContainer); // Ensure logoContainer is appended even on error
-        return; // Exit renderApp if SVG parsing fails critically
-    }
+    const tempSvgDiv = document.createElement('div');
+    tempSvgDiv.innerHTML = mainTaazLogoSvgContent;
+    const parsedSvgElement = tempSvgDiv.querySelector('svg');
 
-    const svgElement = tempSvgContainer.firstChild;
-
-    // Debugging: Check tempSvgContainer and svgElement after parsing
-    console.log('tempSvgContainer:', tempSvgContainer);
-    console.log('svgElement:', svgElement);
-
-    if (svgElement instanceof SVGElement) { // Ensure it's an SVGElement
-        svgElement.classList.add('taaz-main-logo'); // Add the class for styling
-        logoContainer.appendChild(svgElement); // Append the created SVG element to its container
+    if (parsedSvgElement) {
+        parsedSvgElement.classList.add('taaz-main-logo'); // Add the class for styling
+        logoContainer.appendChild(parsedSvgElement); // Append the parsed SVG element
     } else {
-        console.error('Failed to parse SVG content for main logo. svgElement is not an SVGElement. Value:', svgElement);
-        // Fallback to a placeholder image if SVG parsing fails
-        const fallbackImage = document.createElement('img');
-        fallbackImage.src = "https://placehold.co/108x108/cccccc/000000?text=Logo+Error";
-        fallbackImage.alt = "Logo Error";
-        fallbackImage.classList.add('taaz-main-logo');
-        logoContainer.appendChild(fallbackImage);
+        console.error('Failed to parse main TAAZ logo SVG content.');
     }
-    
+
     mainContainer.appendChild(logoContainer);
 
 
@@ -476,9 +333,13 @@ function renderApp(data) {
         if (section.isDirectContent) {
             // Direct content section
             const contentDiv = document.createElement('div');
-            // All direct content sections (including "דבר ראש מרכז תע״ץ") now get the 'content-section' class.
-            contentDiv.className = 'content-section'; 
-            contentDiv.innerHTML = section.contentHtml;
+            // Special handling for "דבר ראש מרכז תע״ץ" to remove the inner box
+            if (section.id === "head-of-taatz-message") {
+                contentDiv.innerHTML = section.contentHtml; // No content-section class for this one
+            } else {
+                contentDiv.className = 'content-section'; // Apply default content-section styles
+                contentDiv.innerHTML = section.contentHtml;
+            }
             collapseGrid.appendChild(contentDiv);
         } else {
             // Sub-items (nested accordion)
@@ -517,6 +378,27 @@ function renderApp(data) {
     const footerLinksContainer = document.createElement('div');
     footerLinksContainer.className = 'footer-links-container';
 
+    // Existing footer links data (from previous versions if any)
+    const existingFooterLinks = data.footerLinks || [];
+
+    // New footer links to be added, using PNG URLs with raw=1
+    const newFooterLinks = [
+        {
+            href: "https://www.facebook.com/people/%D7%A7%D7%A8%D7%99%D7%99%D7%A8%D7%94-%D7%91%D7%A6%D7%94%D7%9C-%D7%A2%D7%95%D7%91%D7%93%D7%95%D7%AA-%D7%95%D7%A2%D7%95%D7%91%D7%93%D7%99-%D7%A6%D7%94%D7%9C/61564362180766/?mibextid=LQQJ4d",
+            alt: "פייסבוק",
+            imgSrc: "https://www.dropbox.com/scl/fi/m2kkka580w731goyfxk9l/communication.png?rlkey=okh198eiit7i5kiszms4yq6s3&raw=1" // Changed to raw=1
+        },
+        {
+            href: "https://www.instagram.com/ovdei.tzahal/",
+            alt: "אינסטגרם",
+            imgSrc: "https://www.dropbox.com/scl/fi/iho3r729lg0c6aaqd058i/instagram.png?rlkey=lbyb1376jjwle6ct0484voksw&raw=1" // Changed to raw=1
+        }
+    ];
+
+    // Combine existing and new footer links
+    data.footerLinks = [...existingFooterLinks, ...newFooterLinks];
+
+
     data.footerLinks.forEach(linkData => {
         const linkAnchor = document.createElement('a');
         linkAnchor.href = linkData.href;
@@ -528,13 +410,21 @@ function renderApp(data) {
         const iconContainer = document.createElement('div');
         iconContainer.className = 'footer-svg-icon'; // Class for styling the icon/image
 
-        const img = document.createElement('img');
-        img.src = linkData.imgSrc;
-        img.alt = linkData.alt;
-        img.loading = "lazy"; // Add lazy loading to footer icons
-        // Fallback image in case the provided URL fails
-        img.onerror = function() { this.src = 'https://placehold.co/32x32/cccccc/000000?text=Error'; }; 
-        iconContainer.appendChild(img);
+        if (linkData.imgSrc) {
+            const img = document.createElement('img');
+            img.src = linkData.imgSrc;
+            img.alt = linkData.alt;
+            // Fallback image in case the provided URL fails
+            img.onerror = function() { this.src = 'https://placehold.co/32x32/cccccc/000000?text=Error'; }; 
+            iconContainer.appendChild(img);
+        } else if (linkData.svgContent) {
+            // Use SVG content directly (this path is less likely now with PNGs)
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = linkData.svgContent;
+            if (tempDiv.firstChild) {
+                iconContainer.appendChild(tempDiv.firstChild);
+            }
+        }
         
         linkAnchor.appendChild(iconContainer);
         footerLinksContainer.appendChild(linkAnchor);
@@ -662,13 +552,13 @@ function renderApp(data) {
                     position: fixed;
                     bottom: 80px;
                     right: 20px;
-                    background-color: #28a745;\r
-                    color: white;\r
-                    padding: 10px 15px;\r
-                    border-radius: 8px;\r
-                    z-index: 1060;\r
-                    opacity: 0;\r
-                    transition: opacity 0.3s ease-out;\r
+                    background-color: #28a745;
+                    color: white;
+                    padding: 10px 15px;
+                    border-radius: 8px;
+                    z-index: 1060;
+                    opacity: 0;
+                    transition: opacity 0.3s ease-out;
                 `;
                 document.body.appendChild(feedbackDiv);
                 setTimeout(() => {
