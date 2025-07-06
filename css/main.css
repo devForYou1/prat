@@ -109,18 +109,29 @@ body.modal-open {
 .logo-container {
     animation: fadeInFromTop 0.5s ease-out 0.2s forwards; /* Apply animation */
     margin-bottom: 1.5rem; /* Increased space below logo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 120px; /* Minimum height for logo container */
 }
 
 .taaz-main-logo {
-    width: 80px; /* Adjust size as needed */
-    height: 80px;
+    width: auto; /* Allow width to adjust based on height */
+    height: 15vh; /* Height relative to viewport height */
+    max-height: 120px; /* Max height to prevent excessive size */
+    max-width: 100%; /* Ensure it doesn't overflow container */
+    object-fit: contain; /* Maintain aspect ratio */
     display: block; /* Ensure it behaves as a block element for centering */
     margin: 0 auto; /* Center the SVG */
 }
 
-/* Main title styling */
+/* Main title styling with gradient */
 .main-container-border h1 {
-    color: #0A4A7A; /* Dark blue for main title */
+    background: linear-gradient(to right, #50b8ee, #0a4a7a); /* Gradient from light blue to dark blue */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent; /* Fallback for non-webkit browsers */
     font-size: 2.5rem; /* Larger font size */
     margin-bottom: 1rem; /* Space below title */
     text-align: center;
@@ -217,10 +228,6 @@ body.modal-open {
     transition: background-color 0.2s ease, color 0.2s ease; /* Faster transition */
 }
 
-.accordion-header-button:hover {
-    background: linear-gradient(to right, #D1EAF4, #C2E2ED); /* Lighter hover state */
-}
-
 .accordion-header-button.open {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
@@ -265,7 +272,7 @@ body.modal-open {
 .sub-card-container {
     display: flex; /* Changed to flex */
     flex-direction: column; /* Vertical layout */
-    gap: 0.75rem; /* Space between sub-cards */
+    gap: 1.5rem; /* Increased space between sub-cards to 24px */
     padding-top: 0.5rem; /* Small padding at the top of sub-cards */
 }
 
@@ -286,13 +293,6 @@ body.modal-open {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); /* Slightly more pronounced shadow */
 }
 
-.subcard-button:hover {
-    background: linear-gradient(to right, rgba(80, 184, 238, 0.2), rgba(80, 184, 238, 0.1)); /* Slightly darker tint on hover */
-    border-color: #50B8EE; /* Highlight border on hover */
-    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.12); /* Stronger shadow on hover */
-    transform: translateY(-3px); /* More noticeable lift effect */
-}
-
 /* Modal Styling - Glassmorphism */
 .custom-modal-backdrop {
     position: fixed;
@@ -306,7 +306,7 @@ body.modal-open {
     align-items: center;
     z-index: 1050; /* Above other content */
     opacity: 0;
-    transition: opacity 0.2s ease-out; /* Faster transition */
+    transition: opacity 0.3s ease-out; /* Slightly longer transition for modal */
 }
 
 .custom-modal-backdrop.show {
@@ -326,7 +326,7 @@ body.modal-open {
     flex-direction: column;
     transform: scale(0.95);
     opacity: 0;
-    transition: opacity 0.2s ease-out, transform 0.2s ease-out; /* Faster transition */
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out; /* Slightly longer transition for modal */
 }
 
 .custom-modal-backdrop.show .custom-modal-content {
@@ -404,7 +404,7 @@ body.modal-open {
 .custom-modal-scrollable-body h3 {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #50B8EE; /* Lighter blue for subheadings */
+    color: #0A4A7A; /* Changed to dark blue for content subheadings */
     margin-top: 1.25rem;
     margin-bottom: 0.75rem;
     display: flex; /* Keep flex for potential future icons if needed, but no icons now */
@@ -498,11 +498,6 @@ body.modal-open {
     visibility: visible;
 }
 
-.scroll-to-top-button:hover {
-    transform: translateY(-3px); /* Slight lift on hover */
-    background-color: #50B8EE; /* Lighter blue on hover */
-}
-
 /* Footer Card Styling - Glassmorphism */
 .footer-card {
     margin-top: 2rem; /* Space above footer */
@@ -545,12 +540,6 @@ body.modal-open {
     align-items: center;
     justify-content: center;
     transition: all 0.15s ease; /* Faster transition */
-}
-
-.footer-link-square:hover {
-    border-color: #50B8EE;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transform: translateY(-2px);
 }
 
 .footer-svg-icon svg {
@@ -675,15 +664,58 @@ body.modal-open {
     float: left; /* Align to the left */
 }
 
-.copy-button:hover {
-    background-color: #0A4A7A; /* Darker blue on hover */
-    transform: translateY(-1px);
+/* Hover effects for non-touch devices */
+@media (hover: hover) {
+    .subcard-button:hover {
+        background: linear-gradient(to right, rgba(80, 184, 238, 0.2), rgba(80, 184, 238, 0.1)); /* Slightly darker tint on hover */
+        border-color: #50B8EE; /* Highlight border on hover */
+        box-shadow: 0 3px 9px rgba(0, 0, 0, 0.12); /* Stronger shadow on hover */
+        transform: translateY(-3px); /* More noticeable lift effect */
+    }
+
+    .scroll-to-top-button:hover {
+        transform: translateY(-3px); /* Slight lift on hover */
+        background-color: #50B8EE; /* Lighter blue on hover */
+    }
+
+    .footer-link-square:hover {
+        border-color: #50B8EE;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transform: translateY(-2px);
+    }
+
+    .copy-button:hover {
+        background-color: #0A4A7A; /* Darker blue on hover */
+        transform: translateY(-1px);
+    }
 }
 
-.copy-button svg {
-    width: 16px;
-    height: 16px;
-    fill: currentColor; /* Inherit color from button text */
+/* Active and focus-visible states for touch/keyboard navigation */
+.subcard-button:active, .subcard-button:focus-visible {
+    background: linear-gradient(to right, rgba(80, 184, 238, 0.2), rgba(80, 184, 238, 0.1));
+    border-color: #50B8EE;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.12);
+    transform: translateY(-3px);
+    outline: none;
+}
+
+.scroll-to-top-button:active, .scroll-to-top-button:focus-visible {
+    transform: translateY(-3px);
+    background-color: #50B8EE;
+    outline: none;
+}
+
+.footer-link-square:active, .footer-link-square:focus-visible {
+    border-color: #50B8EE;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+    outline: none;
+}
+
+.copy-button:active, .copy-button:focus-visible {
+    background-color: #0A4A7A;
+    transform: translateY(-1px);
+    outline: none;
 }
 
 /* Content section with copyable functionality */
