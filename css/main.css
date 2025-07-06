@@ -27,7 +27,7 @@ html.modal-open, body.modal-open {
 body.modal-open {
     position: fixed; /* Lock body position */
     width: 100%;
-    /* top property will be set by JavaScript to maintain scroll position */
+    top: var(--scroll-top); /* Use CSS variable for top */
     /* padding-right will be set by JavaScript to compensate for scrollbar */
 }
 
@@ -250,7 +250,7 @@ body.modal-open {
 .accordion-item-container.open .accordion-header-button {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    border-bottom: none; /* Remove bottom border when open */
+    border-bottom: 1px solid rgba(10, 74, 122, 0.3); /* Match the content's top border */
 }
 
 /* Accordion title text */
@@ -285,7 +285,7 @@ body.modal-open {
     border-bottom-left-radius: 1rem; /* Match outer container radius */
     border-bottom-right-radius: 1rem; /* Match outer container radius */
     border: 1px solid rgba(10, 74, 122, 0.3); /* Add border to the content area */
-    border-top: none; /* No top border, connects to header */
+    border-top: 1px solid rgba(10, 74, 122, 0.3); /* Explicit top border when shown */
 }
 
 .collapse-grid.show {
