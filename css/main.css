@@ -231,6 +231,7 @@ body.modal-open {
     color: #0A4A7A; /* Dark blue text */
     border-radius: 1rem; /* Match container border-radius */
     transition: background-color 0.2s ease, color 0.2s ease, border-radius 0.2s ease; /* Faster transition */
+    min-height: 4rem; /* Increased minimum height for better touch target */
 }
 
 .accordion-item-container.open .accordion-header-button {
@@ -268,7 +269,7 @@ body.modal-open {
 }
 
 .collapse-grid.show {
-    max-height: 1000px; /* Adjust as needed, should be larger than max content height */
+    max-height: 3000px; /* Increased max-height to ensure full content display */
     padding: 1rem 1.5rem; /* Add vertical padding when open */
     opacity: 1;
     transform: scale(1);
@@ -327,7 +328,7 @@ body.modal-open {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25); /* Stronger shadow */
     width: 90%; /* Responsive width */
     max-width: 700px; /* Max width for larger screens */
-    height: 95vh; /* Adjusted to take full screen height with small margin */
+    height: 90vh; /* Adjusted to 90vh as requested */
     display: flex;
     flex-direction: column;
     transform: scale(0.95);
@@ -811,7 +812,7 @@ body.modal-open {
 
     .custom-modal-content {
         width: 95%;
-        max-height: 95vh; /* Allow modal to take more height */
+        max-height: 90vh; /* Adjusted to 90vh */
     }
 
     .custom-modal-title {
@@ -843,11 +844,12 @@ body.modal-open {
         flex-direction: column;
         align-items: flex-end; /* Keep content aligned right */
         padding: 0.75rem; /* More compact padding */
+        gap: 0.5rem; /* Reduced gap for mobile */
     }
 
     .footer-title {
         margin-inline-end: 0; /* Remove auto margin for column layout */
-        margin-bottom: 0.5rem; /* Add some space below title */
+        margin-bottom: 0.25rem; /* Add some space below title */
     }
 
     .footer-links-container {
