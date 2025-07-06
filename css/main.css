@@ -117,8 +117,8 @@ body.modal-open {
 
 .taaz-main-logo {
     width: auto; /* Allow width to adjust based on height */
-    height: 15vh; /* Height relative to viewport height */
-    max-height: 120px; /* Max height to prevent excessive size */
+    height: 22.5vh; /* Increased height relative to viewport height (1.5x original 15vh) */
+    max-height: 180px; /* Increased max height to prevent excessive size (1.5x original 120px) */
     max-width: 100%; /* Ensure it doesn't overflow container */
     object-fit: contain; /* Maintain aspect ratio */
     display: block; /* Ensure it behaves as a block element for centering */
@@ -196,7 +196,7 @@ body.modal-open {
 
 /* Accordion item container - Glassmorphism */
 .accordion-item-container {
-    background-color: rgba(255, 255, 255, 0.98); /* Very bright glassy white, more opaque */
+    background-color: rgba(255, 255, 255, 0.7); /* Transparent glassy white, as requested */
     backdrop-filter: blur(8px); /* Blur effect */
     border: 1px solid #B5D0E8; /* Precise light blue border for contrast */
     border-radius: 1rem; /* Rounded corners */
@@ -420,16 +420,26 @@ body.modal-open {
     text-align: justify; /* Justify text */
 }
 
-.custom-modal-scrollable-body ul {
-    list-style-type: disc;
-    padding-right: 1.25rem; /* Adjust for RTL list bullets */
-    margin-bottom: 1rem;
+/* Styled box for lists */
+.list-section-box {
+    border: 1px solid #50b8ee; /* Border from TAAZ palette */
+    border-radius: 0.75rem;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    background-color: rgba(255, 255, 255, 0.6); /* Slightly transparent white */
+    margin-bottom: 1rem; /* Space below the box */
 }
 
-.custom-modal-scrollable-body ul li {
+.list-section-box ul {
+    list-style-type: disc;
+    padding-right: 1.25rem; /* Adjust for RTL list bullets */
+    margin-bottom: 0; /* Remove default ul margin */
+}
+
+.list-section-box ul li {
     font-size: 1rem;
     line-height: 1.6;
-    color: #444444; /* Darker grey-blue for list items */
+    color: #0A4A7A; /* Dark blue for list items */
     margin-bottom: 0.75rem; /* Ensure new line after each bullet point */
     text-align: justify; /* Justify text */
 }
@@ -546,122 +556,6 @@ body.modal-open {
     width: 32px; /* Size of the SVG inside the square */
     height: 32px;
     color: #0A4A7A; /* Default color for SVG paths */
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .main-container-border {
-        padding: 1.5rem;
-        width: 95%; /* More width on small screens */
-        height: 95vh; /* More height on small screens */
-    }
-
-    .main-container-border h1 {
-        font-size: 2rem;
-    }
-
-    .intro-paragraph-text {
-        font-size: 1rem;
-    }
-
-    .motto-text {
-        font-size: 1.1rem;
-    }
-
-    .accordion-header-button {
-        font-size: 1rem;
-        padding: 0.8rem 1.2rem;
-    }
-
-    .subcard-button {
-        font-size: 0.9rem;
-        padding: 0.6rem 0.8rem;
-    }
-
-    .custom-modal-content {
-        width: 95%;
-    }
-
-    .custom-modal-title {
-        font-size: 1.25rem;
-    }
-
-    .custom-modal-close-button {
-        font-size: 1.8rem;
-    }
-
-    .custom-modal-scrollable-body {
-        padding: 1rem;
-    }
-
-    .custom-modal-scrollable-body h2 {
-        font-size: 1.3rem;
-    }
-
-    .custom-modal-scrollable-body h3 {
-        font-size: 1.1rem;
-    }
-
-    .custom-modal-scrollable-body p,
-    .custom-modal-scrollable-body ul li {
-        font-size: 0.95rem;
-    }
-
-    .footer-card {
-        flex-direction: column;
-        align-items: flex-end; /* Keep content aligned right */
-        padding: 1rem;
-    }
-
-    .footer-title {
-        margin-inline-end: 0; /* Remove auto margin for column layout */
-        margin-bottom: 0.5rem; /* Add some space below title */
-    }
-
-    .footer-links-container {
-        justify-content: flex-end; /* Keep links aligned right */
-        width: 100%; /* Take full width */
-    }
-}
-
-/* Image styling within content */
-.head-of-taatz-image {
-    max-width: 100%; /* Ensure image is responsive */
-    height: auto;
-    border-radius: 0.75rem; /* Rounded corners for images */
-    margin-bottom: 1rem;
-    display: block; /* Center image */
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Content section styling within modal/sub-cards */
-.content-section {
-    background-color: rgba(255, 255, 255, 0.6); /* Slightly transparent white */
-    border: 1px solid rgba(224, 242, 247, 0.7); /* Light blue border with transparency */
-    border-radius: 0.75rem;
-    padding: 1rem;
-    margin-bottom: 1rem; /* Space between sections */
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-    backdrop-filter: blur(3px); /* Light blur for content sections */
-}
-
-/* Copy button styling */
-.copy-button {
-    background-color: #50B8EE; /* Light blue */
-    color: white;
-    border: none;
-    border-radius: 0.5rem;
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background-color 0.15s ease, transform 0.15s ease; /* Faster transition */
-    margin-top: 1rem;
-    display: inline-flex; /* Use flex to align icon and text */
-    align-items: center;
-    gap: 0.5rem; /* Space between icon and text */
-    float: left; /* Align to the left */
 }
 
 /* Hover effects for non-touch devices */
