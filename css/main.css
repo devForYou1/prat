@@ -205,9 +205,11 @@ body.modal-open {
 }
 
 .accordion-item-container.open {
-    /* Removed background-color and border from here to avoid "box in box" */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); /* Stronger shadow when open */
+    background-color: #0A4A7A; /* Dark blue for the entire open accordion */
+    border: 1px solid #50B8EE; /* Lighter blue border for definition */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Stronger shadow when open */
     transform: scale(1.005); /* Subtle scale effect when open */
+    color: #FFFFFF; /* Default text color for the entire open item */
 }
 
 /* Accordion header button */
@@ -217,22 +219,26 @@ body.modal-open {
     align-items: center;
     width: 100%;
     padding: 1.5rem 1.5rem; /* Increased vertical padding */
-    background: #0A4A7A; /* Changed to dark blue as requested */
+    background: #0A4A7A; /* Dark blue background for header when closed */
     border: 1px solid #B5D0E8; /* Precise light blue border */
     cursor: pointer;
     text-align: right;
     font-size: 1.1rem;
     font-weight: 700;
-    color: #FFFFFF; /* Changed to white as requested */
-    border-radius: 1rem; /* Match container border-radius */
-    transition: background-color 0.2s ease, color 0.2s ease, border-radius 0.2s ease; /* Faster transition */
+    color: #FFFFFF; /* White text for header */
+    border-radius: 1rem; /* Match container border-radius when closed */
+    transition: background-color 0.2s ease, color 0.2s ease, border-radius 0.2s ease, border 0.2s ease; /* Faster transition */
     min-height: 4rem; /* Increased minimum height for better touch target */
 }
 
 .accordion-item-container.open .accordion-header-button {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom: 1px solid rgba(10, 74, 122, 0.3); /* Match the content's top border */
+    background: transparent; /* Transparent background when container is open */
+    border: none; /* Remove all borders from header when open */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3); /* Subtle white separator */
+    border-top-left-radius: 1rem; /* Keep top rounded */
+    border-top-right-radius: 1rem; /* Keep top rounded */
+    border-bottom-left-radius: 0; /* Make bottom flat to blend with content */
+    border-bottom-right-radius: 0; /* Make bottom flat to blend with content */
 }
 
 /* Accordion title text */
@@ -240,6 +246,7 @@ body.modal-open {
     flex-grow: 1; /* Allow title to take available space */
     text-align: right; /* Align text to the right */
     margin-right: 1rem; /* Space between text and arrow */
+    color: #FFFFFF; /* Ensure header text is white */
 }
 
 /* Arrow icon */
@@ -247,6 +254,7 @@ body.modal-open {
     display: flex;
     align-items: center;
     transition: transform 0.2s ease-in-out; /* Faster transition */
+    color: #FFFFFF; /* Ensure arrow icon is white */
 }
 
 .accordion-item-container.open .arrow-icon {
@@ -263,10 +271,10 @@ body.modal-open {
     padding: 0 1.5rem; /* Horizontal padding, no vertical padding when collapsed */
 
     /* New styles for the content area when expanded */
-    background-color: rgba(255, 255, 255, 0.9); /* Add background to the content area */
+    background-color: rgba(255, 255, 255, 0.9); /* Default background for content when not part of open container */
     border-bottom-left-radius: 1rem; /* Match outer container radius */
     border-bottom-right-radius: 1rem; /* Match outer container radius */
-    border: 1px solid rgba(10, 74, 122, 0.3); /* Add border to the content area */
+    border: 1px solid rgba(10, 74, 122, 0.3); /* Default border for content when not part of open container */
     border-top: 1px solid rgba(10, 74, 122, 0.3); /* Explicit top border when shown */
 }
 
@@ -275,6 +283,9 @@ body.modal-open {
     padding: 1rem 1.5rem; /* Add vertical padding when open */
     opacity: 1;
     transform: scale(1);
+    background-color: transparent; /* Transparent background when container is open */
+    border: none; /* Remove content's own border when container is open */
+    color: #FFFFFF; /* Default text color for content when container is open */
 }
 
 /* Sub-card container for vertical layout */
@@ -290,16 +301,16 @@ body.modal-open {
     display: block;
     width: 100%;
     padding: 1.25rem 1.25rem; /* Increased vertical padding */
-    background: rgba(235, 245, 250, 0.8); /* Consistent with list-container-box, light blue */
+    background: rgba(80, 184, 238, 0.3); /* Semi-transparent light blue tint over dark blue */
     backdrop-filter: blur(5px); /* Subtle blur */
-    border: 1px solid #B5D0E8; /* Precise light blue border */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle white border */
     border-radius: 0.75rem; /* Rounded corners */
     text-align: right;
     font-size: 0.95rem;
-    color: #444444; /* Dark blue text */
+    color: #FFFFFF; /* White text for sub-cards */
     cursor: pointer;
     transition: all 0.15s ease; /* Faster transition */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); /* Slightly more pronounced shadow */
+    box-shadow: none; /* Removed inner shadow to reduce "box" feel */
 }
 
 /* Modal Styling - Glassmorphism */
@@ -432,22 +443,25 @@ body.modal-open {
 
 /* Styled box for lists */
 .list-container-box {
-    background-color: rgba(235, 245, 250, 0.8); /* Very light blue, semi-transparent */
-    border: 1px solid #B5D0E8; /* Light blue border */
+    background-color: rgba(80, 184, 238, 0.2); /* Even lighter blue tint over dark blue */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle white border */
     border-radius: 0.75rem;
     padding: 1rem;
     margin-top: 1rem; /* Space above the box */
     margin-bottom: 1rem; /* Space below the box */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+    color: #FFFFFF; /* White text for list container box */
 }
 
 .list-container-box h3 {
     margin-top: 0.5rem; /* Adjust margin for h3 inside the box */
     margin-bottom: 0.75rem; /* Adjust margin for h3 inside the box */
+    color: #FFFFFF; /* Ensure h3 inside is white */
 }
 
 .list-container-box p {
     margin-bottom: 0.75rem; /* Adjust margin for p inside the box */
+    color: #FFFFFF; /* Ensure p inside is white */
 }
 
 .list-container-box ul {
@@ -459,13 +473,13 @@ body.modal-open {
 .list-container-box ul li {
     font-size: 1rem;
     line-height: 1.6;
-    color: #0A4A7A; /* Dark blue for list items */
+    color: #FFFFFF; /* White text for list items */
     margin-bottom: 0.5rem; /* Ensure new line after each bullet point, reduced space */
     text-align: justify; /* Justify text */
-    background-color: rgba(220, 235, 245, 0.7); /* Slightly darker light blue, semi-transparent */
+    background-color: rgba(80, 184, 238, 0.1); /* Slightly lighter blue tint */
     padding: 0.75rem;
     border-radius: 0.5rem;
-    border: 1px solid rgba(150, 190, 220, 0.5); /* Subtle border */
+    border: 1px solid rgba(255, 255, 255, 0.05); /* Very subtle white border */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03); /* Subtle shadow */
     position: relative; /* For custom bullet */
 }
@@ -489,13 +503,13 @@ body.modal-open {
 
 .list-container-box ul ul li {
     list-style-type: none; /* Ensure no bullets for nested list items */
-    background-color: rgba(220, 235, 245, 0.7); /* Slightly darker light blue, semi-transparent */
+    background-color: rgba(80, 184, 238, 0.05); /* Even lighter blue tint */
     padding: 0.75rem;
     border-radius: 0.5rem;
     margin-bottom: 0.5rem; /* Space between nested list items */
-    border: 1px solid rgba(150, 190, 220, 0.5); /* Subtle border */
+    border: 1px solid rgba(255, 255, 255, 0.02); /* Extremely subtle border */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03); /* Subtle shadow */
-    color: #2A6A9A; /* Slightly lighter blue for nested list items */
+    color: #FFFFFF; /* White text for nested list items */
     text-align: justify; /* Justify text */
 }
 
@@ -913,22 +927,28 @@ body.modal-open {
 @media (min-width: 769px) { /* Apply to screens wider than mobile/tablet breakpoint */
     .accordion-item-container {
         /* On desktop, accordions are always "open" visually */
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); /* Keep consistent shadow */
+        background-color: #0A4A7A; /* Dark blue for the entire open accordion */
+        border: 1px solid #50B8EE; /* Lighter blue border for definition */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Keep consistent shadow */
         transform: none; /* No scale effect */
-        background-color: transparent; /* Ensure no outer box */
-        border: none; /* Ensure no outer border */
+        color: #FFFFFF; /* Default text color for the entire open item */
     }
 
     .accordion-item-container.open { /* Ensure it's always open on desktop */
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); /* Keep shadow */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Keep shadow */
         transform: none; /* No scale */
     }
 
     .accordion-header-button {
         cursor: default; /* Not clickable on desktop */
+        background-color: transparent; /* Transparent background on desktop */
         border-bottom-left-radius: 0; /* Always flat bottom */
         border-bottom-right-radius: 0; /* Always flat bottom */
-        border-bottom: 1px solid rgba(10, 74, 122, 0.3); /* Always has bottom border */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3); /* Always has subtle white bottom border */
+        color: #FFFFFF; /* Ensure header text is white */
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+        border: none; /* Remove default border on desktop */
     }
 
     .accordion-header-button .arrow-icon {
@@ -940,10 +960,8 @@ body.modal-open {
         padding: 1rem 1.5rem !important; /* Ensure padding is always applied */
         opacity: 1 !important; /* Ensure content is always visible */
         transform: none !important; /* No scale effect */
-        background-color: rgba(255, 255, 255, 0.9); /* Content background */
-        border-bottom-left-radius: 1rem;
-        border-bottom-right-radius: 1rem;
-        border: 1px solid rgba(10, 74, 122, 0.3);
-        border-top: 1px solid rgba(10, 74, 122, 0.3);
+        background-color: transparent; /* Transparent background on desktop */
+        border: none !important; /* Remove content border on desktop */
+        color: #FFFFFF; /* Ensure content text is white */
     }
 }
