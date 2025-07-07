@@ -33,14 +33,19 @@ function getScrollbarWidth() {
     // Create a temporary div to measure scrollbar
     const outer = document.createElement('div');
     outer.style.visibility = 'hidden';
-    outer.style.overflow = 'scroll'; // Force scrollbar
+    outer.style.overflow = 'scroll'; // Force scrollbars
     document.body.appendChild(outer);
 
+    // Create inner div
     const inner = document.createElement('div');
     outer.appendChild(inner);
 
+    // Calculate width
     const scrollbarWidth = (outer.offsetWidth - inner.offsetWidth);
-    outer.parentNode.removeChild(outer); // Clean up
+
+    // Remove temporary div
+    outer.parentNode.removeChild(outer);
+
     return scrollbarWidth;
 }
 
@@ -236,17 +241,17 @@ function renderApp(data) {
     shimmer.className = 'shimmer-effect';
     mainContainer.appendChild(shimmer);
 
-    // Logo - Main TAAZ Logo (using img tag as per original HTML data)
+    // Logo - Main TAAZ Logo (PNG from URL)
     const logoContainer = document.createElement('div');
     logoContainer.className = 'logo-container';
     
-    const taazLogo = document.createElement('img');
-    taazLogo.src = "https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751868710/logo_taaz_hwq7ly.png";
-    taazLogo.alt = "לוגו תעץ";
-    taazLogo.className = "taaz-main-logo";
-    taazLogo.loading = "lazy";
-    logoContainer.appendChild(taazLogo);
-    
+    const taazLogoImg = document.createElement('img');
+    taazLogoImg.src = 'https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751868710/logo_taaz_hwq7ly.png';
+    taazLogoImg.alt = 'לוגו תעץ';
+    taazLogoImg.className = 'taaz-main-logo';
+    taazLogoImg.loading = 'lazy'; // Add lazy loading
+
+    logoContainer.appendChild(taazLogoImg);
     mainContainer.appendChild(logoContainer);
 
 
@@ -350,6 +355,8 @@ function renderApp(data) {
         accordionContainer.appendChild(accordionItemContainer);
     });
 
+    mainContainer.appendChild(accordionContainer);
+
     // Footer Card
     const footerCard = document.createElement('div');
     footerCard.className = 'footer-card';
@@ -357,6 +364,7 @@ function renderApp(data) {
     const footerLinksContainer = document.createElement('div');
     footerLinksContainer.className = 'footer-links-container';
 
+    // Iterate over the footerLinks data passed in 'data'
     data.footerLinks.forEach(linkData => {
         const linkAnchor = document.createElement('a');
         linkAnchor.href = linkData.href;
@@ -372,6 +380,7 @@ function renderApp(data) {
             const img = document.createElement('img');
             img.src = linkData.imgSrc;
             img.alt = linkData.alt;
+            img.loading = 'lazy'; // Add lazy loading
             // Fallback image in case the provided URL fails
             img.onerror = function() { this.src = 'https://placehold.co/32x32/cccccc/000000?text=Error'; }; 
             iconContainer.appendChild(img);
@@ -444,12 +453,14 @@ function renderApp(data) {
                 subCardButtons.forEach(button => {
                     button.style.display = 'block';
                 });
-            } else if (sectionMatches) {
-                accordionItem.style.display = 'block';
-                accordionItem.classList.add('open'); // Open matching accordion
-                document.getElementById(section.id + '-collapse').classList.add('show');
             } else {
-                accordionItem.style.display = 'none';
+                if (sectionMatches) {
+                    accordionItem.style.display = 'block';
+                    accordionItem.classList.add('open'); // Open matching accordion
+                    document.getElementById(section.id + '-collapse').classList.add('show');
+                } else {
+                    accordionItem.style.display = 'none';
+                }
             }
         });
     }, 300); // Debounce delay of 300ms
