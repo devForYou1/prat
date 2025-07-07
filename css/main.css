@@ -35,116 +35,23 @@ body.modal-open {
     overflow: hidden;
 }
 
-/* Custom Modal Styles */
-.custom-modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1050;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-}
 
-.custom-modal-backdrop.show {
-    opacity: 1;
-}
-
-.custom-modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    width: 90%;
-    max-width: 700px;
-    max-height: 80vh; /* Limit height to allow scrolling */
-    display: flex;
-    flex-direction: column;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-    direction: rtl; /* Ensure RTL for modal content */
-}
-
-.custom-modal-content.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.custom-modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 15px;
-}
-
-.custom-modal-title {
-    margin: 0;
-    font-size: 1.5rem;
-    color: #0A4A7A;
-}
-
-.custom-modal-close-button {
-    background: none;
-    border: none;
-    font-size: 2rem;
-    cursor: pointer;
-    color: #0A4A7A;
-}
-
-.custom-modal-scrollable-body {
-    overflow-y: auto;
-    flex-grow: 1; /* Allows the body to take available space and scroll */
-    padding-right: 10px; /* Add some padding for the scrollbar */
-}
-
-/* Custom scrollbar for modal body */
-.custom-modal-scrollable-body::-webkit-scrollbar {
-    width: 8px;
-}
-
-.custom-modal-scrollable-body::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    border-radius: 10px;
-}
-
-.custom-modal-scrollable-body::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
-    background-color: #0A4A7A; /* Dark blue scrollbar */
-}
-
-
-/* Main Container Styling */
-.main-container-border {
-    /* Reverted to original styles based on main.css.txt */
-    border: 1px solid #0A4A7A; /* Dark blue border */
-    border-radius: 12px; /* Rounded corners */
-    padding: 20px;
-    margin: 20px auto; /* Center the container with auto margins */
-    max-width: 90%; /* Responsive width */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
-    position: relative; /* For shimmer effect positioning */
-    overflow: hidden; /* Hide overflow for rounded corners */
-    background-color: #FFFFFF; /* White background */
-    direction: rtl; /* Right-to-left direction */
-}
-
-.main-container-border.animate-main-container {
-    animation: fadeInUp 0.8s ease-out forwards;
-}
-
-@keyframes fadeInUp {
+@keyframes fadeInScale {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Keyframe for logo animation */
+@keyframes fadeInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
     }
     to {
         opacity: 1;
@@ -152,336 +59,508 @@ body.modal-open {
     }
 }
 
-/* Shimmer Effect */
-.shimmer-effect {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #ffffff 50%, rgba(255, 255, 255, 0) 100%);
-    transform: translateX(-100%);
-    animation: shimmer 2.5s infinite;
+/* Keyframe for main container animation */
+@keyframes slideInFromBottom {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.shimmer-effect.hidden {
-    display: none;
+.animate-main-container {
+    animation: slideInFromBottom 0.6s ease-out forwards;
+}
+
+/* Main container styling - Glassmorphism */
+.main-container-border {
+    /* Removed background-color, backdrop-filter, border, box-shadow to remove the "outer box" visual */
+    border-radius: 1.5rem; /* Keep rounded corners for consistency if elements inside have them */
+    padding: 2rem; /* Keep padding */
+    max-width: 800px; /* Keep max width for larger screens */
+    width: 90%; /* Keep fluid width for responsiveness */
+    height: auto; /* Allow height to be determined by content */
+    flex-grow: 1; /* Re-added flex-grow */
+    margin: 1rem auto; /* Add margin to separate from top/bottom of viewport */
+    overflow-x: hidden; /* Prevent horizontal scrolling inside */
+    direction: rtl; /* Ensure RTL for the entire content area */
+}
+
+/* Shimmer effect for main container - Removed as it's tied to the box visual */
+.shimmer-effect {
+    display: none; /* Hide shimmer effect */
 }
 
 @keyframes shimmer {
     0% {
-        transform: translateX(-100%);
-    }
-    60% {
-        transform: translateX(100%);
+        background-position: -200% 0;
     }
     100% {
-        transform: translateX(100%);
+        background-position: 200% 0;
     }
 }
 
-/* Logo Styling */
+/* Logo container styling */
 .logo-container {
-    text-align: center;
-    margin-bottom: 20px;
+    animation: fadeInFromTop 0.5s ease-out 0.2s forwards; /* Apply animation */
+    margin-bottom: 1.5rem; /* Increased space below logo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .taaz-main-logo {
-    max-width: 150px;
-    height: auto;
+    width: auto; /* Allow width to adjust based on height */
+    height: 13.5vh; /* 70% reduction from 45vh */
+    max-height: 108px; /* 70% reduction from 360px */
+    max-width: 100%; /* Ensure it doesn't overflow container */
+    object-fit: contain; /* Maintain aspect ratio */
+    display: block; /* Ensure it behaves as a block element for centering */
+    margin: 0 auto; /* Center the SVG */
 }
 
-/* Main Title */
-.main-title {
-    font-size: 2.5rem;
-    font-weight: 800;
+/* Main title styling with gradient */
+.main-container-border h1 {
+    background: linear-gradient(to right, #50b8ee, #0a4a7a); /* Gradient from light blue to dark blue */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent; /* Fallback for non-webkit browsers */
+    font-size: 2.5rem; /* Larger font size */
+    margin-bottom: 1rem; /* Space below title */
     text-align: center;
-    color: #0A4A7A; /* Dark blue */
-    margin-bottom: 15px;
+    font-weight: 800; /* Extra bold */
+    animation: fadeInScale 0.5s ease-out forwards;
+    white-space: nowrap; /* Keep text on one line */
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Add ellipsis for overflow */
 }
 
-/* Intro Paragraphs */
+/* Intro paragraphs styling */
 .intro-paragraph-text {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    text-align: center;
-    color: #333; /* Dark grey for readability */
-    margin-bottom: 10px;
+    color: #444444; /* Darker text for readability */
+    font-size: 1.1rem; /* Slightly larger font */
+    line-height: 1.8; /* Increased line height for readability */
+    margin-bottom: 1rem;
+    text-align: center; /* Centered as requested */
+    animation: fadeInScale 0.5s ease-out forwards;
 }
 
-/* Motto */
+/* Motto styling */
 .motto-text {
-    font-size: 1.1rem;
-    font-weight: 600;
-    text-align: center;
+    font-size: 1.25rem; /* Larger font for motto */
+    font-weight: 700; /* Bold */
     color: #0A4A7A; /* Dark blue */
-    margin-top: 20px;
-    margin-bottom: 30px;
+    text-align: center;
+    margin-top: 1.5rem; /* Space above motto */
+    margin-bottom: 2rem; /* Space below motto */
+    animation: fadeInScale 0.5s ease-out forwards;
 }
 
-/* Search Input */
+/* Search input styling */
 .search-input {
-    width: calc(100% - 40px); /* Full width minus padding */
-    padding: 12px 15px;
-    margin: 0 20px 30px; /* Center with margin */
-    border: 1px solid #0A4A7A;
-    border-radius: 8px;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem; /* Space below search input */
+    border: 1px solid #B5D0E8; /* Precise light blue border */
+    border-radius: 0.75rem; /* Rounded corners */
     font-size: 1rem;
-    color: #0A4A7A;
-    background-color: #f9f9f9;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    color: #444444; /* Dark blue text */
+    background-color: rgba(245, 250, 255, 0.7); /* Semi-transparent light background */
+    backdrop-filter: blur(5px); /* Subtle blur */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08); /* Inner shadow */
+    transition: all 0.2s ease; /* Faster transition */
+    text-align: right; /* Align placeholder text to the right */
 }
 
 .search-input::placeholder {
-    color: #0A4A7A;
+    color: #888888; /* Lighter placeholder text */
+    text-align: right; /* Ensure placeholder is also right-aligned */
 }
 
 .search-input:focus {
+    border-color: #50B8EE; /* Highlight on focus */
+    box-shadow: 0 0 0 3px rgba(80, 184, 238, 0.3); /* Focus ring */
     outline: none;
-    border-color: #50B8EE; /* Lighter blue on focus */
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08), 0 0 8px rgba(80, 184, 238, 0.4);
 }
 
-/* Accordion Styling */
+/* Accordion container */
 .accordion-container {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 0.75rem; /* Space between accordion items */
 }
 
+/* Accordion item container - Glassmorphism */
 .accordion-item-container {
-    background-color: #fff;
-    border: 1px solid rgba(10, 74, 122, 0.3); /* Lighter dark blue border */
-    border-radius: 12px;
-    overflow: hidden; /* Ensures content stays within rounded borders */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Subtle shadow */
-    transition: all 0.3s ease-in-out;
-    transform: scale(0.98); /* Slightly shrink when closed */
-    margin-bottom: 15px; /* Spacing between items */
+    background-color: transparent; /* Changed to transparent to remove "box in box" look */
+    border: none; /* Removed outer border */
+    border-radius: 1rem; /* Rounded corners */
+    overflow: hidden; /* Hide overflowing content during collapse */
+    transition: all 0.2s ease-in-out, transform 0.2s ease-in-out, opacity 0.2s ease-in-out; /* Faster transition for open/close */
+    box-shadow: none; /* Removed outer shadow */
 }
 
 .accordion-item-container.open {
-    transform: scale(1); /* Expand to full size when open */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* More prominent shadow when open */
-    border-color: #0A4A7A; /* Darker border when open */
+    /* Removed background-color and border from here to avoid "box in box" */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); /* Stronger shadow when open */
+    transform: scale(1.005); /* Subtle scale effect when open */
 }
 
+/* Accordion header button */
 .accordion-header-button {
-    width: 100%;
-    padding: 15px 20px;
-    background-color: #0A4A7A; /* Dark blue header */
-    color: #fff;
-    font-size: 1.1rem;
-    font-weight: 700;
-    border: none;
-    text-align: right; /* Align text to the right for RTL */
-    cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 12px; /* Rounded corners for header */
-    transition: background-color 0.3s ease, border-bottom-left-radius 0.3s ease, border-bottom-right-radius 0.3s ease;
-}
-
-.accordion-header-button:hover {
-    background-color: #073a5e; /* Slightly darker on hover */
+    width: 100%;
+    padding: 1.5rem 1.5rem; /* Increased vertical padding */
+    background: #F8FCFF; /* Very light, almost white blue */
+    border: 1px solid #B5D0E8; /* Precise light blue border */
+    cursor: pointer;
+    text-align: right;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0A4A7A; /* Dark blue text */
+    border-radius: 1rem; /* Match container border-radius */
+    transition: background-color 0.2s ease, color 0.2s ease, border-radius 0.2s ease; /* Faster transition */
+    min-height: 4rem; /* Increased minimum height for better touch target */
 }
 
 .accordion-item-container.open .accordion-header-button {
-    border-bottom-left-radius: 0; /* Flat bottom when open */
-    border-bottom-right-radius: 0; /* Flat bottom when open */
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: 1px solid rgba(10, 74, 122, 0.3); /* Match the content's top border */
 }
 
-.accordion-header-button .arrow-icon {
-    transition: transform 0.3s ease;
+/* Accordion title text */
+.accordion-title-text {
+    flex-grow: 1; /* Allow title to take available space */
+    text-align: right; /* Align text to the right */
+    margin-right: 1rem; /* Space between text and arrow */
 }
 
-.accordion-item-container.open .accordion-header-button .arrow-icon {
+/* Arrow icon */
+.arrow-icon {
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s ease-in-out; /* Faster transition */
+}
+
+.accordion-item-container.open .arrow-icon {
     transform: rotate(180deg); /* Rotate arrow when open */
 }
 
+/* Accordion content - Fade-in and scale on show */
 .collapse-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid for sub-cards */
-    gap: 10px;
-    padding: 15px 20px;
-    max-height: 0; /* Hidden by default */
+    max-height: 0;
     overflow: hidden;
     opacity: 0;
-    transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    transform: scale(0.99); /* Slightly less scale */
+    transition: max-height 0.2s ease-in-out, padding 0.2s ease-in-out, opacity 0.2s ease-in-out, transform 0.2s ease-in-out; /* Faster transition */
+    padding: 0 1.5rem; /* Horizontal padding, no vertical padding when collapsed */
+
+    /* New styles for the content area when expanded */
+    background-color: rgba(255, 255, 255, 0.9); /* Add background to the content area */
+    border-bottom-left-radius: 1rem; /* Match outer container radius */
+    border-bottom-right-radius: 1rem; /* Match outer container radius */
+    border: 1px solid rgba(10, 74, 122, 0.3); /* Add border to the content area */
+    border-top: 1px solid rgba(10, 74, 122, 0.3); /* Explicit top border when shown */
 }
 
 .collapse-grid.show {
-    max-height: 1000px; /* Arbitrarily large value to allow content to show */
+    max-height: 3000px; /* Increased max-height to ensure full content display */
+    padding: 1rem 1.5rem; /* Add vertical padding when open */
     opacity: 1;
+    transform: scale(1);
 }
 
+/* Sub-card container for vertical layout */
 .sub-card-container {
-    display: grid; /* Use grid for sub-cards within the section */
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
+    display: flex; /* Changed to flex */
+    flex-direction: column; /* Vertical layout */
+    gap: 0.5rem; /* Reduced space between sub-cards to 8px (from 12px) */
+    padding-top: 0.5rem; /* Small padding at the top of sub-cards */
 }
 
+/* Sub-card button styling - Glassmorphism with distinction */
 .subcard-button {
-    background-color: #F0F7FC; /* Light blue background */
-    color: #0A4A7A; /* Dark blue text */
-    border: 1px solid #50B8EE; /* Lighter blue border */
-    border-radius: 8px;
-    padding: 10px 15px;
-    font-size: 0.9rem;
-    font-weight: 600;
+    display: block;
+    width: 100%;
+    padding: 1.25rem 1.25rem; /* Increased vertical padding */
+    background: rgba(235, 245, 250, 0.8); /* Consistent with list-container-box, light blue */
+    backdrop-filter: blur(5px); /* Subtle blur */
+    border: 1px solid #B5D0E8; /* Precise light blue border */
+    border-radius: 0.75rem; /* Rounded corners */
+    text-align: right;
+    font-size: 0.95rem;
+    color: #444444; /* Dark blue text */
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    width: 100%; /* Full width within its grid column */
-    text-align: center;
-    white-space: normal; /* Allow text to wrap */
-    word-wrap: break-word; /* Break long words */
+    transition: all 0.15s ease; /* Faster transition */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); /* Slightly more pronounced shadow */
 }
 
-.subcard-button:hover {
-    background-color: #E0EFF9; /* Slightly darker on hover */
-    transform: translateY(-2px); /* Lift effect on hover */
-    box-shadow: 0 2px 8px rgba(80, 184, 238, 0.2); /* Subtle shadow on hover */
-}
-
-.subcard-button:active {
-    transform: translateY(0); /* Press down effect */
-    box-shadow: none;
-}
-
-/* Content Section Styles (for direct content within accordion items or modals) */
-.content-section {
-    background-color: #F0F7FC; /* Light blue background */
-    border: 1px solid #50B8EE; /* Lighter blue border */
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-}
-
-.content-section h3 {
-    color: #0A4A7A; /* Dark blue for subheadings */
-}
-
-.list-container-box {
-    background-color: #E0EFF9; /* Even lighter blue for list boxes */
-    border: 1px solid #A7D9F8; /* Lightest blue border */
-    border-radius: 8px;
-    padding: 15px;
-    margin-top: 15px;
-}
-
-.list-container-box ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.list-container-box li {
-    margin-bottom: 8px;
-    font-size: 0.9rem;
-    line-height: 1.5;
-    color: #333;
-}
-
-.list-container-box li:last-child {
-    margin-bottom: 0;
-}
-
-/* Tip Gold Styling */
-.tip-gold {
-    background: linear-gradient(45deg, #FFD700, #FFA500); /* Gold gradient */
-    color: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    margin-top: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.gradient-text-bold {
-    color: #fff; /* White text for gradient background */
-    font-weight: 700;
-}
-
-/* Image styles for head of taatz */
-.head-of-taatz-image {
-    display: block;
-    margin: 0 auto 20px;
-    max-width: 150px;
-    border-radius: 50%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.signature-image {
-    display: block;
-    margin: 20px auto 0;
-    max-width: 180px;
-    height: auto;
-}
-
-/* Footer Styling */
-.footer-card {
-    background-color: #0A4A7A; /* Dark blue footer */
-    padding: 20px;
-    text-align: center;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    margin-top: 20px;
-}
-
-.footer-links-container {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap; /* Allow links to wrap on smaller screens */
-}
-
-.footer-link-square {
+/* Modal Styling - Glassmorphism */
+.custom-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Dim background, slightly less opaque */
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 40px;
-    height: 40px;
-    background-color: #50B8EE; /* Light blue background for icons */
-    border-radius: 8px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    z-index: 1050; /* Above other content */
+    opacity: 0;
+    transition: opacity 0.3s ease-out; /* Slightly longer transition for modal */
 }
 
-.footer-link-square:hover {
-    background-color: #3a9cdb; /* Darker blue on hover */
-    transform: translateY(-2px); /* Lift effect on hover */
+.custom-modal-backdrop.show {
+    opacity: 1;
 }
 
-.footer-svg-icon {
-    width: 24px;
-    height: 24px;
+.custom-modal-content {
+    background-color: rgba(255, 255, 255, 0.9); /* More opaque white for modal content */
+    backdrop-filter: blur(18px); /* Stronger blur for modal */
+    border: 1px solid #B5D0E8; /* Precise light blue border */
+    border-radius: 1rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25); /* Stronger shadow */
+    width: 90%; /* Responsive width */
+    max-width: 700px; /* Max width for larger screens */
+    height: auto; /* Changed to auto to fit content */
+    max-height: 70vh; /* Adjusted to 70vh as requested */
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.95);
+    opacity: 0;
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out; /* Slightly longer transition for modal */
 }
 
-.footer-svg-icon img {
-    width: 100%;
-    height: 100%;
+.custom-modal-backdrop.show .custom-modal-content {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.custom-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #B5D0E8; /* Precise light blue header border */
+    background-color: #E0F2F7; /* Light blue header */
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+}
+
+.custom-modal-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #0A4A7A; /* Dark blue title */
+    margin: 0;
+}
+
+.custom-modal-close-button {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #0A4A7A;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+.custom-modal-close-button:hover {
+    color: #50B8EE;
+}
+
+.custom-modal-scrollable-body {
+    padding: 1.5rem;
+    overflow-y: auto; /* Enable scrolling for modal content */
+    flex-grow: 1; /* Allow content to fill available space */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #B5D0E8 #F5FAFF; /* Firefox - thumb and track */
+}
+
+/* Custom scrollbar for Webkit browsers (Chrome, Safari) */
+.custom-modal-scrollable-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.custom-modal-scrollable-body::-webkit-scrollbar-track {
+    background: #F5FAFF; /* Light track */
+    border-radius: 10px;
+}
+
+.custom-modal-scrollable-body::-webkit-scrollbar-thumb {
+    background-color: #B5D0E8; /* Light blue thumb */
+    border-radius: 10px;
+    border: 2px solid #F5FAFF; /* Padding around thumb */
+}
+
+/* Content within modal body */
+.custom-modal-scrollable-body h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #0A4A7A; /* Dark blue */
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.custom-modal-scrollable-body h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #0A4A7A; /* Changed to dark blue for content subheadings */
+    margin-top: 1.25rem;
+    margin-bottom: 0.75rem;
+    display: flex; /* Keep flex for potential future icons if needed, but no icons now */
+    align-items: center;
+    gap: 0.5rem; /* Space between icon and text */
+}
+
+.custom-modal-scrollable-body p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #444444; /* Darker grey-blue for body text */
+    margin-bottom: 1rem;
+    text-align: justify; /* Justify text */
+}
+
+/* Styled box for lists */
+.list-container-box {
+    background-color: rgba(235, 245, 250, 0.8); /* Very light blue, semi-transparent */
+    border: 1px solid #B5D0E8; /* Light blue border */
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-top: 1rem; /* Space above the box */
+    margin-bottom: 1rem; /* Space below the box */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+.list-container-box h3 {
+    margin-top: 0.5rem; /* Adjust margin for h3 inside the box */
+    margin-bottom: 0.75rem; /* Adjust margin for h3 inside the box */
+}
+
+.list-container-box p {
+    margin-bottom: 0.75rem; /* Adjust margin for p inside the box */
+}
+
+.list-container-box ul {
+    list-style-type: none; /* Removed default bullets */
+    padding-right: 0; /* Removed default padding for RTL lists */
+    margin-bottom: 0; /* Remove default ul margin */
+}
+
+.list-container-box ul li {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #0A4A7A; /* Dark blue for list items */
+    margin-bottom: 0.5rem; /* Ensure new line after each bullet point, reduced space */
+    text-align: justify; /* Justify text */
+    background-color: rgba(220, 235, 245, 0.7); /* Slightly darker light blue, semi-transparent */
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(150, 190, 220, 0.5); /* Subtle border */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03); /* Subtle shadow */
+    position: relative; /* For custom bullet */
+}
+
+.list-container-box ul li::before {
+    content: none; /* Explicitly remove the custom bullet */
+}
+
+
+.list-container-box ul li:last-child {
+    margin-bottom: 0; /* No margin after the last list item */
+}
+
+/* Nested list styling within list-container-box */
+.list-container-box ul ul {
+    margin-top: 0.75rem; /* Space above nested list */
+    margin-bottom: 0.5rem; /* Space below nested list */
+    padding-right: 0; /* Remove default padding for nested ul */
+    list-style-type: none; /* Ensure no bullets for nested lists */
+}
+
+.list-container-box ul ul li {
+    list-style-type: none; /* Ensure no bullets for nested list items */
+    background-color: rgba(220, 235, 245, 0.7); /* Slightly darker light blue, semi-transparent */
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem; /* Space between nested list items */
+    border: 1px solid rgba(150, 190, 220, 0.5); /* Subtle border */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03); /* Subtle shadow */
+    color: #2A6A9A; /* Slightly lighter blue for nested list items */
+    text-align: justify; /* Justify text */
+}
+
+.list-container-box ul ul li:last-child {
+    margin-bottom: 0; /* No margin after the last nested list item */
+}
+
+
+/* Removed .section-icon as per request */
+.section-icon {
+    display: none; /* Hide icons in sub-card headings */
+}
+
+/* Tip Gold styling */
+.tip-gold {
+    background: linear-gradient(to right, rgba(255, 251, 235, 0.8), rgba(255, 248, 225, 0.8)); /* Light yellow gradient, semi-transparent */
+    backdrop-filter: blur(5px); /* Subtle blur */
+    border: 1px solid rgba(255, 236, 179, 0.6); /* Gold-like border, partially transparent */
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Align text to the right */
+    text-align: right;
+}
+
+.tip-gold p {
+    margin: 0;
+    color: #6D4C41; /* Dark brown text for contrast */
+    text-align: justify; /* Justify text */
+}
+
+.gradient-text-bold {
+    background: linear-gradient(to right, #FFA726, #FFCA28); /* Orange to yellow gradient */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent; /* Fallback for non-webkit browsers */
+    font-weight: bold;
 }
 
 /* Scroll-to-Top Button */
 .scroll-to-top-button {
     position: fixed;
     bottom: 20px;
-    right: 20px;
-    background-color: #0A4A7A;
-    color: #fff;
+    left: 20px; /* Position on the left for RTL */
+    background-color: #0A4A7A; /* Dark blue background */
+    color: white;
     border: none;
     border-radius: 50%;
     width: 50px;
     height: 50px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     font-size: 1.5rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, transform 0.15s ease; /* Faster transition */
+    z-index: 1000;
 }
 
 .scroll-to-top-button.show {
@@ -489,54 +568,353 @@ body.modal-open {
     visibility: visible;
 }
 
-/* Responsive Adjustments */
-@media (min-width: 769px) {
+/* Footer Card Styling - Glassmorphism */
+.footer-card {
+    margin-top: 1rem; /* Adjust margin to be consistent with main-container-border's bottom margin */
+    margin-bottom: 1rem; /* Ensure some space at the bottom */
+    background-color: rgba(245, 250, 255, 0.7); /* Semi-transparent light background */
+    backdrop-filter: blur(8px); /* Blur effect */
+    border: 1px solid rgba(181, 208, 232, 0.5); /* Light, partially transparent border */
+    border-radius: 1rem;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the content */
+    gap: 1rem; /* Space between title and links */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    max-width: 800px; /* Match max-width of main-container-border */
+    width: 90%; /* Match width of main-container-border */
+    margin-left: auto; /* Center horizontally */
+    margin-right: auto; /* Center horizontally */
+}
+
+.footer-title {
+    display: none; /* Hide the title */
+}
+
+.footer-links-container {
+    display: flex;
+    gap: 0.75rem; /* Space between SVG boxes */
+    flex-wrap: wrap; /* Changed to wrap to allow smooth flow */
+    justify-content: center; /* Center items in the row */
+    overflow-x: visible; /* Changed to visible as horizontal scroll is no longer needed */
+    padding-bottom: 0; /* No extra padding for scrollbar */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+    -ms-overflow-style: none;  /* Hide scrollbar for IE and Edge */
+    width: 100%; /* Ensure it takes full width to allow centering */
+}
+/* Custom scrollbar for Webkit browsers (Chrome, Safari) for footer links */
+.footer-links-container::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Webkit */
+}
+
+.footer-link-square {
+    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white for SVG box */
+    backdrop-filter: blur(5px); /* Subtle blur */
+    border: 1px solid rgba(181, 208, 232, 0.4); /* Light, partially transparent border */
+    border-radius: 0.75rem; /* 12px */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    width: 48px; /* Fixed size for the square */
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Prevent shrinking */
+    transition: all 0.15s ease; /* Faster transition */
+}
+
+.footer-svg-icon svg,
+.footer-svg-icon img { /* Added img to this rule */
+    width: 32px; /* Size of the SVG/image inside the square */
+    height: 32px;
+    color: #0A4A7A; /* Default color for SVG paths */
+    object-fit: contain; /* Ensure images fit without cropping */
+}
+
+/* Hover effects for non-touch devices */
+@media (hover: hover) {
+    .subcard-button:hover {
+        background: linear-gradient(to right, rgba(80, 184, 238, 0.2), rgba(80, 184, 238, 0.1)); /* Slightly darker tint on hover */
+        border-color: #50B8EE; /* Highlight border on hover */
+        box-shadow: 0 3px 9px rgba(0, 0, 0, 0.12); /* Stronger shadow on hover */
+        transform: translateY(-3px); /* More noticeable lift effect */
+    }
+
+    .scroll-to-top-button:hover {
+        transform: translateY(-3px); /* Slight lift on hover */
+        background-color: #50B8EE; /* Lighter blue on hover */
+    }
+
+    .footer-link-square:hover {
+        border-color: #50B8EE;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transform: translateY(-2px);
+    }
+
+    .copy-button:hover {
+        background-color: #0A4A7A; /* Darker blue on hover */
+        transform: translateY(-1px);
+    }
+}
+
+/* Active and focus-visible states for touch/keyboard navigation */
+.subcard-button:active, .subcard-button:focus-visible {
+    background: linear-gradient(to right, rgba(80, 184, 238, 0.2), rgba(80, 184, 238, 0.1));
+    border-color: #50B8EE;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.12);
+    transform: translateY(-3px);
+    outline: none;
+}
+
+.scroll-to-top-button:active, .scroll-to-top-button:focus-visible {
+    transform: translateY(-3px);
+    background-color: #50B8EE;
+    outline: none;
+}
+
+.footer-link-square:active, .footer-link-square:focus-visible {
+    border-color: #50B8EE;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+    outline: none;
+}
+
+.copy-button:active, .copy-button:focus-visible {
+    background-color: #0A4A7A;
+    transform: translateY(-1px);
+    outline: none;
+}
+
+/* Image styling within content */
+.head-of-taatz-image {
+    max-width: 90%; /* Increased from 80% */
+    height: auto;
+    border-radius: 0.75rem; /* Rounded corners for images */
+    margin-bottom: 1rem;
+    display: block; /* Center image */
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-height: 250px; /* Increased from 200px */
+    object-fit: contain; /* Ensure the image fits within its bounds without cropping */
+}
+
+.signature-image {
+    max-width: 150px; /* Set a reasonable max-width for the signature */
+    height: auto;
+    display: block; /* Center the image */
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1.5rem; /* Space above signature */
+    margin-bottom: 0.5rem; /* Space below signature */
+}
+
+/* Content section styling within modal/sub-cards */
+.content-section {
+    background-color: rgba(255, 255, 255, 0.6); /* Slightly transparent white */
+    border: 1px solid rgba(224, 242, 247, 0.7); /* Light blue border with transparency */
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-bottom: 1rem; /* Space between sections */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(3px); /* Light blur for content sections */
+}
+
+/* New rule to remove inner box styling when content-section is inside an open accordion */
+.accordion-item-container.open .content-section {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+}
+
+
+/* Copy button styling */
+.copy-button {
+    background-color: #50B8EE; /* Light blue */
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.15s ease; /* Faster transition */
+    margin-top: 1rem;
+    display: inline-flex; /* Use flex to align icon and text */
+    align-items: center;
+    gap: 0.5rem; /* Space between icon and text */
+    float: left; /* Align to the left */
+}
+
+.copy-button:hover {
+    background-color: #0A4A7A; /* Darker blue on hover */
+    transform: translateY(-1px);
+}
+
+.copy-button svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor; /* Inherit color from button text */
+}
+
+/* Content section with copyable functionality */
+.content-section-copyable {
+    position: relative; /* Needed for absolute positioning of copy button */
+    padding-bottom: 2.5rem; /* Ensure space for the copy button */
+}
+
+.content-section-copyable .copy-button {
+    position: absolute;
+    bottom: 0;
+    left: 0; /* Position at bottom-left */
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
     .main-container-border {
-        padding: 30px;
-        max-width: 1000px; /* Wider on desktop */
-        margin: 40px auto;
-        border: none; /* No border on desktop */
-        box-shadow: none; /* No shadow on desktop */
+        padding: 1rem; /* More compact padding on smaller screens */
+        width: 98%; /* Take more width on small screens */
+        height: auto; /* Changed to auto for better responsiveness with flex-grow */
     }
 
-    .logo-container {
-        margin-bottom: 30px;
-    }
-
-    .taaz-main-logo {
-        max-width: 200px;
-    }
-
-    .main-title {
-        font-size: 3rem;
-        margin-bottom: 20px;
+    .main-container-border h1 {
+        font-size: 1.8rem; /* Smaller font size for main title on mobile */
     }
 
     .intro-paragraph-text {
-        font-size: 1rem;
-        margin-bottom: 12px;
+        font-size: 0.95rem; /* Slightly smaller font for intro paragraphs */
     }
 
     .motto-text {
-        font-size: 1.2rem;
-        margin-top: 30px;
-        margin-bottom: 40px;
+        font-size: 1.1rem; /* Slightly smaller font for motto */
     }
 
     .search-input {
-        width: calc(100% - 60px);
-        margin: 0 30px 40px;
-        padding: 15px 20px;
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .accordion-header-button {
+        font-size: 1rem;
+        padding: 0.8rem 1rem; /* More compact padding */
+    }
+
+    .subcard-button {
+        font-size: 0.9rem;
+        padding: 0.7rem 1rem; /* More compact padding */
+    }
+
+    .custom-modal-content {
+        width: 95%;
+        max-height: 70vh; /* Adjusted to 70vh */
+    }
+
+    .custom-modal-title {
+        font-size: 1.3rem;
+    }
+
+    .custom-modal-close-button {
+        font-size: 1.8rem;
+    }
+
+    .custom-modal-scrollable-body {
+        padding: 1rem;
+    }
+
+    .custom-modal-scrollable-body h2 {
+        font-size: 1.4rem;
+    }
+
+    .custom-modal-scrollable-body h3 {
         font-size: 1.1rem;
     }
 
-    .accordion-container {
-        gap: 20px;
+    .custom-modal-scrollable-body p,
+    .custom-modal-scrollable-body ul li {
+        font-size: 0.9rem; /* General text size reduction for mobile */
     }
 
+    .footer-card {
+        flex-direction: row; /* Changed back to row for mobile */
+        align-items: center; /* Center items vertically */
+        justify-content: center; /* Center items horizontally */
+        padding: 0.75rem; /* More compact padding */
+        gap: 0.5rem; /* Reduced gap for mobile */
+    }
+
+    .footer-title {
+        display: none; /* Ensure it's hidden on mobile too */
+    }
+
+    .footer-links-container {
+        justify-content: center; /* Center links in the row */
+        width: auto; /* Allow width to shrink to content */
+        flex-grow: 1; /* Allow it to grow if needed */
+    }
+
+    .footer-link-square {
+        width: 40px; /* Slightly smaller icons on mobile */
+        height: 40px;
+    }
+
+    .footer-svg-icon svg,
+    .footer-svg-icon img { /* Added img to this rule */
+        width: 28px; /* Adjust SVG/image size within smaller square */
+        height: 28px;
+    }
+}
+
+/* Even smaller screens (e.g., older/smaller phones) */
+@media (max-width: 480px) {
+    .main-container-border h1 {
+        font-size: 1.5rem; /* Even smaller font for main title */
+    }
+
+    .intro-paragraph-text {
+        font-size: 0.85rem; /* Even smaller font for intro paragraphs */
+    }
+
+    .motto-text {
+        font-size: 1.0rem; /* Even smaller font for motto */
+    }
+
+    .search-input {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .accordion-header-button {
+        font-size: 0.9rem;
+        padding: 0.7rem 0.9rem;
+    }
+
+    .subcard-button {
+        font-size: 0.85rem;
+        padding: 0.6rem 0.8rem;
+    }
+
+    .custom-modal-title {
+        font-size: 1.1rem;
+    }
+
+    .custom-modal-close-button {
+        font-size: 1.6rem;
+    }
+
+    .custom-modal-scrollable-body p,
+    .custom-modal-scrollable-body ul li {
+        font-size: 0.85rem; /* Smallest general text size */
+    }
+}
+
+/* Responsive adjustments for desktop (larger screens) */
+@media (min-width: 769px) { /* Apply to screens wider than mobile/tablet breakpoint */
     .accordion-item-container {
-        transform: none; /* No scale effect on desktop */
+        /* On desktop, accordions are always "open" visually */
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); /* Keep consistent shadow */
+        transform: none; /* No scale effect */
         background-color: transparent; /* Ensure no outer box */
         border: none; /* Ensure no outer border */
     }
@@ -561,31 +939,11 @@ body.modal-open {
         max-height: 3000px !important; /* Force content to always be visible (open) */
         padding: 1rem 1.5rem !important; /* Ensure padding is always applied */
         opacity: 1 !important; /* Ensure content is always visible */
-        transform: none !important; /* No transform */
-    }
-
-    .sub-card-container {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 15px;
-    }
-
-    .subcard-button {
-        padding: 12px 18px;
-        font-size: 1rem;
-    }
-
-    .footer-card {
-        margin-top: 40px;
-        padding: 30px;
-    }
-
-    .footer-link-square {
-        width: 45px;
-        height: 45px;
-    }
-
-    .footer-svg-icon {
-        width: 28px;
-        height: 28px;
+        transform: none !important; /* No scale effect */
+        background-color: rgba(255, 255, 255, 0.9); /* Content background */
+        border-bottom-left-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+        border: 1px solid rgba(10, 74, 122, 0.3);
+        border-top: 1px solid rgba(10, 74, 122, 0.3);
     }
 }
