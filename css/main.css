@@ -219,13 +219,13 @@ body.modal-open {
     align-items: center;
     width: 100%;
     padding: 1.5rem 1.5rem; /* Increased vertical padding */
-    background: #F8FCFF; /* Reverted to very light, almost white blue */
+    background: #0A4A7A; /* Changed to dark blue as requested for closed state */
     border: 1px solid #B5D0E8; /* Precise light blue border */
     cursor: pointer;
     text-align: right;
     font-size: 1.1rem;
     font-weight: 700;
-    color: #0A4A7A; /* Reverted to dark blue text */
+    color: #FFFFFF; /* Changed to white text for header */
     border-radius: 1rem; /* Match container border-radius */
     transition: background-color 0.2s ease, color 0.2s ease, border-radius 0.2s ease, border 0.2s ease; /* Faster transition */
     min-height: 4rem; /* Increased minimum height for better touch target */
@@ -246,7 +246,7 @@ body.modal-open {
     flex-grow: 1; /* Allow title to take available space */
     text-align: right; /* Align text to the right */
     margin-right: 1rem; /* Space between text and arrow */
-    color: #0A4A7A; /* Reverted to dark blue */
+    color: #FFFFFF; /* Ensure header text is white */
 }
 
 /* Arrow icon */
@@ -254,7 +254,7 @@ body.modal-open {
     display: flex;
     align-items: center;
     transition: transform 0.2s ease-in-out; /* Faster transition */
-    color: #0A4A7A; /* Reverted to dark blue */
+    color: #FFFFFF; /* Ensure arrow icon is white */
 }
 
 .accordion-item-container.open .arrow-icon {
@@ -941,11 +941,11 @@ body.modal-open {
 
     .accordion-header-button {
         cursor: default; /* Not clickable on desktop */
-        background-color: #F8FCFF; /* Reverted to very light, almost white blue */
+        background-color: #0A4A7A; /* Changed to dark blue as requested for desktop */
         border-bottom-left-radius: 0; /* Always flat bottom */
         border-bottom-right-radius: 0; /* Always flat bottom */
         border-bottom: 1px solid rgba(10, 74, 122, 0.3); /* Always has bottom border */
-        color: #0A4A7A; /* Reverted to dark blue text */
+        color: #FFFFFF; /* Changed to white text for desktop */
         border-top-left-radius: 1rem;
         border-top-right-radius: 1rem;
         border: 1px solid #B5D0E8; /* Reverted default border on desktop */
