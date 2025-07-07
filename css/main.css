@@ -232,11 +232,11 @@ body.modal-open {
 }
 
 .accordion-item-container.open .accordion-header-button {
-    background: #F8FCFF; /* Reverted to very light, almost white blue when open */
+    background: #0A4A7A; /* Keep dark blue background when open */
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     border-bottom: 1px solid rgba(10, 74, 122, 0.3); /* Match the content's top border */
-    border: 1px solid #B5D0E8; /* Reverted border when open */
+    border: 1px solid #B5D0E8; /* Keep border when open */
     border-top-left-radius: 1rem; /* Keep top rounded */
     border-top-right-radius: 1rem; /* Keep top rounded */
 }
