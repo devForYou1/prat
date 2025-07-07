@@ -381,20 +381,6 @@ function renderApp(data) {
     // Existing footer links data (from previous versions if any)
     const existingFooterLinks = data.footerLinks || [];
 
-    // New footer links to be added, using PNG URLs with raw=1
-    const newFooterLinks = [
-        {
-            href: "https://www.facebook.com/people/%D7%A7%D7%A8%D7%99%D7%99%D7%A8%D7%94-%D7%91%D7%A6%D7%94%D7%9C-%D7%A2%D7%95%D7%91%D7%93%D7%95%D7%AA-%D7%95%D7%A2%D7%95%D7%91%D7%93%D7%99-%D7%A6%D7%94%D7%9C/61564362180766/?mibextid=LQQJ4d",
-            alt: "פייסבוק",
-            imgSrc: "https://www.dropbox.com/scl/fi/m2kkka580w731goyfxk9l/communication.png?rlkey=okh198eiit7i5kiszms4yq6s3&raw=1" // Changed to raw=1
-        },
-        {
-            href: "https://www.instagram.com/ovdei.tzahal/",
-            alt: "אינסטגרם",
-            imgSrc: "https://www.dropbox.com/scl/fi/iho3r729lg0c6aaqd058i/instagram.png?rlkey=lbyb1376jjwle6ct0484voksw&raw=1" // Changed to raw=1
-        }
-    ];
-
     // Combine existing and new footer links
     data.footerLinks = [...existingFooterLinks, ...newFooterLinks];
 
