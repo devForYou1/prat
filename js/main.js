@@ -36,110 +36,95 @@ function getScrollbarWidth() {
     outer.style.overflow = 'scroll'; // Force scrollbar
     document.body.appendChild(outer);
 
-    // Create inner div to measure content width
     const inner = document.createElement('div');
     outer.appendChild(inner);
 
-    const scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
-
-    // Remove temporary div
-    outer.parentNode.removeChild(outer);
-
+    const scrollbarWidth = (outer.offsetWidth - inner.offsetWidth);
+    outer.parentNode.removeChild(outer); // Clean up
     return scrollbarWidth;
 }
 
 /**
- * Handles escape key press to close the modal.
- * @param {KeyboardEvent} event - The keyboard event.
+ * Global handler for Escape key to close the modal.
+ * This function is defined once to ensure a stable reference for add/removeEventListener.
  */
-function handleEscapeKey(event) {
-    if (event.key === 'Escape') {
-        closeInfoModal();
+function handleEscapeKey(e) {
+    if (e.key === 'Escape') {
+        closeInfoModal(); // Call the global close function
     }
 }
 
 /**
- * Creates the structure for the info modal.
- * @param {function} closeCallback - Function to call when the modal is closed.
- * @param {string} contentHtml - The HTML content to display in the modal body.
- * @returns {HTMLElement} The modal backdrop element.
+ * InfoModal component: Creates a custom modal for displaying detailed content.
+ * This function now only creates the modal structure, it's not responsible for opening/closing.
+ * @param {function} onClose - Callback function to close the modal.
+ * @param {string} content - The HTML content to display inside the modal.
+ * @returns {HTMLElement} The created modal backdrop element.
  */
-function createInfoModalStructure(closeCallback, contentHtml) {
-    // Create a temporary div to parse the contentHtml and extract the h2 title
+function createInfoModalStructure(onClose, content) {
+    // Create a temporary div to parse the content string and extract the title
     const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = contentHtml;
-    const h2Element = tempDiv.querySelector('h2');
-    const modalTitleText = h2Element ? h2Element.textContent : 'פרטים נוספים';
+    tempDiv.innerHTML = content;
+    const titleElement = tempDiv.querySelector('h2');
+    const modalTitle = titleElement ? titleElement.textContent : 'פרטים נוספים';
 
-    // Create modal backdrop
-    const modalBackdrop = document.createElement('div');
-    modalBackdrop.className = 'custom-modal-backdrop';
-    modalBackdrop.setAttribute('aria-modal', 'true');
-    modalBackdrop.setAttribute('role', 'dialog');
+    const backdrop = document.createElement('div');
+    backdrop.className = 'custom-modal-backdrop';
+    backdrop.setAttribute('aria-modal', 'true');
+    backdrop.setAttribute('role', 'dialog');
 
-    // Create modal content container
     const modalContent = document.createElement('div');
     modalContent.className = 'custom-modal-content';
 
-    // Create modal header
     const modalHeader = document.createElement('div');
     modalHeader.className = 'custom-modal-header';
 
-    // Create modal title
-    const modalTitle = document.createElement('h2');
-    modalTitle.className = 'custom-modal-title';
-    modalTitle.textContent = modalTitleText;
-    modalTitle.id = 'modal-title';
+    const title = document.createElement('h2');
+    title.className = 'custom-modal-title';
+    title.textContent = modalTitle;
+    title.id = 'modal-title'; // Add ID for accessibility
 
-    // Create close button
     const closeButton = document.createElement('button');
     closeButton.className = 'custom-modal-close-button';
-    closeButton.innerHTML = '&times;'; // '×' character
-    closeButton.onclick = closeCallback;
+    closeButton.innerHTML = '&times;'; // '×' symbol
+    closeButton.onclick = onClose;
     closeButton.setAttribute('aria-label', 'סגור');
 
-    // Append title and close button to header
-    modalHeader.appendChild(modalTitle);
+    modalHeader.appendChild(title);
     modalHeader.appendChild(closeButton);
 
-    // Remove the h2 from the contentHtml if it exists, as it's now in the header
-    if (h2Element) {
-        h2Element.remove();
+    const modalBody = document.createElement('div');
+    modalBody.className = 'custom-modal-scrollable-body';
+    modalBody.setAttribute('tabindex', '0'); // Make scrollable body focusable
+    // Remove the h2 from the content before appending to body, as it's already in the header
+    if (titleElement) {
+        titleElement.remove();
     }
-    // Re-set innerHTML to ensure changes are applied before moving children
-    // This step is important if the h2 was the only child or if its removal changed the structure.
-    // However, it's safer to move children directly.
-    const scrollableBody = document.createElement('div');
-    scrollableBody.className = 'custom-modal-scrollable-body';
-    while (tempDiv.firstChild) {
-        scrollableBody.appendChild(tempDiv.firstChild);
-    }
+    modalBody.innerHTML = tempDiv.innerHTML; // Use the modified content
 
-    // Append header and body to modal content
     modalContent.appendChild(modalHeader);
-    modalContent.appendChild(scrollableBody);
+    modalContent.appendChild(modalBody);
+    backdrop.appendChild(modalContent);
 
-    // Append modal content to backdrop
-    modalBackdrop.appendChild(modalContent);
-
-    // Close modal when clicking outside the content
-    modalBackdrop.addEventListener('click', (event) => {
-        if (event.target === modalBackdrop) {
-            closeCallback();
+    // Add event listener to close modal when clicking outside content
+    backdrop.addEventListener('click', (e) => {
+        if (e.target === backdrop) {
+            onClose();
         }
     });
 
-    return modalBackdrop;
+    return backdrop;
 }
 
 /**
- * Opens the info modal with the given content.
- * @param {string} contentHtml - The HTML content to display in the modal.
+ * Opens the info modal with provided content.
+ * @param {string} content - The HTML content to display inside the modal.
  */
-function openInfoModal(contentHtml) {
-    // If a modal is already open, close it first
+function openInfoModal(content) {
+    // If modal already exists, remove it first to ensure a clean state
     if (currentModalElement && document.body.contains(currentModalElement)) {
         document.body.removeChild(currentModalElement);
+        // Ensure the escape listener is removed if modal was already open
         document.removeEventListener('keydown', handleEscapeKey);
         currentModalElement = null;
     }
@@ -147,36 +132,37 @@ function openInfoModal(contentHtml) {
     // Store current scroll position
     lastScrollY = window.scrollY;
 
-    // Calculate scrollbar width only once
-    if (scrollbarWidth === 0) {
+    // Calculate scrollbar width once
+    if (scrollbarWidth === 0) { // Only calculate if not already calculated
         scrollbarWidth = getScrollbarWidth();
     }
 
-    // Create and append the new modal
-    currentModalElement = createInfoModalStructure(closeInfoModal, contentHtml);
+    // Create a new modal structure
+    currentModalElement = createInfoModalStructure(closeInfoModal, content);
     document.body.appendChild(currentModalElement);
 
-    // Animate modal in
-    requestAnimationFrame(() => {
+    // Add 'show' classes for fade-in effect
+    requestAnimationFrame(() => { // Use rAF for smoother animation start
         currentModalElement.classList.add('show');
         currentModalElement.querySelector('.custom-modal-content').classList.add('show');
     });
 
-    // Disable main page scroll
+    // Disable main page scroll when modal is open
     document.body.classList.add('modal-open');
-    document.documentElement.classList.add('modal-open'); // Also disable scroll on html
+    document.documentElement.classList.add('modal-open'); // Add to html element
     if (scrollbarWidth > 0) {
-        document.body.style.paddingRight = scrollbarWidth + 'px';
+        document.body.style.paddingRight = scrollbarWidth + 'px'; // Compensate for scrollbar
     }
+    
     const mainContainer = document.querySelector('.main-container-border');
     if (mainContainer) {
         mainContainer.classList.add('modal-open');
     }
 
-    // Add escape key listener
+    // Attach escape listener
     document.addEventListener('keydown', handleEscapeKey);
 
-    // Focus on the modal content for accessibility
+    // Focus on the modal for accessibility
     currentModalElement.querySelector('.custom-modal-content').focus();
 }
 
@@ -185,33 +171,37 @@ function openInfoModal(contentHtml) {
  */
 function closeInfoModal() {
     if (currentModalElement) {
-        currentModalElement.classList.remove('show');
-        currentModalElement.querySelector('.custom-modal-content').classList.remove('show');
-        document.removeEventListener('keydown', handleEscapeKey); // Remove listener when closing
+        currentModalElement.classList.remove('show'); // Start fade-out
+        currentModalElement.querySelector('.custom-modal-content').classList.remove('show'); // Start content fade-out
 
-        // Remove modal after transition ends
+        // Remove escape listener immediately
+        document.removeEventListener('keydown', handleEscapeKey);
+
+        // Re-enable scroll after transition ends
         currentModalElement.addEventListener('transitionend', () => {
-            if (currentModalElement && !currentModalElement.classList.contains('show')) {
+            if (currentModalElement && !currentModalElement.classList.contains('show')) { // Ensure it's fully faded out
                 document.body.removeChild(currentModalElement);
-                currentModalElement = null; // Clear the global reference
+                currentModalElement = null; // Clear reference
 
-                // Re-enable main page scroll
-                document.body.classList.remove('modal-open');
-                document.documentElement.classList.remove('modal-open');
-                document.body.style.paddingRight = ''; // Remove padding
+                // Restore body scroll properties
+                document.body.classList.remove('modal-open'); // Re-enable body scroll
+                document.documentElement.classList.remove('modal-open'); // Re-enable html scroll
+                document.body.style.paddingRight = ''; // Remove padding-right
+                
                 const mainContainer = document.querySelector('.main-container-border');
                 if (mainContainer) {
-                    mainContainer.classList.remove('modal-open');
+                    mainContainer.classList.remove('modal-open'); // Re-enable main container scroll
                 }
+
                 // Restore scroll position
                 window.scrollTo(0, lastScrollY);
             }
-        }, { once: true });
+        }, { once: true }); // Ensure listener runs only once
     }
 }
 
 /**
- * Debounces a function call.
+ * Debounce function to limit how often a function can run.
  * @param {function} func - The function to debounce.
  * @param {number} delay - The delay in milliseconds.
  * @returns {function} The debounced function.
@@ -225,11 +215,12 @@ function debounce(func, delay) {
     };
 }
 
+
 /**
- * Renders the main application content based on provided data.
- * @param {object} contentData - The data object containing app content.
+ * Renders the main application structure and content.
+ * @param {object} data - The content data for the page.
  */
-function renderApp(contentData) {
+function renderApp(data) {
     const appRoot = document.getElementById('app-root');
     if (!appRoot) {
         console.error('App root element not found!');
@@ -240,29 +231,32 @@ function renderApp(contentData) {
     const mainContainer = document.createElement('div');
     mainContainer.className = 'main-container-border animate-main-container';
 
-    // Shimmer effect
-    const shimmerDiv = document.createElement('div');
-    shimmerDiv.className = 'shimmer-effect';
-    mainContainer.appendChild(shimmerDiv);
+    // Add shimmer effect
+    const shimmer = document.createElement('div');
+    shimmer.className = 'shimmer-effect';
+    mainContainer.appendChild(shimmer);
 
-    // Logo
+    // Logo - Main TAAZ Logo (using img tag as per original HTML data)
     const logoContainer = document.createElement('div');
     logoContainer.className = 'logo-container';
+    
     const taazLogo = document.createElement('img');
     taazLogo.src = "https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751868710/logo_taaz_hwq7ly.png";
     taazLogo.alt = "לוגו תעץ";
     taazLogo.className = "taaz-main-logo";
     taazLogo.loading = "lazy";
     logoContainer.appendChild(taazLogo);
+    
     mainContainer.appendChild(logoContainer);
 
+
     // Main Title
-    const mainTitleElement = document.createElement('h1');
-    mainTitleElement.textContent = contentData.mainTitle;
-    mainContainer.appendChild(mainTitleElement);
+    const mainTitle = document.createElement('h1');
+    mainTitle.textContent = data.mainTitle;
+    mainContainer.appendChild(mainTitle);
 
     // Intro Paragraphs
-    contentData.introParagraphs.forEach(paragraphText => {
+    data.introParagraphs.forEach(paragraphText => {
         const p = document.createElement('p');
         p.className = 'intro-paragraph-text';
         p.textContent = paragraphText;
@@ -270,10 +264,10 @@ function renderApp(contentData) {
     });
 
     // Motto
-    const mottoParagraph = document.createElement('p');
-    mottoParagraph.className = 'motto-text';
-    mottoParagraph.textContent = contentData.motto;
-    mainContainer.appendChild(mottoParagraph);
+    const motto = document.createElement('p');
+    motto.className = 'motto-text';
+    motto.textContent = data.motto;
+    mainContainer.appendChild(motto);
 
     // Search Input
     const searchInput = document.createElement('input');
@@ -288,7 +282,7 @@ function renderApp(contentData) {
     accordionContainer.className = 'accordion-container';
     mainContainer.appendChild(accordionContainer);
 
-    contentData.sections.forEach(section => {
+    data.sections.forEach(section => {
         const accordionItemContainer = document.createElement('div');
         accordionItemContainer.className = 'accordion-item-container';
 
@@ -316,22 +310,18 @@ function renderApp(contentData) {
         collapseGrid.className = 'collapse-grid';
 
         if (section.isDirectContent) {
-            // For direct content, insert HTML directly
-            let contentDiv;
-            // Special handling for head-of-taatz-message to avoid extra content-section div
+            // Direct content section
+            const contentDiv = document.createElement('div');
+            // Special handling for "דבר ראש מרכז תע״ץ" to remove the inner box
             if (section.id === "head-of-taatz-message") {
-                contentDiv = collapseGrid; // Insert directly into collapseGrid
+                contentDiv.innerHTML = section.contentHtml; // No content-section class for this one
             } else {
-                contentDiv = document.createElement('div');
-                contentDiv.className = 'content-section';
+                contentDiv.className = 'content-section'; // Apply default content-section styles
+                contentDiv.innerHTML = section.contentHtml;
             }
-            contentDiv.innerHTML = section.contentHtml;
-            // Only append contentDiv if it's not the collapseGrid itself
-            if (section.id !== "head-of-taatz-message") {
-                collapseGrid.appendChild(contentDiv);
-            }
+            collapseGrid.appendChild(contentDiv);
         } else {
-            // For sub-items, create buttons
+            // Sub-items (nested accordion)
             const subCardContainer = document.createElement('div');
             subCardContainer.className = 'sub-card-container';
             section.subItems.forEach(subItem => {
@@ -345,10 +335,11 @@ function renderApp(contentData) {
         }
 
         accordionHeaderButton.onclick = () => {
-            // Disable collapse/expand on desktop
-            if (window.innerWidth > 768) {
-                return;
+            // Prevent collapsing on larger screens (desktop)
+            if (window.innerWidth > 768) { // Assuming 768px is the breakpoint for "100% original size"
+                return; // Do nothing if on a large screen
             }
+
             const isOpen = accordionItemContainer.classList.toggle('open');
             collapseGrid.classList.toggle('show', isOpen);
             accordionHeaderButton.setAttribute('aria-expanded', isOpen);
@@ -359,54 +350,54 @@ function renderApp(contentData) {
         accordionContainer.appendChild(accordionItemContainer);
     });
 
-    // Footer
-    const footerCard = document.createElement('footer');
+    // Footer Card
+    const footerCard = document.createElement('div');
     footerCard.className = 'footer-card';
 
     const footerLinksContainer = document.createElement('div');
     footerLinksContainer.className = 'footer-links-container';
 
-    contentData.footerLinks.forEach(link => {
-        const linkElement = document.createElement('a');
-        linkElement.href = link.href;
-        linkElement.target = "_blank";
-        linkElement.rel = "noopener noreferrer";
-        linkElement.className = "footer-link-square";
-        linkElement.setAttribute("aria-label", link.alt);
+    data.footerLinks.forEach(linkData => {
+        const linkAnchor = document.createElement('a');
+        linkAnchor.href = linkData.href;
+        linkAnchor.target = "_blank";
+        linkAnchor.rel = "noopener noreferrer";
+        linkAnchor.className = 'footer-link-square';
+        linkAnchor.setAttribute('aria-label', linkData.alt);
 
-        const svgIconContainer = document.createElement('div');
-        svgIconContainer.className = 'footer-svg-icon';
+        const iconContainer = document.createElement('div');
+        iconContainer.className = 'footer-svg-icon'; // Class for styling the icon/image
 
-        if (link.imgSrc) {
+        if (linkData.imgSrc) {
             const img = document.createElement('img');
-            img.src = link.imgSrc;
-            img.alt = link.alt;
-            img.loading = "lazy";
-            img.onerror = function() {
-                this.src = "https://placehold.co/32x32/cccccc/000000?text=Error"; // Fallback placeholder
-            };
-            svgIconContainer.appendChild(img);
-        } else if (link.svgContent) {
+            img.src = linkData.imgSrc;
+            img.alt = linkData.alt;
+            // Fallback image in case the provided URL fails
+            img.onerror = function() { this.src = 'https://placehold.co/32x32/cccccc/000000?text=Error'; }; 
+            iconContainer.appendChild(img);
+        } else if (linkData.svgContent) {
+            // Use SVG content directly (this path is less likely now with PNGs)
             const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = link.svgContent;
+            tempDiv.innerHTML = linkData.svgContent;
             if (tempDiv.firstChild) {
-                svgIconContainer.appendChild(tempDiv.firstChild);
+                iconContainer.appendChild(tempDiv.firstChild);
             }
         }
-        linkElement.appendChild(svgIconContainer);
-        footerLinksContainer.appendChild(linkElement);
+        
+        linkAnchor.appendChild(iconContainer);
+        footerLinksContainer.appendChild(linkAnchor);
     });
+
     footerCard.appendChild(footerLinksContainer);
-    mainContainer.appendChild(footerCard);
+    appRoot.appendChild(mainContainer); // Append mainContainer to appRoot
+    appRoot.appendChild(footerCard); // Append footerCard to appRoot, outside mainContainer
 
-    appRoot.appendChild(mainContainer);
 
-    // Search functionality
-    const debouncedSearch = debounce((event) => {
-        const searchTerm = event.target.value.toLowerCase();
-
-        contentData.sections.forEach(section => {
-            const itemContainer = document.getElementById(section.id + '-collapse').closest('.accordion-item-container');
+    // Handle search functionality with debounce
+    const debouncedSearch = debounce((e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        data.sections.forEach(section => {
+            const accordionItem = document.getElementById(section.id + '-collapse').closest('.accordion-item-container');
             let sectionMatches = false;
 
             // Check if section title matches
@@ -416,59 +407,59 @@ function renderApp(contentData) {
 
             // Check sub-items if not direct content
             if (!section.isDirectContent) {
-                const matchingSubItems = section.subItems.filter(subItem =>
+                const subItemsMatching = section.subItems.filter(subItem =>
                     subItem.title.toLowerCase().includes(searchTerm) ||
                     subItem.content.toLowerCase().includes(searchTerm)
                 );
-                if (matchingSubItems.length > 0) {
+                if (subItemsMatching.length > 0) {
                     sectionMatches = true;
                 }
-
-                // Show/hide sub-buttons based on search term
-                const subButtons = itemContainer.querySelectorAll('.subcard-button');
-                subButtons.forEach(button => {
-                    const subItem = section.subItems.find(item => item.title === button.textContent);
-                    if (subItem) {
-                        if (subItem.title.toLowerCase().includes(searchTerm) || subItem.content.toLowerCase().includes(searchTerm)) {
-                            button.style.display = 'block';
-                        } else {
-                            button.style.display = 'none';
-                        }
+                // Toggle visibility of sub-item buttons
+                const subCardButtons = accordionItem.querySelectorAll('.subcard-button');
+                subCardButtons.forEach(button => {
+                    const subItemData = section.subItems.find(item => item.title === button.textContent);
+                    if (subItemData && (subItemData.title.toLowerCase().includes(searchTerm) || subItemData.content.toLowerCase().includes(searchTerm))) {
+                        button.style.display = 'block'; // Show matching sub-items
+                    } else {
+                        button.style.display = 'none'; // Hide non-matching sub-items
                     }
                 });
             } else {
-                // Check direct content HTML
+                // For direct content, check contentHtml
                 if (section.contentHtml.toLowerCase().includes(searchTerm)) {
                     sectionMatches = true;
                 }
             }
 
-            // Show/hide accordion item and manage its open/close state
+            // Show/hide accordion item based on match
             if (searchTerm === '') {
-                itemContainer.style.display = 'block';
-                // On mobile, collapse all when search is cleared
-                if (window.innerWidth <= 768) {
-                    itemContainer.classList.remove('open');
+                accordionItem.style.display = 'block'; // Show all when search is empty
+                // On large screens, accordions should remain open even if search is cleared
+                if (window.innerWidth <= 768) { // Only close on smaller screens
+                    accordionItem.classList.remove('open');
                     document.getElementById(section.id + '-collapse').classList.remove('show');
                 }
-                // Show all sub-buttons when search is cleared
-                itemContainer.querySelectorAll('.subcard-button').forEach(button => {
+                // Show all sub-item buttons when search is empty
+                const subCardButtons = accordionItem.querySelectorAll('.subcard-button');
+                subCardButtons.forEach(button => {
                     button.style.display = 'block';
                 });
             } else if (sectionMatches) {
-                itemContainer.style.display = 'block';
-                itemContainer.classList.add('open'); // Always open matching sections
+                accordionItem.style.display = 'block';
+                accordionItem.classList.add('open'); // Open matching accordion
                 document.getElementById(section.id + '-collapse').classList.add('show');
             } else {
-                itemContainer.style.display = 'none';
+                accordionItem.style.display = 'none';
             }
         });
     }, 300); // Debounce delay of 300ms
 
     searchInput.addEventListener('input', debouncedSearch);
 
-    // Scroll-to-top button logic
+
+    // Scroll-to-Top Button Logic
     const scrollToTopBtn = document.getElementById('scroll-to-top-btn');
+    // Listen for scroll events on the window, not the mainContainer
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
             scrollToTopBtn.classList.add('show');
@@ -490,13 +481,15 @@ function renderApp(contentData) {
         if (event.target.classList.contains('copy-button')) {
             const contentSection = event.target.closest('.content-section');
             if (contentSection) {
+                // Get all text content from paragraphs and list items within the content section
                 const paragraphs = contentSection.querySelectorAll('p');
                 const listItems = contentSection.querySelectorAll('li');
-
+                
                 paragraphs.forEach(p => {
                     textToCopy += p.textContent + '\n';
                 });
                 listItems.forEach(li => {
+                    // Prepend bullet point for list items
                     textToCopy += '- ' + li.textContent + '\n';
                 });
             }
@@ -520,7 +513,7 @@ function renderApp(contentData) {
                     background-color: #28a745;
                     color: white;
                     padding: 10px 15px;
-                    border-radius: 8px;\
+                    border-radius: 8px;
                     z-index: 1060;
                     opacity: 0;
                     transition: opacity 0.3s ease-out;
