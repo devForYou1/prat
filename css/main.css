@@ -217,13 +217,13 @@ body.modal-open {
     align-items: center;
     width: 100%;
     padding: 1.5rem 1.5rem; /* Increased vertical padding */
-    background: #F8FCFF; /* Very light, almost white blue */
+    background: #0A4A7A; /* Changed to dark blue as requested */
     border: 1px solid #B5D0E8; /* Precise light blue border */
     cursor: pointer;
     text-align: right;
     font-size: 1.1rem;
     font-weight: 700;
-    color: #0A4A7A; /* Dark blue text */
+    color: #FFFFFF; /* Changed to white as requested */
     border-radius: 1rem; /* Match container border-radius */
     transition: background-color 0.2s ease, color 0.2s ease, border-radius 0.2s ease; /* Faster transition */
     min-height: 4rem; /* Increased minimum height for better touch target */
