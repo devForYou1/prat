@@ -1,22 +1,966 @@
 <!doctype html>
-<html lang=he dir=rtl>
+<html lang="he" dir="rtl">
 <head>
-<meta charset=UTF-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<title>סל הכלים למפקד/ת</title>
-<link rel=icon href="https://www.dropbox.com/scl/fi/9gs5389lzcs0iivvb8b38/favicon.png?rlkey=jiw2qm2zdaop1eu52g55v14tp&raw=1">
-<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH crossorigin=anonymous>
-<script src=https://cdn.tailwindcss.com></script>
-<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&display=swap" rel=stylesheet>
-<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css>
-<link rel=stylesheet href=./css/main.css>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>סל הכלים למפקד/ת</title>
+    <link rel="icon" href="https://www.dropbox.com/scl/fi/9gs5389lzcs0iivvb8b38/favicon.png?rlkey=jiw2qm2zdaop1eu52g55v14tp&raw=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body, body.modal-open, html {
+            width: 100%;
+        }
+
+        .list-container-box ul li, .list-container-box ul ul li {
+            background-color: rgba(220, 235, 245, .7);
+            padding: .75rem;
+            margin-bottom: .5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .03);
+        }
+
+        body, html {
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            background-color: #fff;
+            font-family: Assistant, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #0a4a7a;
+            scroll-behavior: smooth;
+        }
+
+        .main-container-border.modal-open, body.modal-open, html.modal-open {
+            overflow: hidden;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInFromTop {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInFromBottom {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-main-container {
+            animation: .6s ease-out forwards slideInFromBottom;
+        }
+
+        .main-container-border {
+            border-radius: 1.5rem;
+            padding: 2rem;
+            max-width: 800px;
+            width: 90%;
+            height: auto;
+            flex-grow: 1;
+            margin: 1rem auto;
+            overflow-x: hidden;
+            direction: rtl;
+        }
+
+        .footer-title, .section-icon, .shimmer-effect {
+            display: none;
+        }
+
+        .shimmer-effect {
+            background: #f6f7f8;
+            background: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        .shimmer-bg {
+            background-color: #f0f0f0;
+            animation: shimmer-bg 1s infinite;
+        }
+
+        @keyframes shimmer-bg {
+            0% {
+                opacity: .7;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: .7;
+            }
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 1.5rem 0;
+            background-color: #f7f9fa;
+        }
+
+        .main-logo {
+            width: 150px;
+            height: auto;
+        }
+
+        .main-container-border h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .intro-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .intro-paragraph-text {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .motto-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0a4a7a;
+            padding: 1rem;
+            border-radius: 1rem;
+            background-color: #e0f0ff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, .05);
+        }
+
+        .search-container {
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: .8rem 1rem;
+            border-radius: 1.5rem;
+            border: 2px solid #ccc;
+            font-size: 1rem;
+            outline: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+            transition: border-color .3s;
+        }
+
+        .search-input:focus {
+            border-color: #0a4a7a;
+        }
+
+        .search-input::placeholder {
+            color: #aaa;
+        }
+
+        .clear-search-button {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #888;
+            cursor: pointer;
+            display: none;
+            padding: .2rem;
+        }
+
+        .accordion-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: 1rem 0;
+        }
+
+        .accordion-item-container {
+            background-color: #fff;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+            overflow: hidden;
+            transition: transform .3s ease-out, box-shadow .3s ease-out;
+        }
+
+        .accordion-item-container.open {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, .15);
+        }
+
+        .accordion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .accordion-header-button {
+            width: 100%;
+            text-align: right;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0a4a7a;
+            padding: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .accordion-item-container.open .accordion-header-button {
+            border-bottom: 2px solid #0a4a7a;
+            background-color: #f0f0f0;
+        }
+
+        .accordion-icon {
+            font-size: 1.5rem;
+            transition: transform .3s ease-in-out;
+            color: #0a4a7a;
+        }
+
+        .accordion-item-container.open .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            padding: 0 1rem;
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height .4s ease-in-out, padding .4s ease-in-out;
+        }
+
+        .accordion-item-container.open .accordion-content {
+            max-height: 1000px;
+            padding: 1rem;
+        }
+
+        .content-section {
+            padding: .75rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-section h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0a4a7a;
+            margin-bottom: .5rem;
+        }
+
+        .content-section p, .content-section ul {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .content-section ul {
+            list-style-type: none;
+            padding-left: 0;
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+        }
+
+        .content-section ul li {
+            position: relative;
+            padding-right: 1.5rem;
+        }
+
+        .content-section ul li:before {
+            content: "•";
+            position: absolute;
+            right: 0;
+            color: #0a4a7a;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        .custom-button {
+            background-color: #0a4a7a;
+            color: #fff;
+            padding: .7rem 1.5rem;
+            border-radius: 1.5rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: background-color .3s, transform .2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .custom-button:hover {
+            background-color: #073a5e;
+            transform: translateY(-2px);
+        }
+
+        .custom-button:active {
+            transform: translateY(0);
+        }
+
+        .card-button-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+            margin-top: 1rem;
+            padding: .5rem 0;
+        }
+
+        .card-button-container a.custom-button {
+            flex: 1 1 auto;
+            text-align: center;
+        }
+
+        .card-sub-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+            margin-top: 1rem;
+            padding: .5rem 0;
+        }
+
+        .card-sub-buttons a.custom-button {
+            flex: 1 1 auto;
+            text-align: center;
+            background-color: #fff;
+            color: #0a4a7a;
+            border: 2px solid #0a4a7a;
+        }
+
+        .card-sub-buttons a.custom-button:hover {
+            background-color: #e0f0ff;
+        }
+
+        .footer-container {
+            background-color: #0a4a7a;
+            color: #fff;
+            padding: 1.5rem 1rem;
+            margin-top: auto;
+            border-top-left-radius: 1.5rem;
+            border-top-right-radius: 1.5rem;
+            text-align: center;
+        }
+
+        .footer-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+
+        .footer-links-container {
+            display: flex;
+            gap: .75rem;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .footer-link-square {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #e0f0ff;
+            border-radius: .5rem;
+        }
+
+        .footer-svg-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .footer-svg-icon img, .footer-svg-icon svg {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .top-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #0a4a7a;
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, .2);
+            cursor: pointer;
+            transition: opacity .3s, transform .3s;
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .top-button.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .custom-modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, .5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1050;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .3s ease-out, visibility .3s ease-out;
+        }
+
+        .custom-modal-backdrop.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .custom-modal-content {
+            background-color: #fff;
+            border-radius: 1.5rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(-50px);
+            opacity: 0;
+            transition: transform .3s ease-out, opacity .3s ease-out;
+        }
+
+        .custom-modal-backdrop.show .custom-modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .custom-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.5rem;
+            border-bottom: 2px solid #ccc;
+        }
+
+        .custom-modal-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #0a4a7a;
+            margin: 0;
+        }
+
+        .custom-modal-close-button {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #888;
+            cursor: pointer;
+            padding: .25rem;
+            line-height: 1;
+        }
+
+        .custom-modal-body {
+            padding: 1.5rem;
+            overflow-y: auto;
+            flex-grow: 1;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .custom-modal-scrollable-body {
+            overflow-y: auto;
+        }
+
+        .custom-modal-scrollable-body p, .custom-modal-scrollable-body ul li {
+            font-size: .9rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .copy-button {
+            background-color: #0a4a7a;
+            color: #fff;
+            padding: .5rem 1rem;
+            border-radius: .75rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color .3s;
+            margin-top: .5rem;
+            display: inline-block;
+        }
+
+        .copy-button:hover {
+            background-color: #073a5e;
+        }
+
+        @media (max-width: 768px) {
+            .main-container-border {
+                padding: 1.5rem;
+            }
+
+            .main-container-border h1 {
+                font-size: 1.8rem;
+            }
+
+            .intro-paragraph-text {
+                font-size: .9rem;
+            }
+
+            .motto-text {
+                font-size: 1.1rem;
+            }
+
+            .search-input {
+                padding: .7rem .9rem;
+                font-size: .95rem;
+            }
+
+            .accordion-header-button {
+                font-size: .95rem;
+                padding: .8rem 1rem;
+            }
+
+            .accordion-content {
+                padding: .75rem;
+            }
+
+            .subcard-button {
+                font-size: .9rem;
+                padding: .7rem 1rem;
+            }
+
+            .custom-modal-title {
+                font-size: 1.2rem;
+            }
+
+            .custom-modal-close-button {
+                font-size: 1.8rem;
+            }
+
+            .footer-card {
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                padding: .75rem;
+                gap: .5rem;
+            }
+
+            .footer-title {
+                display: none;
+            }
+
+            .footer-links-container {
+                justify-content: center;
+                width: auto;
+                flex-grow: 1;
+            }
+
+            .footer-link-square {
+                width: 40px;
+                height: 40px;
+            }
+
+            .footer-svg-icon img, .footer-svg-icon svg {
+                width: 28px;
+                height: 28px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-container-border h1 {
+                font-size: 1.5rem;
+            }
+
+            .custom-modal-scrollable-body p, .custom-modal-scrollable-body ul li, .intro-paragraph-text {
+                font-size: .85rem;
+            }
+
+            .motto-text {
+                font-size: 1rem;
+            }
+
+            .search-input {
+                padding: .6rem .8rem;
+                font-size: .9rem;
+            }
+
+            .accordion-header-button {
+                font-size: .9rem;
+                padding: .7rem .9rem;
+            }
+
+            .subcard-button {
+                font-size: .85rem;
+                padding: .6rem .8rem;
+            }
+
+            .custom-modal-title {
+                font-size: 1.1rem;
+            }
+
+            .custom-modal-close-button {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .accordion-item-container, .accordion-item-container.open {
+                box-shadow: 0 4px 12px rgba(0, 0, 0, .12);
+                transform: none;
+            }
+
+            .accordion-item-container {
+                background-color: transparent;
+                border: none;
+                color: #0a4a7a;
+            }
+
+            .accordion-header-button {
+                cursor: default;
+                background-color: #0a4a7a;
+                border-bottom: 2px solid #0a4a7a;
+            }
+
+            .accordion-header-button .accordion-icon {
+                transform: rotate(180deg);
+                color: #fff;
+            }
+
+            .accordion-item-container:not(.open) .accordion-content {
+                display: none;
+            }
+
+            .accordion-item-container.open .accordion-header-button {
+                background-color: #073a5e;
+                color: #fff;
+            }
+
+            .content-section-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .content-section {
+                flex: 1 1 30%;
+                border-radius: 1rem;
+                background-color: #f7f9fa;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
+                padding: 1rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                transition: transform .2s ease-out, box-shadow .2s ease-out;
+            }
+
+            .content-section:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 6px 16px rgba(0, 0, 0, .1);
+            }
+
+            .copy-button {
+                align-self: flex-start;
+                margin-top: auto;
+            }
+        }
+    </style>
 </head>
 <body>
-<div id=background-overlay></div>
-<div id=app-root></div>
-<div id=app-data data-app-json='{"introParagraphText":"על אף המורכבות שבמנהיגות, ישנם רגעים בהם נדמה ששלווה ושליטה שוררות, כאשר הכלים הנכונים נמצאים בידיים הנכונות.","mottoText":"״אין לי ספק כי השלם גדול מסך חלקיו.״","searchPlaceholder":"חיפוש מהיר...","sections":[{"title":"שגרה במרכז תע"ץ","icon":"https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751865182/shagra_icon_g35t2e.webp","isExpanded":false,"subsections":[{"title":"לוח חופשות מרכז תע"ץ","content":"<p class=\"text-sm lh-base mb-3\">הבהרת נוהל חופשות מרכז תע\"ץ ופרטים נוספים.</p><ul><li>החופשות שפורסמו תקפות לכלל עובדי מרכז תע\"ץ; ישנן חופשות אשר בהן חלק מהמערכים יעבדו במתכונת תורן.</li><li>בכל חג או מועד, יש להתעדכן בלשכה בפרטי החופשה והעבודה.</li><li>נציין שוב כי ימי הגישור מוגדרים מראש על ידי מרכז תע\"ץ ולא יועברו ליום אחר.</li></ul>"},{"title":"לוח שנה צבאי","content":"<p class=\"text-sm lh-base mb-3\">תאריכים חשובים שכדאי להכיר.</p><ul><li><b>תאריך הטירונות</b> - ניתן למצוא את התאריך הרשמי באתר צה\"ל.</li><li><b>שכר חודשי</b> - מועד תשלום השכר נקבע על ידי צה\"ל, יש לוודא תמיד את התאריך המדויק מול המנהלה.</li></ul>"}]},{"title":"אמצעים וכלים דיגיטליים","icon":"https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751865182/tools_icon_h7h2i4.webp","isExpanded":false,"subsections":[{"title":"מערכת מידע - אמיר","content":"<p class=\"text-sm lh-base mb-3\">מערכת אמיר היא מערכת ניהול משימות חכמה, המאפשרת למפקדים לעקוב אחר משימות, להקצותן ולפקח על התקדמותן בזמן אמת.</p><p class=\"text-sm lh-base mb-3\"><b>שימו לב:</b> הגישה למערכת מתאפשרת דרך רשת חשאית בלבד. מומלץ לוודא את זמינות המערכת מול מנהל המערכת הייעודי.</p>"},{"title":"כלים שונים לעבודה שוטפת","content":"<p class=\"text-sm lh-base mb-3\">כדי לייעל את העבודה במערך, קיימים מגוון כלים דיגיטליים נוספים, כמו: מערכת ניהול משימות חיצוניות, לוח בקרה למעקב אחרי משימות ועוד.</p><ul><li><b>מערכת ניהול קשרים:</b> מאפשרת מעקב אחרי קשרים מקצועיים והיסטוריית אינטראקציות.</li><li><b>מערכת דיווח:</b> מערכת אונליין לדיווח על תקלות ואירועים חריגים.</li></ul>"}]},{"title":"משאבי אנוש ורווחה","icon":"https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751865182/welfare_icon_a4gq4t.webp","isExpanded":false,"subsections":[{"title":"מנכ\"ל צה"ל","content":"<p class=\"text-sm lh-base mb-3\">כלל עובדי צה\"ל, לרבות עובדי תע\"ץ, זכאים להטבות וזכויות שונות מכוח הסכם מנכ\"ל צה\"ל. לפרטים נוספים, ניתן להיכנס לאתר מנכ\"ל צה\"ל בכתובת: <a href=\"https://www.mnkal.org.il/\" target=\"_blank\">www.mnkal.org.il/</a>.</p>"},{"title":"הסתדרות העובדים הכללית החדשה","content":"<p class=\"text-sm lh-base mb-3\">עובדים רבים בצה\"ל זכאים להטבות שונות מכוח חברותם בהסתדרות העובדים. הטבות אלו כוללות, בין היתר, השתתפות בשכר לימוד, הטבות ספורט, נופשים מסובסדים ועוד. לפרטים נוספים, יש לבדוק באתר: <a href=\"https://www.histadrut.org.il/\" target=\"_blank\">www.histadrut.org.il/</a>.</p>"},{"title":"ביטוח רפואי ומנורה מבטחים","content":"<p class=\"text-sm lh-base mb-3\">ביטוח מנורה מבטחים הינו הביטוח הרפואי הכללי של כלל עובדי צה\"ל.</p>"},{"title":"סוגי פנסיה","content":"<p class=\"text-sm lh-base mb-3\">עובדים זכאים לפנסיה תעסוקתית המנוהלת על ידי קרנות פנסיה שונות. על המפקד להכיר את סוגי הפנסיות השונות הנהוגות בצה\"ל, ביניהן פנסיה תקציבית ופנסיה צוברת.</p>"}]},{"title":"תקשוב","icon":"https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751865182/tikshuv_icon_d45t2e.webp","isExpanded":false,"subsections":[{"title":"הנפקת מחשב נייד","content":"<p class=\"text-sm lh-base mb-3\">עובדי קבע רבים זכאים להנפקת מחשב נייד לשימוש אישי וייעודי. התהליך מתבצע דרך יחידת התקשוב וכולל אישור ממפקד היחידה.</p><p class=\"text-sm lh-base mb-3\"><b>שימו לב:</b> האחריות על המחשב הנייד הינה אישית, ויש לוודא את נוהלי האבטחה הייעודיים.</p>"},{"title":"הנפקת מכשיר סלולר","content":"<p class=\"text-sm lh-base mb-3\">הנפקת מכשיר סלולר מותאם מתבצעת על ידי יחידת התקשוב, לאחר אישור המפקד.</p><p class=\"text-sm lh-base mb-3\"><b>שימו לב:</b> המכשיר הסלולרי מוגבל לשימוש עסקי ומוגן באמצעות אמצעי אבטחה ייעודיים. אין להוריד אפליקציות שאינן מאושרות.</p>"}]},{"title":"זכויות שכר, נסיעות ורכב","icon":"https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751865182/car_icon_c3n2l1.webp","isExpanded":false,"subsections":[{"title":"שכר, שעות נוספות והחזרי נסיעות","content":"<p class=\"text-sm lh-base mb-3\">הבהרת נוהל שעות נוספות והחזרי נסיעות.</p><ul><li>שעות נוספות יאושרו רק בתיאום עם המפקד הישיר ומראש.</li><li>יש לוודא שהוצאות הנסיעה ידווחו במערכת הייעודית, ויש לצרף קבלות מתאימות.</li><li>ההחזרים יתבצעו דרך מערכת השכר הצה\"לית, בצירוף קבלות מתאימות.</li></ul>"},{"title":"רכב מבצעי","content":"<p class=\"text-sm lh-base mb-3\">עובדים הזכאים לרכב מבצעי, נדרשים לוודא את הנהלים הייעודיים. על המפקד לוודא כי העובד זכאי לרכב מבצעי ולדאוג שיהיה עדכני.</p>"}]},{"title":"הדרכה ופיתוח","icon":"https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751865182/hatdracha_icon_f3j9p3.webp","isExpanded":false,"subsections":[{"title":"הדרכה ופיתוח אישי","content":"<p class=\"text-sm lh-base mb-3\">מרכז תע\"ץ שואף לפתח את יכולותיהם של עובדיו דרך מגוון הכשרות וקורסים, פנימיים וחיצוניים.</p><p class=\"text-sm lh-base mb-3\">בנוסף, מרכז תע\"ץ מעודד פיתוח מקצועי באמצעות מנטורינג וליווי אישי.</p>"}]},{"title":"נוהל כניסה למחנה","icon":"https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751865182/shagar_icon_p3m1o4.webp","isExpanded":false,"subsections":[{"title":"ביקור אורחים - נוהל כניסה","content":"<p class=\"text-sm lh-base mb-3\">אורחים מורשים להיכנס למחנה לאחר תיאום עם לשכת היחידה. תהליך התיאום כולל מילוי טופס ייעודי ואישור של מפקד היחידה. יש לוודא שהאורחים יגיעו עם תעודת זהות.</p><p class=\"text-sm lh-base mb-3\"><b>שימו לב:</b> יש להקפיד על לוחות זמנים ועל כללי האבטחה של המחנה.</p>"}]},{"title":"ביטוחים שונים","icon":"https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751865182/bituch_icon_h7h2i4.webp","isExpanded":false,"subsections":[{"title":"פוליסת נסיעות לחו\"ל","content":"<p class=\"text-sm lh-base mb-3\">עובדי תע\"ץ הזכאים יכולים לרכוש פוליסת נסיעות לחו\"ל במחירים מסובסדים.</p><p class=\"text-sm lh-base mb-3\">הפוליסה מכסה אירועים שונים, כמו ביטול טיסה, אובדן ציוד וכדומה. לפרטים נוספים, יש לבדוק מול מנכ\"ל צה\"ל בכתובת: <a href=\"https://www.mnkal.org.il/\" target=\"_blank\">https://www.mnkal.org.il/</a>.</p>"},{"title":"הטבות עובדי תע\"ץ וצה\"ל","content":"<p class=\"text-sm lh-base mb-3\">קיימות הטבות שונות לעובדים, כמו הנחות ברכישת כרטיסים, חבילות נופש מסובסדות והטבות פנסיה. לפרטים נוספים, יש להיכנס לאתר מנכ\"ל צה\"ל בכתובת: <a href=\"https://www.mnkal.org.il/\" target=\"_blank\">www.mnkal.org.il/</a>.</p>\\n                                    <p class=\"text-sm lh-base mb-3\">בנוסף, העובדים זכאים להטבות נוספות מעצם היותם חברי הסתדרות (רלוונטי לחלק מהעובדים) הטבות אלו מפורטות באתר ביחד בשבילך.</p>\\n                                </div>\\n                            '}]}],footerLinks:[{name:\"taaz_logo\",alt:'לוגו מרכז תע\"ץ',href:\"https://www.idf.il/%D7%90%D7%AA%D7%A8%D7%99-%D7%99%D7%97%D7%99%D7%93%D7%95%D7%AA/%D7%AA%D7%A2%D7%A5\",imgSrc:\"https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751865182/taaz_icon_bo3u7p.webp\"},{name:\"idf_logo\",alt:'לוגo אתר צה\"ל',href:\"https://www.idf.il/\",imgSrc:\"https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751865146/idf_icon_xvom5d.webp\"},{name:\"idf360_logo\",alt:\"לוגו צהל 360\",href:\"https://www.home.idf.il/\",imgSrc:\"https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751865182/idf360_icon_u5a4s9.webp\"},{name:\"mnkl_logo\",alt:\"לוגו מנכ\\\"ל צה\\\"ל\",href:\"https://www.mnkal.org.il/\",imgSrc:\"https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751865182/mnkl_icon_f9k1j3.webp\"},{name:\"histadrut_logo\",alt:\"לוגו הסתדרות העובדים הכללית החדשה\",href:\"https://www.histadrut.org.il/\",imgSrc:\"https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751865182/histadrut_icon_s4r9t6.webp\"},{name:\"manora_logo\",alt:\"לוגו מנורה מבטחים\",href:\"https://www.menoramivt.co.il/\",imgSrc:\"https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751865182/manora_icon_g8h2j4.webp\"}]}'></script>
-<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YpP3c7L4eD3eT5b6j2e9f7m5V1g4V2t8j2n7t8e8i5V6u4z5f3b7v9c3n9p5m2s7e8u" crossorigin="anonymous"></script>
-<script src=./js/main.js></script>
+    <div id="background-overlay"></div>
+    <div id="app-root"></div>
+    <script>
+        function createSvgElement(e, t) {
+            let l = document.createElementNS("http://www.w3.org/2000/svg", e);
+            for (let n in t) t.hasOwnProperty(n) && ("xlinkHref" === n ? l.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", t[n]) : l.setAttribute(n, t[n]));
+            return l
+        }
+        let currentModalElement = null, lastScrollY = 0, scrollbarWidth = 0;
+        function getScrollbarWidth() {
+            let e = document.createElement("div");
+            e.style.visibility = "hidden", e.style.overflow = "scroll", document.body.appendChild(e);
+            let t = document.createElement("div");
+            e.appendChild(t);
+            let l = e.offsetWidth - t.offsetWidth;
+            return e.parentNode.removeChild(e), l
+        }
+        function handleEscapeKey(e) {
+            "Escape" === e.key && closeInfoModal()
+        }
+        function createInfoModalStructure(e, t) {
+            let l = document.createElement("div");
+            l.innerHTML = t;
+            let n = l.querySelector("h2"), a = n ? n.textContent : "פרטים נוספים", o = document.createElement("div");
+            o.className = "custom-modal-backdrop", o.setAttribute("aria-modal", "true"), o.setAttribute("role", "dialog");
+            let r = document.createElement("div");
+            r.className = "custom-modal-content";
+            let s = document.createElement("div");
+            s.className = "custom-modal-header";
+            let i = document.createElement("h2");
+            i.className = "custom-modal-title", i.textContent = a, i.id = "modal-title";
+            let d = document.createElement("button");
+            d.className = "custom-modal-close-button", d.setAttribute("aria-label", "Close modal"), d.innerHTML = "&times;";
+            let c = document.createElement("div");
+            c.className = "custom-modal-body";
+            let u = document.createElement("div");
+            u.className = "custom-modal-scrollable-body", u.innerHTML = t;
+            let m = u.querySelector("h2");
+            return m && m.remove(), s.appendChild(i), s.appendChild(d), c.appendChild(u), r.appendChild(s), r.appendChild(c), o.appendChild(r), d.addEventListener("click", closeInfoModal), o.addEventListener("click", function (e) {
+                e.target === o && closeInfoModal()
+            }), { modal: o, closeButton: d, modalContent: r }
+        }
+        function showInfoModal(e, t) {
+            if (currentModalElement) return;
+            let { modal: l, modalContent: n } = createInfoModalStructure(e, t);
+            document.body.appendChild(l), lastScrollY = window.scrollY, document.body.style.position = "fixed", document.body.style.top = `-${lastScrollY}px`, document.body.style.width = "100%", scrollbarWidth = getScrollbarWidth(), document.body.style.paddingLeft = `${scrollbarWidth}px`, l.classList.add("show"), n.addEventListener("animationend", () => n.style.animation = null, { once: !0 }), document.body.classList.add("modal-open"), document.addEventListener("keydown", handleEscapeKey), currentModalElement = l
+        }
+        function closeInfoModal() {
+            if (!currentModalElement) return;
+            let e = currentModalElement.querySelector(".custom-modal-content");
+            e.style.animation = "slideOutToBottom .3s ease-in forwards", e.addEventListener("animationend", () => {
+                document.body.removeChild(currentModalElement), document.body.style.position = "", document.body.style.top = "", document.body.style.width = "", document.body.style.paddingLeft = "", window.scrollTo(0, lastScrollY), document.body.classList.remove("modal-open"), document.removeEventListener("keydown", handleEscapeKey), currentModalElement = null
+            }, { once: !0 })
+        }
+        function renderApp(e) {
+            let t = document.getElementById("app-root"), l = document.createElement("div");
+            l.className = "main-container-border animate-main-container";
+            let n = document.createElement("header");
+            n.className = "page-header", n.innerHTML = `
+                <img src="https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751865231/taaz_logo_black_m261t8.webp" alt="לוגו מרכז תע&quot;ץ" class="main-logo">
+            `;
+            let a = document.createElement("main");
+            a.className = "intro-section";
+            let o = document.createElement("h1");
+            o.textContent = e.mainTitle, a.appendChild(o);
+            let r = document.createElement("p");
+            r.className = "intro-paragraph-text", r.textContent = e.introParagraph, a.appendChild(r);
+            let s = document.createElement("div");
+            s.className = "motto-text", s.textContent = e.mottoText, a.appendChild(s);
+            let i = document.createElement("div");
+            i.className = "search-container";
+            let d = document.createElement("input");
+            d.type = "text", d.className = "search-input", d.placeholder = e.searchPlaceholder;
+            let c = document.createElement("button");
+            c.className = "clear-search-button", c.innerHTML = "&times;";
+            let u = document.createElement("div");
+            u.className = "accordion-container";
+            let m = document.createElement("div");
+            return l.appendChild(n), l.appendChild(a), l.appendChild(i), i.appendChild(d), i.appendChild(c), l.appendChild(u), e.cards.forEach(t => {
+                let n = document.createElement("div");
+                n.className = "accordion-item-container";
+                let a = document.createElement("div");
+                a.className = "accordion-header";
+                let o = document.createElement("button");
+                o.className = "accordion-header-button", o.innerHTML = `
+                    <span>${t.title}</span>
+                    <i class="fas fa-chevron-down accordion-icon"></i>
+                `;
+                let r = document.createElement("div");
+                r.className = "accordion-content";
+                let s = document.createElement("div");
+                s.className = "content-section-container";
+                t.sections.forEach(e => {
+                    let t = document.createElement("div");
+                    t.className = "content-section";
+                    let l = document.createElement("h3");
+                    l.textContent = e.sectionTitle;
+                    let n = document.createElement("div");
+                    n.innerHTML = e.content;
+                    let a = document.createElement("button");
+                    a.className = "copy-button", a.textContent = "העתק";
+                    let o = document.createElement("a");
+                    o.className = "custom-button";
+                    let r = document.createElement("div");
+                    r.className = "card-sub-buttons";
+                    n.querySelectorAll(".subcard-button").forEach(e => {
+                        let t = document.createElement("a");
+                        t.href = e.getAttribute("href"), t.className = "custom-button subcard-button", t.textContent = e.textContent, r.appendChild(t)
+                    }), n.querySelectorAll(".custom-button").forEach(e => {
+                        o.href = e.getAttribute("href"), o.textContent = e.textContent, n.appendChild(o)
+                    }), t.appendChild(l), t.appendChild(n), n.querySelectorAll("ul, p").length > 0 && t.appendChild(a), (o.href || n.querySelectorAll("a").length > 0) && t.appendChild(o), n.querySelectorAll(".subcard-button").length > 0 && n.appendChild(r), s.appendChild(t)
+                }), r.appendChild(s), a.appendChild(o), n.appendChild(a), n.appendChild(r), u.appendChild(n), o.addEventListener("click", () => {
+                    n.classList.toggle("open"), n.classList.contains("open") ? d.value = "" : null
+                })
+            }), m.className = "footer-container";
+            let g = document.createElement("div");
+            g.className = "footer-card";
+            let p = document.createElement("h4");
+            p.className = "footer-title", p.textContent = "קישורים חיצוניים";
+            let h = document.createElement("div");
+            h.className = "footer-links-container", e.footerLinks.forEach(e => {
+                let t = document.createElement("a");
+                t.className = "footer-link-square", t.href = e.href, t.setAttribute("aria-label", e.alt), t.innerHTML = `<span class="footer-svg-icon"><img src="${e.imgSrc}" alt="${e.alt}"></span>`, h.appendChild(t)
+            }), g.appendChild(p), g.appendChild(h), m.appendChild(g);
+            let v = document.createElement("div");
+            return v.className = "top-button", v.innerHTML = '<i class="fas fa-chevron-up"></i>', l.appendChild(v), l.appendChild(m), t.appendChild(l), {
+                rootElement: l,
+                searchInput: d,
+                clearButton: c,
+                topButton: v
+            }
+        }
+        const data = {
+            mainTitle: "סל הכלים למפקד/ת",
+            introParagraph: "ברוכים הבאים לסל הכלים! כאן תוכלו למצוא מגוון רחב של כלים ומידע שיסייע לכם כמפקדים ומפקדות במגוון נושאים: ניהול משאבי אנוש, כלים פיקודיים, מידע על חופשות, הטבות ועוד.",
+            mottoText: "לנו המפקדים יש את הכוח להוביל, לתמוך וליצור את השינוי שאנחנו רוצים לראות.",
+            searchPlaceholder: "חפשו כלים, נושאים ומידע...",
+            cards: [{
+                title: "חופשות",
+                sections: [{
+                    sectionTitle: "חופשה שנתית",
+                    content: "<h3>זכאות לחופשה</h3><p class=\"mb-3\">כל עובד צה\"ל זכאי ל-12 ימי חופשה בשנה. מתוכם 8 ימים אישיים ו-4 ימים מרוכזים (ימי חג, חוה\"מ וכדו').</p><h4>דרכי דיווח</h4><p>את החופשה יש לתאם מול המפקד/ת הישיר/ה ולדאוג למלא טופס 1339. יש להגיש את הטופס עפ\"י פקודות צה\"ל - עד 3 ימים לפני היציאה לחופשה.</p>"
+                }, {
+                    sectionTitle: "חופשת מחלה",
+                    content: "<h3>זכאות לחופשת מחלה</h3><p>כל עובד צה\"ל זכאי לצבירת ימי מחלה עפ\"י התבחינים הבאים:</p><ul><li>עד חצי שנה של העסקה - לא צובר ימי מחלה וניתן לקבל ימי מחלה רק על חשבון חופשה.</li><li>חצי שנה עד שנה של העסקה - צובר יום מחלה אחד על כל חודש העסקה.</li><li>שנה ומעלה של העסקה - צובר יום וחצי של מחלה על כל חודש העסקה.</li></ul><p class=\"mb-3\">** אין צבירה של למעלה מ-90 ימי מחלה.</p><h4>אופן דיווח ימי מחלה</h4><p>יש לדאוג להביא אישור רופא/ה ולעדכן את המפקד/ת.</p><p>ניתן להגיש טופס 1341 ולהביאו למשא\"ן היחידתי על מנת להזין את הימים במערכת.</p>"
+                }, {
+                    sectionTitle: "חופשות נוספות",
+                    content: "<h3>חופשות לידה</h3><p class=\"mb-3\">התקופה המוכרת לחופשת לידה לעובדת צה\"ל עומדת על 26 שבועות. חופשה זו הינה זכות ואין להתנות אותה בשום תנאי.</p><h4>במידה ויתר ההורים עובדי צה\"ל</h4><p class=\"mb-3\">ניתן לחלק את החופשה בין שני בני הזוג (על פי בקשה) ובאופן הבא: האם - עד 10 שבועות, והיתר (עד 16 שבועות) לאב.</p><p>העובד זכאי ל-5 ימים נוספים על חשבון עתודה (ולא חופשה) במידה ויקבל את חופשת הלידה של בת הזוג.</p><h3>חופשות אבל</h3><p class=\"mb-3\">במקרה של פטירת קרוב משפחה, העובד זכאי להיעדר מהעבודה למשך שבוע ימים (7 ימי לוח). כמות הימים הינה קבועה ולא ניתנת לשינוי. היעדרות זו אינה פוגעת בחופשה השנתית של העובד.</p>"
+                }]
+            }, {
+                title: "הטבות וזכויות",
+                sections: [{
+                    sectionTitle: "הטבות וזכויות",
+                    content: "<h3>ביגוד</h3><p class=\"mb-3\">כל עובד צה\"ל זכאי למענק בגדים בסך 2,000 ש\"ח שניתן פעם בשנה.</p><h3>אש\"ל</h3><p class=\"mb-3\">במהלך השהייה בבסיס, העובד זכאי לתשלום אש\"ל יומי, במטרה לשלם על הוצאותיו בזמן שהותו בבסיס.</p><ul><li><p>עובד בבסיס סגור - זכאי ל-12 ש\"ח ליום.</p></li><li><p>עובד בבסיס פתוח - זכאי ל-35 ש\"ח ליום.</p></li></ul><div class=\"card-button-container\"><a class=\"custom-button\" href=\"#\">מידע נוסף אודות אש\"ל</a></div>"
+                }, {
+                    sectionTitle: "הטבות נוספות",
+                    content: "<h3>הטבות של מועדון חבר</h3><p class=\"mb-3\">עובדי צה\"ל חברים אוטומטית במועדון חבר.</p><p>אפשר להיכנס לאתר מועדון חבר בקישור הבא: <a href=\"https://www.hvr.co.il/\" target=\"_blank\">https://www.hvr.co.il/</a></p><h3>הטבות של קרנות ההשתלמות</h3><p class=\"mb-3\">עובדים שצברו 3 שנים של ותק בצה\"ל זכאים לקרן השתלמות, ניתן לנהל את הקרן דרך האתר הבא: <a href=\"https://www.fmc.co.il/yazahal/\" target=\"_blank\">https://www.fmc.co.il/yazahal.org.il/</a>.</p><p class=\"text-sm lh-base mb-3\">בנוסף, העובדים זכאים להטבות נוספות מעצם היותם חברי הסתדרות (רלוונטי לחלק מהעובדים) הטבות אלו מפורטות באתר ביחד בשבילך.</p>"
+                }]
+            }],
+            footerLinks: [{
+                name: "taaz_logo",
+                alt: 'לוגו מרכז תע"ץ',
+                href: "https://www.idf.il/%D7%90%D7%AA%D7%A8%D7%99-%D7%99%D7%97%D7%99%D7%93%D7%95%D7%AA/%D7%AA%D7%A2%D7%A5",
+                imgSrc: "https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751865182/taaz_icon_bo3u7p.webp"
+            }, {
+                name: "idf_logo",
+                alt: 'לוגו אתר צה"ל',
+                href: "https://www.idf.il/",
+                imgSrc: "https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751865146/idf_icon_xvom5d.webp"
+            }, {
+                name: "idf360_logo",
+                alt: "לוגו צהל 360",
+                href: "https://www.home.idf.il/",
+                imgSrc: "https://res.cloudinary.com/dwbq7b5vg/image/upload/v1751865203/idf360_icon_p7h9fg.webp"
+            }]
+        };
+        document.addEventListener("DOMContentLoaded", () => {
+            const { searchInput, clearButton, topButton } = renderApp(data);
+            const accordionItems = document.querySelectorAll(".accordion-item-container");
+            const topButtonThreshold = 200;
+            const debouncedHandleScroll = debounce(() => {
+                window.scrollY > topButtonThreshold ? topButton.classList.add("show") : topButton.classList.remove("show");
+            }, 50);
+            function debounce(e, t) {
+                let l;
+                return function (...n) {
+                    clearTimeout(l), l = setTimeout(() => {
+                        e.apply(this, n)
+                    }, t)
+                }
+            }
+            function filterAccordions(e) {
+                const t = e.target.value.toLowerCase();
+                t ? clearButton.style.display = "block" : clearButton.style.display = "none", accordionItems.forEach(e => {
+                    const l = e.querySelector(".accordion-header-button").textContent.toLowerCase(),
+                        n = e.querySelector(".accordion-content").textContent.toLowerCase();
+                    l.includes(t) || n.includes(t) ? e.style.display = "" : e.style.display = "none"
+                })
+            }
+            searchInput.addEventListener("input", filterAccordions), clearButton.addEventListener("click", () => {
+                searchInput.value = "", clearButton.style.display = "none", filterAccordions({ target: searchInput })
+            }), window.addEventListener("scroll", debouncedHandleScroll), topButton.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" })
+            }), document.addEventListener("click", function (e) {
+                let t = "";
+                if (e.target.classList.contains("copy-button")) {
+                    let l = e.target.closest(".content-section");
+                    if (l) {
+                        let n = l.querySelectorAll("p"), a = l.querySelectorAll("li");
+                        n.forEach(e => {
+                            t += e.textContent + "\n"
+                        }), a.forEach(e => {
+                            t += "- " + e.textContent + "\n"
+                        })
+                    }
+                }
+                if (t) try {
+                    let o = document.createElement("textarea");
+                    o.value = t, document.body.appendChild(o), o.select(), document.execCommand("copy"), document.body.removeChild(o);
+                    let r = document.createElement("div");
+                    r.textContent = "הועתק!", r.style.cssText = `
+                    position: fixed;
+                    bottom: 80px;
+                    right: 20px;
+                    background-color: #28a745;
+                    color: white;
+                    padding: 10px 15px;
+                    border-radius: 8px;
+                    z-index: 1060;
+                    opacity: 0;
+                    transition: opacity 0.3s ease-out;
+                `, document.body.appendChild(r), setTimeout(() => {
+                        r.style.opacity = "1"
+                    }, 10), setTimeout(() => {
+                        r.style.opacity = "0", r.addEventListener("transitionend", () => r.remove())
+                    }, 1500)
+                } catch (s) {
+                    console.error("Failed to copy text: ", s)
+                }
+            })
+        });
+    </script>
 </body>
 </html>
