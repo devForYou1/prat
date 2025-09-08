@@ -775,7 +775,12 @@
             }, { once: !0 })
         }
         function renderApp(e) {
-            let t = document.getElementById("app-root"), l = document.createElement("div");
+            let t = document.getElementById("app-root");
+            if (!t) {
+                console.error("Element with id 'app-root' not found.");
+                return {};
+            }
+            let l = document.createElement("div");
             l.className = "main-container-border animate-main-container";
             let n = document.createElement("header");
             n.className = "page-header", n.innerHTML = `
@@ -798,7 +803,7 @@
             let u = document.createElement("div");
             u.className = "accordion-container";
             let m = document.createElement("div");
-            return l.appendChild(n), l.appendChild(a), l.appendChild(i), i.appendChild(d), i.appendChild(c), l.appendChild(u), e.cards.forEach(t => {
+            l.appendChild(n), l.appendChild(a), l.appendChild(i), i.appendChild(d), i.appendChild(c), l.appendChild(u), e.cards.forEach(t => {
                 let n = document.createElement("div");
                 n.className = "accordion-item-container";
                 let a = document.createElement("div");
@@ -845,7 +850,8 @@
                 t.className = "footer-link-square", t.href = e.href, t.setAttribute("aria-label", e.alt), t.innerHTML = `<span class="footer-svg-icon"><img src="${e.imgSrc}" alt="${e.alt}"></span>`, h.appendChild(t)
             }), g.appendChild(p), g.appendChild(h), m.appendChild(g);
             let v = document.createElement("div");
-            return v.className = "top-button", v.innerHTML = '<i class="fas fa-chevron-up"></i>', l.appendChild(v), l.appendChild(m), t.appendChild(l), {
+            v.className = "top-button", v.innerHTML = '<i class="fas fa-chevron-up"></i>', l.appendChild(v), l.appendChild(m), t.appendChild(l);
+            return {
                 rootElement: l,
                 searchInput: d,
                 clearButton: c,
@@ -902,7 +908,11 @@
             const accordionItems = document.querySelectorAll(".accordion-item-container");
             const topButtonThreshold = 200;
             const debouncedHandleScroll = debounce(() => {
-                window.scrollY > topButtonThreshold ? topButton.classList.add("show") : topButton.classList.remove("show");
+                if (window.scrollY > topButtonThreshold) {
+                    topButton.classList.add("show");
+                } else {
+                    topButton.classList.remove("show");
+                }
             }, 50);
 
             function debounce(e, t) {
@@ -916,22 +926,33 @@
 
             function filterAccordions(e) {
                 const t = e.target.value.toLowerCase();
-                t ? clearButton.style.display = "block" : clearButton.style.display = "none", accordionItems.forEach(e => {
-                    const l = e.querySelector(".accordion-header-button").textContent.toLowerCase(),
-                        n = e.querySelector(".accordion-content").textContent.toLowerCase();
-                    l.includes(t) || n.includes(t) ? e.style.display = "" : e.style.display = "none"
-                })
+                t ? clearButton.style.display = "block" : clearButton.style.display = "none";
+                accordionItems.forEach(e => {
+                    const l = e.querySelector(".accordion-header-button").textContent.toLowerCase();
+                    const n = e.querySelector(".accordion-content").textContent.toLowerCase();
+                    if (l.includes(t) || n.includes(t)) {
+                        e.style.display = "";
+                    } else {
+                        e.style.display = "none";
+                    }
+                });
             }
 
-            searchInput.addEventListener("input", filterAccordions);
-            clearButton.addEventListener("click", () => {
-                searchInput.value = "", clearButton.style.display = "none", filterAccordions({ target: searchInput })
-            });
-
-            window.addEventListener("scroll", debouncedHandleScroll);
-            topButton.addEventListener("click", () => {
-                window.scrollTo({ top: 0, behavior: "smooth" })
-            });
+            if (searchInput && clearButton && topButton) {
+                searchInput.addEventListener("input", filterAccordions);
+                clearButton.addEventListener("click", () => {
+                    searchInput.value = "";
+                    clearButton.style.display = "none";
+                    filterAccordions({ target: searchInput });
+                });
+                window.addEventListener("scroll", debouncedHandleScroll);
+                topButton.addEventListener("click", () => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                });
+            } else {
+                console.error("One or more elements from renderApp were not found.");
+            }
+            
 
             document.addEventListener("click", function (e) {
                 let t = "";
@@ -940,36 +961,48 @@
                     if (l) {
                         let n = l.querySelectorAll("p"), a = l.querySelectorAll("li");
                         n.forEach(e => {
-                            t += e.textContent + "\n"
-                        }), a.forEach(e => {
-                            t += "- " + e.textContent + "\n"
-                        })
+                            t += e.textContent + "\n";
+                        });
+                        a.forEach(e => {
+                            t += "- " + e.textContent + "\n";
+                        });
                     }
                 }
-                if (t) try {
-                    let o = document.createElement("textarea");
-                    o.value = t, document.body.appendChild(o), o.select(), document.execCommand("copy"), document.body.removeChild(o);
-                    let r = document.createElement("div");
-                    r.textContent = "הועתק!", r.style.cssText = `
-                    position: fixed;
-                    bottom: 80px;
-                    right: 20px;
-                    background-color: #28a745;
-                    color: white;
-                    padding: 10px 15px;
-                    border-radius: 8px;
-                    z-index: 1060;
-                    opacity: 0;
-                    transition: opacity 0.3s ease-out;
-                `, document.body.appendChild(r), setTimeout(() => {
-                        r.style.opacity = "1"
-                    }, 10), setTimeout(() => {
-                        r.style.opacity = "0", r.addEventListener("transitionend", () => r.remove())
-                    }, 1500)
-                } catch (s) {
-                    console.error("Failed to copy text: ", s)
+                if (t) {
+                    try {
+                        let o = document.createElement("textarea");
+                        o.value = t;
+                        document.body.appendChild(o);
+                        o.select();
+                        document.execCommand("copy");
+                        document.body.removeChild(o);
+                        let r = document.createElement("div");
+                        r.textContent = "הועתק!";
+                        r.style.cssText = `
+                            position: fixed;
+                            bottom: 80px;
+                            right: 20px;
+                            background-color: #28a745;
+                            color: white;
+                            padding: 10px 15px;
+                            border-radius: 8px;
+                            z-index: 1060;
+                            opacity: 0;
+                            transition: opacity 0.3s ease-out;
+                        `;
+                        document.body.appendChild(r);
+                        setTimeout(() => {
+                            r.style.opacity = "1";
+                        }, 10);
+                        setTimeout(() => {
+                            r.style.opacity = "0";
+                            r.addEventListener("transitionend", () => r.remove());
+                        }, 1500);
+                    } catch (s) {
+                        console.error("Failed to copy text: ", s);
+                    }
                 }
-            })
+            });
         };
     </script>
 </body>
